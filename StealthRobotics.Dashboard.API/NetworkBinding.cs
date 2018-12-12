@@ -17,7 +17,7 @@ namespace StealthRobotics.Dashboard.API
     {
         //lookup table for bound property: stores each bound object paired with all bound properties,
         //  the values they are bound to, and any converters to convert between types.
-        //  Can lookup by a changing network table value or a changing object property in O(log(n)) time
+        //  Can lookup by a changing network table value or a changing object property in ~O(1)) time
         private static readonly Dictionary<INotifyPropertyChanged, OneToOneConversionMap<string, string>> propertyLookup = 
             new Dictionary<INotifyPropertyChanged, OneToOneConversionMap<string, string>>();
 
