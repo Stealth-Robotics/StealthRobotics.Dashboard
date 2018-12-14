@@ -223,6 +223,16 @@ namespace StealthRobotics.Dashboard.API
             }
         }
 
+        /// <summary>
+        /// Creates a binding between a dependency property and a network table entry
+        /// </summary>
+        /// <typeparam name="TLocal">The type of the entry in the dashboard</typeparam>
+        /// <typeparam name="TNetwork">The type of the entry in the network table</typeparam>
+        /// <param name="source">The object to bind to</param>
+        /// <param name="property">The property to bind to. Attached properties will throw an exception</param>
+        /// <param name="networkPath">The full path of the entry in the network table</param>
+        /// <param name="converter">The conversion mapping between the network values and local values</param>
+        /// <param name="localOverride">Whether the local dashboard values should take precedence when the binding occurs</param>
         public static void Create<TLocal, TNetwork>(DependencyObject source, DependencyProperty property, string networkPath,
             NTConverter<TLocal, TNetwork> converter = null, bool localOverride = false)
         {

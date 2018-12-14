@@ -49,6 +49,8 @@ namespace StealthRobotics.Dashboard.API
             if (!bindings.ContainsKey(dp))
             {
                 desc = DependencyPropertyDescriptor.FromProperty(dp, source.GetType());
+                if (desc.IsAttached || source.GetType().IsSubclassOf(dp.OwnerType))
+                    throw new ArgumentException("Invalid property");
                 //initially unbound
                 bindings[dp] = new DependencyBinding(false, desc);
             }
