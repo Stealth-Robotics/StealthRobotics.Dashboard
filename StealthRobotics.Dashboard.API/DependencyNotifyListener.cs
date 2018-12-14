@@ -49,7 +49,8 @@ namespace StealthRobotics.Dashboard.API
             if (!bindings.ContainsKey(dp))
             {
                 desc = DependencyPropertyDescriptor.FromProperty(dp, source.GetType());
-                if (desc.IsAttached || source.GetType().IsSubclassOf(dp.OwnerType))
+                //force that the owner type of the dependency property is either the same as the source type or is a descendent
+                if (desc.IsAttached)//!source.GetType().IsAssignableFrom(dp.OwnerType))
                     throw new ArgumentException("Invalid property");
                 //initially unbound
                 bindings[dp] = new DependencyBinding(false, desc);
@@ -105,7 +106,7 @@ namespace StealthRobotics.Dashboard.API
             {
                 if(bindings[dp].IsBound)
                 {
-                    PropertyChanged?.Invoke(source, new PropertyChangedEventArgs(dp.Name);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(dp.Name));
                 }
             }
         }

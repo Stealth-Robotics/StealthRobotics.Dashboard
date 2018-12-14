@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Threading;
 using NetworkTables;
 using NetworkTables.Tables;
 
@@ -20,6 +21,8 @@ namespace StealthRobotics.Dashboard.API
         //  Can lookup by a changing network table value or a changing object property in ~O(1)) time
         private static readonly Dictionary<INotifyPropertyChanged, OneToOneConversionMap<string, string>> propertyLookup = 
             new Dictionary<INotifyPropertyChanged, OneToOneConversionMap<string, string>>();
+
+        private static Dispatcher assignmentDispatch;
 
         /// <summary>
         /// The SmartDashboard network table path
@@ -103,7 +106,12 @@ namespace StealthRobotics.Dashboard.API
                     if (attemptedVal != DependencyProperty.UnsetValue) value = attemptedVal;
                 }
                 //write to the dashboard
-                Dashboard.PutValue(networkPath, Value.MakeValue(value));
+                Value data = Value.MakeValue(value);
+                Dashboard.PutValue(networkPath, data);
+                //the network table doesn't know any better and won't try to notify us of this change
+                //therefore, bindings won't be updated again, so we should initiate a network table update
+                //this is ok, because we only write to network table on effective value changes
+                OnNetworkTableChange(Dashboard, networkPath, data, NotifyFlags.NotifyUpdate);
             }
         }
 
@@ -134,7 +142,7 @@ namespace StealthRobotics.Dashboard.API
                         value = Convert.ChangeType(value, inf.PropertyType);
                     }
                     //write to the object
-                    inf.SetValue(bindingSource, value);
+                    assignmentDispatch.Invoke(() => inf.SetValue(bindingSource, value));
                 }
             }
         }
@@ -142,15 +150,19 @@ namespace StealthRobotics.Dashboard.API
         private static bool isRunning = false;
 
         /// <summary>
-        /// Starts up the network binding engine, including network table access
+        /// Starts up the network binding engine, including network table access. Only call once during normal program execution
         /// </summary>
         /// <param name="team">The team number to use for mDNS connection</param>
-        public static void Initialize(int team)
+        /// <param name="dispatcher">The dispatcher of the UI thread so writes can happen</param>
+        public static void Initialize(int team, Dispatcher dispatcher)
         {
             if (!isRunning)
             {
+                assignmentDispatch = dispatcher;
                 NetworkTable.SetClientMode();
                 NetworkTable.SetTeam(team);
+                //for local testing
+                //NetworkTable.SetIPAddress("localhost");
                 NetworkTable.SetUpdateRate(0.1);
                 NetworkTable.SetNetworkIdentity("C# Dashboard");
                 NetworkTable.Initialize();
@@ -164,7 +176,7 @@ namespace StealthRobotics.Dashboard.API
         }
 
         /// <summary>
-        /// Stops the network binding engine and network table access
+        /// Stops the network binding engine and network table access. Only call once during normal program execution
         /// </summary>
         public static void Shutdown()
         {
@@ -194,6 +206,7 @@ namespace StealthRobotics.Dashboard.API
         public static void Create<TLocal, TNetwork>(INotifyPropertyChanged source, string property, string networkPath,
             NTConverter<TLocal, TNetwork> converter = null, bool localOverride = false)
         {
+            if (!isRunning) throw new InvalidOperationException("Can only create bindings while the network table is running");
             //add these to our dictionary
             if (!propertyLookup.ContainsKey(source))
             {
@@ -236,6 +249,7 @@ namespace StealthRobotics.Dashboard.API
         public static void Create<TLocal, TNetwork>(DependencyObject source, DependencyProperty property, string networkPath,
             NTConverter<TLocal, TNetwork> converter = null, bool localOverride = false)
         {
+            if (!isRunning) throw new InvalidOperationException("Can only create bindings while the network table is running");
             //because of additional work that needs to be done to bind the value, simpler to reimplement
             DependencyNotifyListener listener = new DependencyNotifyListener(source);
             if(!propertyLookup.ContainsKey(listener))
@@ -253,17 +267,17 @@ namespace StealthRobotics.Dashboard.API
                 propertyLookup[listener].MapConversionByFirst(property.Name, converter);
                 //make the values consistent by forcing an update.
                 //first check if the dashboard has a value at all
-                object data = Dashboard.GetValue(networkPath, null);
+                Value data = Dashboard.GetValue(networkPath, null);
                 if (data == null || localOverride)
                 {
                     //send the local value to the network by "updating" the local value
                     PropertyChangedEventArgs e = new PropertyChangedEventArgs(property.Name);
-                    OnLocalValueChange(source, e);
+                    OnLocalValueChange(listener, e);
                 }
                 else
                 {
                     //pull the dashboard from the local value by "updating" the network value
-                    OnNetworkTableChange(Dashboard, networkPath, Value.MakeValue(data), NotifyFlags.NotifyUpdate);
+                    OnNetworkTableChange(Dashboard, networkPath, data, NotifyFlags.NotifyUpdate);
                 }
             }
         }
