@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StealthRobotics.Dashboard.API", "StealthRobotics.Dashboard.API\StealthRobotics.Dashboard.API.csproj", "{EBCBCF79-D27F-47BF-9160-512DA0D368B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.csproj", "{BF9D010A-0331-4B05-937E-92AB51C3EDEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EBCBCF79-D27F-47BF-9160-512DA0D368B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBCBCF79-D27F-47BF-9160-512DA0D368B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBCBCF79-D27F-47BF-9160-512DA0D368B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF9D010A-0331-4B05-937E-92AB51C3EDEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF9D010A-0331-4B05-937E-92AB51C3EDEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF9D010A-0331-4B05-937E-92AB51C3EDEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF9D010A-0331-4B05-937E-92AB51C3EDEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

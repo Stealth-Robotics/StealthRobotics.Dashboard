@@ -83,17 +83,18 @@ namespace StealthRobotics.Dashboard.API
             }
         }
 
-        private static void OnNonDPChange(object sender, PropertyChangedEventArgs e)
+        private static void OnLocalValueChange(object sender, PropertyChangedEventArgs e)
         {
             INotifyPropertyChanged obj = sender as INotifyPropertyChanged;
             OneToOneConversionMap<string, string> map = propertyLookup[obj];
+            object bindingSource = (obj is DependencyNotifyListener) ? (object)(obj as DependencyNotifyListener).source : obj;
             //first, verify that the property that changed is bound to something
             if (map.TryGetByFirst(e.PropertyName, out string networkPath))
             {
                 //grab the converter and use it if needed
                 IValueConverter converter = map.GetConverterByFirst(e.PropertyName);
-                PropertyInfo inf = obj.GetType().GetProperty(e.PropertyName);
-                object value = inf.GetValue(obj);
+                PropertyInfo inf = bindingSource.GetType().GetProperty(e.PropertyName);
+                object value = inf.GetValue(bindingSource);
                 if (converter != null)
                 {
                     //in an NTConverter (required in API) the null values are never used so we don't need to set them
@@ -112,12 +113,13 @@ namespace StealthRobotics.Dashboard.API
             foreach(INotifyPropertyChanged source in propertyLookup.Keys)
             {
                 OneToOneConversionMap<string, string> conversionMap = propertyLookup[source];
-                if(conversionMap.TryGetBySecond(key, out string property))
+                object bindingSource = (source is DependencyNotifyListener) ? (object)(source as DependencyNotifyListener).source : source;
+                if (conversionMap.TryGetBySecond(key, out string property))
                 {
                     //the property that changed is bound to this object
                     //grab the converter and use it if needed
                     IValueConverter converter = conversionMap.GetConverterByFirst(property);
-                    PropertyInfo inf = source.GetType().GetProperty(property);
+                    PropertyInfo inf = bindingSource.GetType().GetProperty(property);
                     object value = ReadValue(v);
                     if(converter != null)
                     {
@@ -132,7 +134,7 @@ namespace StealthRobotics.Dashboard.API
                         value = Convert.ChangeType(value, inf.PropertyType);
                     }
                     //write to the object
-                    inf.SetValue(source, value);
+                    inf.SetValue(bindingSource, value);
                 }
             }
         }
@@ -152,6 +154,10 @@ namespace StealthRobotics.Dashboard.API
                 NetworkTable.SetUpdateRate(0.1);
                 NetworkTable.SetNetworkIdentity("C# Dashboard");
                 NetworkTable.Initialize();
+                foreach(INotifyPropertyChanged item in propertyLookup.Keys)
+                {
+                    (item as DependencyNotifyListener)?.RefreshBindings();
+                }
                 Dashboard.AddTableListener(OnNetworkTableChange, true);
                 isRunning = true;
             }
@@ -166,6 +172,11 @@ namespace StealthRobotics.Dashboard.API
             {
                 //may dislike DS behavior, consider adding a delay
                 NetworkTable.Shutdown();
+                Dashboard.RemoveTableListener(OnNetworkTableChange);
+                foreach(INotifyPropertyChanged item in propertyLookup.Keys)
+                {
+                    (item as DependencyNotifyListener)?.UnbindAll();
+                }
                 isRunning = false;
             }
         }
@@ -188,7 +199,7 @@ namespace StealthRobotics.Dashboard.API
             {
                 propertyLookup[source] = new OneToOneConversionMap<string, string>();
                 //this is a new item being bound; have it notify us of updates
-                source.PropertyChanged += OnNonDPChange;
+                source.PropertyChanged += OnLocalValueChange;
             }
             if (propertyLookup[source].TryAdd(property, networkPath))
             {
@@ -202,12 +213,47 @@ namespace StealthRobotics.Dashboard.API
                 {
                     //send the local value to the network by "updating" the local value
                     PropertyChangedEventArgs e = new PropertyChangedEventArgs(property);
-                    OnNonDPChange(source, e);
+                    OnLocalValueChange(source, e);
                 }
                 else
                 {
                     //pull the dashboard from the local value by "updating" the network value
-                    //TODO: Implement using network table changed listener
+                    OnNetworkTableChange(Dashboard, networkPath, Value.MakeValue(data), NotifyFlags.NotifyUpdate);
+                }
+            }
+        }
+
+        public static void Create<TLocal, TNetwork>(DependencyObject source, DependencyProperty property, string networkPath,
+            NTConverter<TLocal, TNetwork> converter = null, bool localOverride = false)
+        {
+            //because of additional work that needs to be done to bind the value, simpler to reimplement
+            DependencyNotifyListener listener = new DependencyNotifyListener(source);
+            if(!propertyLookup.ContainsKey(listener))
+            {
+                propertyLookup[listener] = new OneToOneConversionMap<string, string>();
+                //this is a new item being bound, have it notify us of updates
+                listener.PropertyChanged += OnLocalValueChange;
+            }
+            if(propertyLookup[listener].TryAdd(property.Name, networkPath))
+            {
+                //this means there were no binding conflicts
+                //bind the dependency property to be notified of changes to it
+                listener.BindProperty(property);
+                //map a conversion if needed; null is valid
+                propertyLookup[listener].MapConversionByFirst(property.Name, converter);
+                //make the values consistent by forcing an update.
+                //first check if the dashboard has a value at all
+                object data = Dashboard.GetValue(networkPath, null);
+                if (data == null || localOverride)
+                {
+                    //send the local value to the network by "updating" the local value
+                    PropertyChangedEventArgs e = new PropertyChangedEventArgs(property.Name);
+                    OnLocalValueChange(source, e);
+                }
+                else
+                {
+                    //pull the dashboard from the local value by "updating" the network value
+                    OnNetworkTableChange(Dashboard, networkPath, Value.MakeValue(data), NotifyFlags.NotifyUpdate);
                 }
             }
         }
