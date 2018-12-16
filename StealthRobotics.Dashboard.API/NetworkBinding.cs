@@ -255,7 +255,7 @@ namespace StealthRobotics.Dashboard.API
         /// <param name="property">The property to bind to. Attached properties will throw an exception</param>
         /// <param name="networkPath">The full path of the entry in the network table</param>
         /// <param name="localOverride">Whether the local dashboard values should take precedence when the binding occurs</param>
-        public static void Create<TLocal, TNetwork>(DependencyObject source, DependencyProperty property, string networkPath, bool localOverride = false)
+        public static void Create(DependencyObject source, DependencyProperty property, string networkPath, bool localOverride = false)
         {
             Create<object, object>(source, property, networkPath, null, localOverride);
         }
