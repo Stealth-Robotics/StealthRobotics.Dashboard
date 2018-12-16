@@ -216,7 +216,7 @@ namespace StealthRobotics.Dashboard.API
         /// <param name="converter">The conversion mapping between the network values and local values</param>
         /// <param name="localOverride">Whether the local dashboard values should take precedence when the binding occurs</param>
         public static void Create<TLocal, TNetwork>(INotifyPropertyChanged source, string property, string networkPath,
-            NTConverter<TLocal, TNetwork> converter = null, bool localOverride = false)
+            NTConverter<TLocal, TNetwork> converter, bool localOverride = false)
         {
             if (!isRunning) throw new InvalidOperationException("Can only create bindings while the network table is running");
             //add these to our dictionary
@@ -271,7 +271,7 @@ namespace StealthRobotics.Dashboard.API
         /// <param name="converter">The conversion mapping between the network values and local values</param>
         /// <param name="localOverride">Whether the local dashboard values should take precedence when the binding occurs</param>
         public static void Create<TLocal, TNetwork>(DependencyObject source, DependencyProperty property, string networkPath,
-            NTConverter<TLocal, TNetwork> converter = null, bool localOverride = false)
+            NTConverter<TLocal, TNetwork> converter, bool localOverride = false)
         {
             if (!isRunning) throw new InvalidOperationException("Can only create bindings while the network table is running");
             //because of additional work that needs to be done to bind the value, simpler to reimplement
