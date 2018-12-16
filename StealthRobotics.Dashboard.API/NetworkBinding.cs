@@ -196,6 +196,18 @@ namespace StealthRobotics.Dashboard.API
         /// <summary>
         /// Creates a binding between an observable object property and a network table entry
         /// </summary>
+        /// <param name="source">The object to bind to</param>
+        /// <param name="property">The case-sensitive name of the property to bind to</param>
+        /// <param name="networkPath">The full path of the entry in the network table</param>
+        /// <param name="localOverride">Whether the local dashboard values should take precedence when the binding occurs</param>
+        public static void Create(INotifyPropertyChanged source, string property, string networkPath, bool localOverride = false)
+        {
+            Create<object, object>(source, property, networkPath, null, localOverride);
+        }
+
+        /// <summary>
+        /// Creates a binding between an observable object property and a network table entry of a different type
+        /// </summary>
         /// <typeparam name="TLocal">The type of the entry in the dashboard</typeparam>
         /// <typeparam name="TNetwork">The type of the entry in the network table</typeparam>
         /// <param name="source">The object to bind to</param>
@@ -237,6 +249,18 @@ namespace StealthRobotics.Dashboard.API
         }
 
         /// <summary>
+        /// Creates a binding between a dependency property and a network table entry of a different type
+        /// </summary>
+        /// <param name="source">The object to bind to</param>
+        /// <param name="property">The property to bind to. Attached properties will throw an exception</param>
+        /// <param name="networkPath">The full path of the entry in the network table</param>
+        /// <param name="localOverride">Whether the local dashboard values should take precedence when the binding occurs</param>
+        public static void Create<TLocal, TNetwork>(DependencyObject source, DependencyProperty property, string networkPath, bool localOverride = false)
+        {
+            Create<object, object>(source, property, networkPath, null, localOverride);
+        }
+
+        /// <summary>
         /// Creates a binding between a dependency property and a network table entry
         /// </summary>
         /// <typeparam name="TLocal">The type of the entry in the dashboard</typeparam>
@@ -252,13 +276,13 @@ namespace StealthRobotics.Dashboard.API
             if (!isRunning) throw new InvalidOperationException("Can only create bindings while the network table is running");
             //because of additional work that needs to be done to bind the value, simpler to reimplement
             DependencyNotifyListener listener = new DependencyNotifyListener(source);
-            if(!propertyLookup.ContainsKey(listener))
+            if (!propertyLookup.ContainsKey(listener))
             {
                 propertyLookup[listener] = new OneToOneConversionMap<string, string>();
                 //this is a new item being bound, have it notify us of updates
                 listener.PropertyChanged += OnLocalValueChange;
             }
-            if(propertyLookup[listener].TryAdd(property.Name, networkPath))
+            if (propertyLookup[listener].TryAdd(property.Name, networkPath))
             {
                 //this means there were no binding conflicts
                 //bind the dependency property to be notified of changes to it

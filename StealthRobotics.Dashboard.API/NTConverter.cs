@@ -20,7 +20,7 @@ namespace StealthRobotics.Dashboard.API
         {
             if(value is TLocal)
             {
-                return Convert((TLocal)value);
+                return ConvertToNetwork((TLocal)value);
             }
             return DependencyProperty.UnsetValue;
         }
@@ -29,7 +29,7 @@ namespace StealthRobotics.Dashboard.API
         {
             if(value is TNetwork)
             {
-                return ConvertBack((TNetwork)value);
+                return ConvertToLocal((TNetwork)value);
             }
             return DependencyProperty.UnsetValue;
         }
@@ -38,12 +38,12 @@ namespace StealthRobotics.Dashboard.API
         /// A function that maps a local value to a network value
         /// </summary>
         /// <param name="val">The local value being converted</param>
-        public abstract TNetwork Convert(TLocal val);
+        public abstract TNetwork ConvertToNetwork(TLocal val);
         /// <summary>
         /// A function that maps a network value to a local value
         /// </summary>
         /// <param name="val">The network value being converted</param>
         /// <returns></returns>
-        public abstract TLocal ConvertBack(TNetwork val);
+        public abstract TLocal ConvertToLocal(TNetwork val);
     }
 }
