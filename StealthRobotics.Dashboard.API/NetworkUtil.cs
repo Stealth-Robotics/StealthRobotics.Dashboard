@@ -75,7 +75,11 @@ namespace StealthRobotics.Dashboard.API
             }
         }
 
-        public static NetworkTree GetTableOutline(string root = "/")
+        /// <summary>
+        /// Gets a full outline of the existing network tables
+        /// </summary>
+        /// <param name="root">The first level to search at, defaults to root</param>
+        public static NetworkTree GetTableOutline(string root = "")
         {
             return new NetworkTree(root);
         }
