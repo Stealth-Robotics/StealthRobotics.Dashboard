@@ -7,34 +7,25 @@ using NetworkTables;
 
 namespace StealthRobotics.Dashboard.API
 {
-    public class NetworkTree
+    public class NetworkTree : NetworkElement
     {
-        private class Node
+        private List<NetworkElement> children;
+        public IList<NetworkElement> Children
         {
-            public readonly string Name;
-            public readonly Type Type;
-            public List<Node> Children;
-            public Node(string name, Type type)
+            get
             {
-                Name = name;
-                Type = type;
-                Children = new List<Node>();
+                return children.AsReadOnly();
             }
         }
-
-        //be mindful of this, access good, don't expose node if possible. However, we do need to expose all data from node
-        //possible restructure?
-        private readonly Node root;
-
-        internal NetworkTree(string root)
+        internal NetworkTree(string root) : base(root, typeof(NetworkTable))
         {
-            this.root = new Node(root, typeof(NetworkTable));
-            ConstructChildren(this.root);
+            ConstructChildren(root);
         }
 
-        private void ConstructChildren(Node root)
+        private void ConstructChildren(string root)
         {
-
+            children = new List<NetworkElement>();
+            //todo: fill children
         }
     }
 }
