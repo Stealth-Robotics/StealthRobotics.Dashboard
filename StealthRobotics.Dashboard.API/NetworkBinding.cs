@@ -14,6 +14,9 @@ using NetworkTables.Tables;
 
 namespace StealthRobotics.Dashboard.API
 {
+    /// <summary>
+    /// Provides methods for binding WPF controls and ViewModels to the network table
+    /// </summary>
     public static class NetworkBinding
     {
         //lookup table for bound property: stores each bound object paired with all bound properties,
@@ -23,69 +26,7 @@ namespace StealthRobotics.Dashboard.API
             new Dictionary<INotifyPropertyChanged, OneToOneConversionMap<string, string>>();
 
         private static Dispatcher assignmentDispatch;
-
-        /// <summary>
-        /// The SmartDashboard network table path
-        /// </summary>
-        private static NetworkTable Dashboard
-        {
-            get
-            {
-                return NetworkTable.GetTable("/SmartDashboard");
-            }
-        }
-
-        private static Type TypeOf(Value v)
-        {
-            switch(v?.Type)
-            {
-                case NtType.Boolean:
-                    return typeof(bool);
-                case NtType.BooleanArray:
-                    return typeof(bool[]);
-                case NtType.Double:
-                    return typeof(double);
-                case NtType.DoubleArray:
-                    return typeof(double[]);
-                case NtType.String:
-                    return typeof(string);
-                case NtType.StringArray:
-                    return typeof(string[]);
-                case NtType.Raw:
-                    return typeof(byte[]);
-                case NtType.Rpc:
-                    //remote procedure call, should not be trying to handle these
-                    throw new InvalidCastException("Can't handle bindings to remote procedure calls");
-                default:
-                    return null;
-            }
-        }
-
-        /// <summary>
-        /// Converts the NetworkTable simple value into an actual .NET data type with data
-        /// </summary>
-        /// <param name="v">The value to convert</param>
-        public static object ReadValue(Value v)
-        {
-            switch (v?.Type)
-            {
-                case NtType.Boolean:
-                    return v.GetBoolean();
-                case NtType.BooleanArray:
-                    return v.GetBooleanArray();
-                case NtType.Double:
-                    return v.GetDouble();
-                case NtType.DoubleArray:
-                    return v.GetDoubleArray();
-                case NtType.String:
-                    return v.GetString();
-                case NtType.StringArray:
-                    return v.GetStringArray();
-                default:
-                    return null;
-            }
-        }
-
+                
         private static void OnLocalValueChange(object sender, PropertyChangedEventArgs e)
         {
             INotifyPropertyChanged obj = sender as INotifyPropertyChanged;
@@ -107,11 +48,11 @@ namespace StealthRobotics.Dashboard.API
                 }
                 //write to the dashboard
                 Value data = Value.MakeValue(value);
-                Dashboard.PutValue(networkPath, data);
+                NetworkUtil.SmartDashboard.PutValue(networkPath, data);
                 //the network table doesn't know any better and won't try to notify us of this change
                 //therefore, bindings won't be updated again, so we should initiate a network table update
                 //this is ok, because we only write to network table on effective value changes
-                OnNetworkTableChange(Dashboard, networkPath, data, NotifyFlags.NotifyUpdate);
+                OnNetworkTableChange(NetworkUtil.SmartDashboard, networkPath, data, NotifyFlags.NotifyUpdate);
             }
         }
 
@@ -128,7 +69,7 @@ namespace StealthRobotics.Dashboard.API
                     //grab the converter and use it if needed
                     IValueConverter converter = conversionMap.GetConverterByFirst(property);
                     PropertyInfo inf = bindingSource.GetType().GetProperty(property);
-                    object value = ReadValue(v);
+                    object value = NetworkUtil.ReadValue(v);
                     if(converter != null)
                     {
                         //in an NTConverter (required in API) the null values are never used so we don't need to set them
@@ -170,7 +111,7 @@ namespace StealthRobotics.Dashboard.API
                 {
                     (item as DependencyNotifyListener)?.RefreshBindings();
                 }
-                Dashboard.AddTableListener(OnNetworkTableChange, true);
+                NetworkUtil.SmartDashboard.AddTableListener(OnNetworkTableChange, true);
                 isRunning = true;
             }
         }
@@ -184,7 +125,7 @@ namespace StealthRobotics.Dashboard.API
             {
                 //may dislike DS behavior, consider adding a delay
                 NetworkTable.Shutdown();
-                Dashboard.RemoveTableListener(OnNetworkTableChange);
+                NetworkUtil.SmartDashboard.RemoveTableListener(OnNetworkTableChange);
                 foreach(INotifyPropertyChanged item in propertyLookup.Keys)
                 {
                     (item as DependencyNotifyListener)?.UnbindAll();
@@ -233,7 +174,7 @@ namespace StealthRobotics.Dashboard.API
                 propertyLookup[source].MapConversionByFirst(property, converter);
                 //make the values consistent by forcing an update.
                 //first check if the dashboard has a value at all
-                object data = Dashboard.GetValue(networkPath, null);
+                object data = NetworkUtil.SmartDashboard.GetValue(networkPath, null);
                 if (data == null || localOverride)
                 {
                     //send the local value to the network by "updating" the local value
@@ -243,7 +184,7 @@ namespace StealthRobotics.Dashboard.API
                 else
                 {
                     //pull the dashboard from the local value by "updating" the network value
-                    OnNetworkTableChange(Dashboard, networkPath, Value.MakeValue(data), NotifyFlags.NotifyUpdate);
+                    OnNetworkTableChange(NetworkUtil.SmartDashboard, networkPath, Value.MakeValue(data), NotifyFlags.NotifyUpdate);
                 }
             }
         }
@@ -291,7 +232,7 @@ namespace StealthRobotics.Dashboard.API
                 propertyLookup[listener].MapConversionByFirst(property.Name, converter);
                 //make the values consistent by forcing an update.
                 //first check if the dashboard has a value at all
-                Value data = Dashboard.GetValue(networkPath, null);
+                Value data = NetworkUtil.SmartDashboard.GetValue(networkPath, null);
                 if (data == null || localOverride)
                 {
                     //send the local value to the network by "updating" the local value
@@ -301,7 +242,7 @@ namespace StealthRobotics.Dashboard.API
                 else
                 {
                     //pull the dashboard from the local value by "updating" the network value
-                    OnNetworkTableChange(Dashboard, networkPath, data, NotifyFlags.NotifyUpdate);
+                    OnNetworkTableChange(NetworkUtil.SmartDashboard, networkPath, data, NotifyFlags.NotifyUpdate);
                 }
             }
         }
