@@ -74,5 +74,10 @@ namespace StealthRobotics.Dashboard.API
                     return null;
             }
         }
+
+        public static NetworkTree GetTableOutline(string root = "/")
+        {
+            return new NetworkTree(root);
+        }
     }
 }

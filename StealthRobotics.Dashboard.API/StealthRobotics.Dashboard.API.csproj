@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyNotifyListener.cs" />
+    <Compile Include="NetworkTree.cs" />
     <Compile Include="NetworkUtil.cs" />
     <Compile Include="OneToOneConversionMap.cs" />
     <Compile Include="NTConverter.cs" />
