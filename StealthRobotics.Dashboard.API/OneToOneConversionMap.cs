@@ -78,6 +78,7 @@ namespace StealthRobotics.Dashboard.API
 
             firstToSecond.Remove(first);
             secondToFirst.Remove(second);
+            conversionMap.Remove(first);
         }
 
         /// <summary>
@@ -92,6 +93,7 @@ namespace StealthRobotics.Dashboard.API
 
             secondToFirst.Remove(second);
             firstToSecond.Remove(first);
+            conversionMap.Remove(first);
         }
 
         /// <summary>
@@ -206,6 +208,7 @@ namespace StealthRobotics.Dashboard.API
 
             firstToSecond.Remove(first);
             secondToFirst.Remove(second);
+            conversionMap.Remove(first);
             return true;
         }
 
@@ -221,6 +224,7 @@ namespace StealthRobotics.Dashboard.API
 
             secondToFirst.Remove(second);
             firstToSecond.Remove(first);
+            conversionMap.Remove(first);
             return true;
         }
 

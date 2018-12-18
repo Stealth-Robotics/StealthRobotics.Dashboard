@@ -197,7 +197,7 @@ namespace StealthRobotics.Dashboard.API
         /// Creates a binding between an observable object property and a network table entry
         /// </summary>
         /// <param name="source">The object to bind to</param>
-        /// <param name="property">The case-sensitive name of the property to bind to</param>
+        /// <param name="property">The case-sensitive name of the property to bind</param>
         /// <param name="networkPath">The full path of the entry in the network table</param>
         /// <param name="localOverride">Whether the local dashboard values should take precedence when the binding occurs</param>
         public static void Create(INotifyPropertyChanged source, string property, string networkPath, bool localOverride = false)
@@ -211,7 +211,7 @@ namespace StealthRobotics.Dashboard.API
         /// <typeparam name="TLocal">The type of the entry in the dashboard</typeparam>
         /// <typeparam name="TNetwork">The type of the entry in the network table</typeparam>
         /// <param name="source">The object to bind to</param>
-        /// <param name="property">The case-sensitive name of the property to bind to</param>
+        /// <param name="property">The case-sensitive name of the property to bind</param>
         /// <param name="networkPath">The full path of the entry in the network table</param>
         /// <param name="converter">The conversion mapping between the network values and local values</param>
         /// <param name="localOverride">Whether the local dashboard values should take precedence when the binding occurs</param>
@@ -252,7 +252,7 @@ namespace StealthRobotics.Dashboard.API
         /// Creates a binding between a dependency property and a network table entry of a different type
         /// </summary>
         /// <param name="source">The object to bind to</param>
-        /// <param name="property">The property to bind to. Attached properties will throw an exception</param>
+        /// <param name="property">The property to bind. Attached properties will throw an exception</param>
         /// <param name="networkPath">The full path of the entry in the network table</param>
         /// <param name="localOverride">Whether the local dashboard values should take precedence when the binding occurs</param>
         public static void Create(DependencyObject source, DependencyProperty property, string networkPath, bool localOverride = false)
@@ -266,7 +266,7 @@ namespace StealthRobotics.Dashboard.API
         /// <typeparam name="TLocal">The type of the entry in the dashboard</typeparam>
         /// <typeparam name="TNetwork">The type of the entry in the network table</typeparam>
         /// <param name="source">The object to bind to</param>
-        /// <param name="property">The property to bind to. Attached properties will throw an exception</param>
+        /// <param name="property">The property to bind. Attached properties will throw an exception</param>
         /// <param name="networkPath">The full path of the entry in the network table</param>
         /// <param name="converter">The conversion mapping between the network values and local values</param>
         /// <param name="localOverride">Whether the local dashboard values should take precedence when the binding occurs</param>
@@ -304,6 +304,97 @@ namespace StealthRobotics.Dashboard.API
                     OnNetworkTableChange(Dashboard, networkPath, data, NotifyFlags.NotifyUpdate);
                 }
             }
+        }
+
+        /// <summary>
+        /// Deletes a binding between an observable object property and a network table entry
+        /// </summary>
+        /// <param name="source">The object the binding is on</param>
+        /// <param name="property">The property to unbind</param>
+        public static void Delete(INotifyPropertyChanged source, string property)
+        {
+            if (!isRunning) throw new InvalidOperationException("Can only delete bindings while the network table is running");
+            if(propertyLookup.ContainsKey(source))
+            {
+                propertyLookup[source].TryRemoveByFirst(property);
+            }
+        }
+
+        /// <summary>
+        /// Deletes a binding between a dependency property and a network table entry
+        /// </summary>
+        /// <param name="source">The object the binding is on</param>
+        /// <param name="property">The property to unbind</param>
+        public static void Delete(DependencyObject source, DependencyProperty property)
+        {
+            if (!isRunning) throw new InvalidOperationException("Can only delete bindings while the network table is running");
+            DependencyNotifyListener listener = new DependencyNotifyListener(source);
+            if (propertyLookup.ContainsKey(listener))
+            {
+                if(propertyLookup[listener].TryRemoveByFirst(property.Name))
+                {
+                    //permanent delete rather than temporary unbind
+                    listener.DeleteBinding(property);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates an existing binding between an observable object property and a network table entry
+        /// </summary>
+        /// <param name="source">The object the binding is on</param>
+        /// <param name="property">The new property to bind</param>
+        /// <param name="networkPath">The full path of the new entry in the network table</param>
+        /// <param name="localOverride">Whether the local dashboard values should take precedence when the binding occurs</param>
+        public static void Update(INotifyPropertyChanged source, string property, string networkPath, bool localOverride = false)
+        {
+            Update<object, object>(source, property, networkPath, null, localOverride);
+        }
+
+        /// <summary>
+        /// Updates an existing binding between an observable object property and a network table entry of a different type
+        /// </summary>
+        /// <typeparam name="TLocal">The type of the entry in the dashboard</typeparam>
+        /// <typeparam name="TNetwork">The type of the entry in the network table</typeparam>
+        /// <param name="source">The object the binding is on</param>
+        /// <param name="property">The new property to bind</param>
+        /// <param name="networkPath">The full path of the new entry in the network table</param>
+        /// <param name="converter">The conversion mapping between network values and local values</param>
+        /// <param name="localOverride">Whether the local dashboard values should take precendence when the binding occurs</param>
+        public static void Update<TLocal, TNetwork>(INotifyPropertyChanged source, string property, string networkPath,
+            NTConverter<TLocal, TNetwork> converter, bool localOverride = false)
+        {
+            Delete(source, property);
+            Create(source, property, networkPath, converter, localOverride);
+        }
+
+        /// <summary>
+        /// Updates an existing binding between a dependency property and a network table entry
+        /// </summary>
+        /// <param name="source">The object to bind to</param>
+        /// <param name="property">The new property to bind. Attached properties will throw an exception</param>
+        /// <param name="networkPath">The full path of the new entry in the network table</param>
+        /// <param name="localOverride">Whether the local dashboard values should take precendence when the binding occurs</param>
+        public static void Update(DependencyObject source, DependencyProperty property, string networkPath, bool localOverride = false)
+        {
+            Update<object, object>(source, property, networkPath, null, localOverride);
+        }
+
+        /// <summary>
+        /// Updates an existing binding between a dependency property and a network table entry
+        /// </summary>
+        /// <typeparam name="TLocal">The type of the entry in the dashboard</typeparam>
+        /// <typeparam name="TNetwork">The type of the entry in the network table</typeparam>
+        /// <param name="source">The object to bind to</param>
+        /// <param name="property">The new property to bind. Attached properties will throw an exception</param>
+        /// <param name="networkPath">The full path of the new entry in the network table</param>
+        /// <param name="converter">The conversion mapping between network values and local values</param>
+        /// <param name="localOverride">Whether the local dashboard values should take precendence when the binding occurs</param>
+        public static void Update<TLocal, TNetwork>(DependencyObject source, DependencyProperty property, string networkPath,
+            NTConverter<TLocal, TNetwork> converter, bool localOverride = false)
+        {
+            Delete(source, property);
+            Create(source, property, networkPath, converter, localOverride);
         }
     }
 }

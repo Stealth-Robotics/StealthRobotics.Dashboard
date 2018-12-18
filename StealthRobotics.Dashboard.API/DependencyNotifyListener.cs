@@ -33,23 +33,29 @@ namespace StealthRobotics.Dashboard.API
             bindings = new Dictionary<DependencyProperty, DependencyBinding>();
         }
 
+        //knowing these will be dictionary keys, need to override equality checking
         public override bool Equals(object obj)
         {
-            return !(obj is DependencyNotifyListener comp) || comp.source == source;
+            return !(obj is DependencyNotifyListener other) || other.source == source;
         }
 
+        //knowing these will be dictionary keys, need to override has function
         public override int GetHashCode()
         {
             return source.GetHashCode();
         }
 
+        /// <summary>
+        /// Begins listening to changes in the source object's dependency property
+        /// </summary>
+        /// <param name="dp">The property to observe</param>
         public void BindProperty(DependencyProperty dp)
         {
             DependencyPropertyDescriptor desc;
             if (!bindings.ContainsKey(dp))
             {
                 desc = DependencyPropertyDescriptor.FromProperty(dp, source.GetType());
-                //force that the owner type of the dependency property is either the same as the source type or is a descendent
+                //force that the dependency property belongs to the type of the object
                 if (desc.IsAttached)//!source.GetType().IsAssignableFrom(dp.OwnerType))
                     throw new ArgumentException("Invalid property");
                 //initially unbound
@@ -67,6 +73,10 @@ namespace StealthRobotics.Dashboard.API
             }
         }
 
+        /// <summary>
+        /// Temporarily stops listening to changes in the source object's dependency property
+        /// </summary>
+        /// <param name="dp">The property to stop observing</param>
         public void UnbindProperty(DependencyProperty dp)
         {
             if(bindings.ContainsKey(dp))
@@ -76,6 +86,9 @@ namespace StealthRobotics.Dashboard.API
             }
         }
 
+        /// <summary>
+        /// Begins listening to any of the source object's dependency properties that are not currently being listened to
+        /// </summary>
         public void RefreshBindings()
         {
             foreach(DependencyProperty dp in bindings.Keys)
@@ -88,6 +101,9 @@ namespace StealthRobotics.Dashboard.API
             }
         }
 
+        /// <summary>
+        /// Temporarily stops listening to all the source object's dependency properties
+        /// </summary>
         public void UnbindAll()
         {
             foreach(DependencyProperty dp in bindings.Keys)
@@ -96,6 +112,24 @@ namespace StealthRobotics.Dashboard.API
                 {
                     bindings[dp].desc.RemoveValueChanged(source, dpChanged);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Permanently stops listening to the source object's dependency property
+        /// </summary>
+        /// <param name="dp">The property to remove</param>
+        public void DeleteBinding(DependencyProperty dp)
+        {
+            if (bindings.ContainsKey(dp))
+            {
+                if (bindings[dp].IsBound)
+                {
+                    bindings[dp].desc.RemoveValueChanged(source, dpChanged);
+                    //just to be thorough
+                    bindings[dp].IsBound = false;
+                }
+                bindings.Remove(dp);
             }
         }
 
