@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StealthRobotics.Dashboard.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.csproj", "{BF9D010A-0331-4B05-937E-92AB51C3EDEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StealthRobotics.Dashboard", "StealthRobotics.Dashboard\StealthRobotics.Dashboard.csproj", "{B391261A-7696-4D2C-AEEE-877E3AAD7775}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BF9D010A-0331-4B05-937E-92AB51C3EDEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF9D010A-0331-4B05-937E-92AB51C3EDEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF9D010A-0331-4B05-937E-92AB51C3EDEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B391261A-7696-4D2C-AEEE-877E3AAD7775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B391261A-7696-4D2C-AEEE-877E3AAD7775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B391261A-7696-4D2C-AEEE-877E3AAD7775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B391261A-7696-4D2C-AEEE-877E3AAD7775}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
