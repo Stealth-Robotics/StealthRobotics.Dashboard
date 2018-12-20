@@ -24,7 +24,7 @@ namespace StealthRobotics.Dashboard.API
                 return children.AsReadOnly();
             }
         }
-        internal NetworkTree(string root, ITable baseTree = null) : base(root, typeof(NetworkTable))
+        internal NetworkTree(string root, ITable baseTree = null) : base(root, typeof(NetworkTree))
         {
             ConstructChildren(root, baseTree);
         }

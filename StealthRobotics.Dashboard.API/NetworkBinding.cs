@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -83,7 +84,7 @@ namespace StealthRobotics.Dashboard.API
                         value = Convert.ChangeType(value, inf.PropertyType);
                     }
                     //write to the object
-                    assignmentDispatch.Invoke(() => inf.SetValue(bindingSource, value));
+                    assignmentDispatch.BeginInvoke(new ThreadStart(() => inf.SetValue(bindingSource, value)));
                 }
             }
         }
@@ -95,16 +96,17 @@ namespace StealthRobotics.Dashboard.API
         /// </summary>
         /// <param name="team">The team number to use for mDNS connection</param>
         /// <param name="dispatcher">The dispatcher of the UI thread so writes can happen</param>
-        public static void Initialize(int team, Dispatcher dispatcher)
+        public static void Initialize(int team, Dispatcher dispatcher, bool useDriverStation = true)
         {
             if (!isRunning)
             {
                 assignmentDispatch = dispatcher;
                 NetworkTable.SetClientMode();
-                NetworkTable.SetTeam(team);
+                //NetworkTable.SetTeam(team);
                 //for local testing
-                //NetworkTable.SetIPAddress("localhost");
+                NetworkTable.SetIPAddress("localhost");
                 NetworkTable.SetUpdateRate(0.1);
+                NetworkTable.SetDSClientEnabled(useDriverStation);
                 NetworkTable.SetNetworkIdentity("C# Dashboard");
                 NetworkTable.Initialize();
                 foreach(INotifyPropertyChanged item in propertyLookup.Keys)

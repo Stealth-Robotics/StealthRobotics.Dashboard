@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace StealthRobotics.Dashboard.API
 {
@@ -82,6 +83,43 @@ namespace StealthRobotics.Dashboard.API
         public static NetworkTree GetTableOutline(string root = "")
         {
             return new NetworkTree(root);
+        }
+
+        /// <summary>
+        /// Gets the URL of the MJPEG stream for the specified camera resource
+        /// </summary>
+        /// <param name="cameraName">The name of the camera, usually from GetCameras()</param>
+        /// <returns>The URL of the stream, or null if a suitable stream doesn't exist</returns>
+        public static string GetCameraStreamURL(string cameraName)
+        {
+            NetworkTable cam = NetworkTable.GetTable($"/CameraPublisher/{cameraName}");
+            string[] streams = cam.GetStringArray("streams", new string[] { });
+            //get the first stream that's a normal IP address
+            foreach(string stream in streams)
+            {
+                string matchIPv4WithPort = @"mjpg:(http:\/\/(\d{1,3}\.){3}\d{1,3}:\d+.*)";
+                if (Regex.IsMatch(stream, matchIPv4WithPort))
+                {
+                    return Regex.Replace(stream, matchIPv4WithPort, @"$1");
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the names of all cameras attached to the robot
+        /// </summary>
+        /// <returns>A collection of camera names, or an empty collection if the robot has no cameras or is disconnected</returns>
+        public static IEnumerable<string> GetCameras()
+        {
+            NetworkTree network = GetTableOutline("CameraPublisher");
+            foreach (NetworkElement elm in network.Children)
+            {
+                if (elm.Type == typeof(NetworkTree))
+                {
+                    yield return elm.Name;
+                }
+            }
         }
     }
 }

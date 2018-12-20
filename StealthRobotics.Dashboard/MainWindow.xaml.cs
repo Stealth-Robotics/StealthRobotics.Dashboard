@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StealthRobotics.Dashboard.API;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,33 @@ namespace StealthRobotics.Dashboard
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            NetworkBinding.Initialize(4089, Dispatcher, false);
+            NetworkTables.NetworkTable.GetTable("").PutStringArray("CameraPublisher/Fake Camera 0/streams", new List<string>());
+            System.Threading.Thread.Sleep(500);//give time to warm up
+            Button_Click(null, null);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            NetworkBinding.Shutdown();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            streams.Items.Clear();
+            foreach(string cam in NetworkUtil.GetCameras())
+            {
+                streams.Items.Add(cam);
+            }
+        }
+
+        private void Streams_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            camera.StreamSource = NetworkUtil.GetCameraStreamURL(streams.SelectedItem as string);
         }
     }
 }
