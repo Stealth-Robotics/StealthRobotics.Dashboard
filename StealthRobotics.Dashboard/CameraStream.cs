@@ -21,10 +21,13 @@ using AForge.Video;
 namespace StealthRobotics.Dashboard
 {
     /// <summary>
-    /// Interaction logic for CameraStream.xaml
+    /// Displays an MJPEG camera stream
     /// </summary>
     public class CameraStream : System.Windows.Controls.Image
     {
+        /// <summary>
+        /// The http address of the stream
+        /// </summary>
         public string StreamSource
         {
             get { return (string)GetValue(StreamSourceProperty); }
@@ -39,6 +42,7 @@ namespace StealthRobotics.Dashboard
 
         public CameraStream()
         {
+            //do initialization logic when the control is ready to display
             Loaded += CameraStream_Loaded;
         }
 
@@ -46,6 +50,7 @@ namespace StealthRobotics.Dashboard
         {
             //make sure we know when the program is done with this
             Window w = Window.GetWindow(this);
+            //usually the case, but breaks the preview window
             if(w != null)
                 w.Closed += Window_Closed;
             //start the stream in case we happen to be ready
@@ -65,14 +70,17 @@ namespace StealthRobotics.Dashboard
             try
             {
                 System.Drawing.Image img = (Bitmap)eventArgs.Frame.Clone();
+                //Save the WinForms image into memory so we can actually draw it
                 MemoryStream ms = new MemoryStream();
                 img.Save(ms, ImageFormat.Bmp);
                 ms.Seek(0, SeekOrigin.Begin);
+                //Load the image from a memory stream
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
                 bi.StreamSource = ms;
                 bi.EndInit();
                 bi.Freeze();
+                //Draw the frame asynchronously
                 Dispatcher.BeginInvoke(new ThreadStart(() =>
                     {
                         Source = bi;
@@ -86,16 +94,19 @@ namespace StealthRobotics.Dashboard
         private static void OnStreamChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             CameraStream s = sender as CameraStream;
+            //end the stream and prepare it for disposal
             s.stream.NewFrame -= s.Stream_NewFrame;
             s.stream.Stop();
+            //restart the stream at the new address
             s.HookStream();
         }
 
         private void HookStream()
         {
+            //create the stream at the new address, if one exists
             stream = new MJPEGStream(StreamSource);
             stream.NewFrame += Stream_NewFrame;
-            if (!string.IsNullOrEmpty(StreamSource)) stream.Start();
+            if (!string.IsNullOrWhiteSpace(StreamSource)) stream.Start();
         }
     }
 }
