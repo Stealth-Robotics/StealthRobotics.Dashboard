@@ -12,9 +12,9 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50px"/>
         </Grid.RowDefinitions>
-        <local:CameraStream Stretch="Uniform" x:Name="camera"/>
         <api:TileGrid Rows="3" Columns="4">
             <Button Content="asdf" api:TileGrid.Row="0" api:TileGrid.Column="1" api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="2"/>
+            <local:CameraStream api:TileGrid.RowSpan="3" api:TileGrid.ColumnSpan="4" Stretch="Uniform" x:Name="camera"/>
         </api:TileGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
             <ComboBox Name="streams" Width="200" Margin="0 10 2.5 10" SelectionChanged="Streams_SelectionChanged"/>

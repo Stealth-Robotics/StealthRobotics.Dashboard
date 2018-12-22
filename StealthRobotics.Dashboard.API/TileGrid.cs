@@ -77,8 +77,7 @@ namespace StealthRobotics.Dashboard.API
         // Using a DependencyProperty as the backing store for Row.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty RowProperty =
             DependencyProperty.RegisterAttached("Row", typeof(int), typeof(TileGrid), 
-                new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsParentMeasure 
-                    | FrameworkPropertyMetadataOptions.AffectsParentArrange));
+                new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsParentArrange));
 
         public static int GetColumn(DependencyObject obj)
         {
@@ -93,8 +92,7 @@ namespace StealthRobotics.Dashboard.API
         // Using a DependencyProperty as the backing store for Column.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ColumnProperty =
             DependencyProperty.RegisterAttached("Column", typeof(int), typeof(TileGrid), 
-                new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsParentMeasure 
-                    | FrameworkPropertyMetadataOptions.AffectsParentArrange));
+                new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsParentArrange));
 
         protected override Size MeasureOverride(Size availableSize)
         {
