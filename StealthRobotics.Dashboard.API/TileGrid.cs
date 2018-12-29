@@ -91,8 +91,39 @@ namespace StealthRobotics.Dashboard.API
 
         // Using a DependencyProperty as the backing store for Column.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ColumnProperty =
-            DependencyProperty.RegisterAttached("Column", typeof(int), typeof(TileGrid), 
+            DependencyProperty.RegisterAttached("Column", typeof(int), typeof(TileGrid),
                 new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsParentArrange));
+
+        public static bool GetEditable(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(EditableProperty);
+        }
+
+        public static void SetEditable(DependencyObject obj, bool value)
+        {
+            obj.SetValue(EditableProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for Editable.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty EditableProperty =
+            DependencyProperty.RegisterAttached("Editable", typeof(bool), typeof(TileGrid), new PropertyMetadata(true));
+
+        private bool editable = true;
+        public bool IsEditable
+        {
+            get
+            {
+                return editable;
+            }
+            set
+            {
+                editable = value;
+                foreach(UIElement child in Children)
+                {
+                    SetEditable(child, value);
+                }
+            }
+        }
 
         protected override Size MeasureOverride(Size availableSize)
         {
