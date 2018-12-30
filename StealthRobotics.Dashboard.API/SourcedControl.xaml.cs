@@ -103,7 +103,7 @@ namespace StealthRobotics.Dashboard.API
 
         private void Thumb_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
-            //todo: before snapping back, see if we move to a new column/row
+            //before snapping back, see if we move to a new column/row
             DependencyObject parent = LogicalTreeHelper.GetParent(this);
             if(parent is TileGrid tg)
             {
