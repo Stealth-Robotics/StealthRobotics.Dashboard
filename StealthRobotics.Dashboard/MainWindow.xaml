@@ -12,7 +12,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50px"/>
         </Grid.RowDefinitions>
-        <api:TileGrid Rows="3" Columns="4">
+        <api:TileGrid Rows="3" Columns="4" IsEditable="True">
             <api:SourcedControl api:TileGrid.Column="1" api:TileGrid.Row="2">
                 <Button>asdf</Button>
             </api:SourcedControl>

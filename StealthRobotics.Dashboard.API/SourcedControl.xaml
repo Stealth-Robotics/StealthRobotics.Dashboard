@@ -63,7 +63,7 @@
                 <Button Style="{StaticResource contentOnlyButton}">A</Button>
                 <Button Style="{StaticResource contentOnlyButton}">B</Button>
                 <Button Style="{StaticResource contentOnlyButton}">C</Button>
-                <Thumb Height="5" Template="{StaticResource thumbTemplate}" Style="{StaticResource thumbHoverStyle}"
+                <Thumb Height="10" Padding="2" Template="{StaticResource thumbTemplate}" Style="{StaticResource thumbHoverStyle}"
                        Foreground="Black" DragDelta="Thumb_DragDelta" DragCompleted="Thumb_DragCompleted"/>
             </StackPanel>
         </Border>

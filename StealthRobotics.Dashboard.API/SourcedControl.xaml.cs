@@ -35,12 +35,20 @@ namespace StealthRobotics.Dashboard.API
             defaultZIndex = Panel.GetZIndex(this);
         }
 
+        private void AlignAdorner()
+        {
+            //prefer the adorner to be on the left, but move to the right if we're in the first column
+            adorner.HorizontalAlignment = TileGrid.GetColumn(this) == 0 ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+        }
+
         private void AdornedControl_MouseEnter(object sender, MouseEventArgs e)
         {
-            //if we're editable to the TileGrid we can show our property adorner
-            //if we're not in a TileGrid, true by default so ok to do this check
-            if (TileGrid.GetEditable(this))
+            //this is specifically designed for a tilegrid.
+            //if we're in one, we need to also check whether it can be edited
+            DependencyObject parent = LogicalTreeHelper.GetParent(this);
+            if (!(parent is TileGrid tg) || tg.IsEditable)
             {
+                AlignAdorner();
                 //cancel the fade out
                 if (fadeOut != null)
                 {
@@ -96,6 +104,22 @@ namespace StealthRobotics.Dashboard.API
         private void Thumb_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
             //todo: before snapping back, see if we move to a new column/row
+            DependencyObject parent = LogicalTreeHelper.GetParent(this);
+            if(parent is TileGrid tg)
+            {
+                //get the width and height of each row
+                double colWidth = tg.ActualWidth / tg.Columns;
+                double rowHeight = tg.ActualHeight / tg.Rows;
+
+                //get the number of rows and columns traveled. we like to snap, so we'll round to the integer for a more pleasant experience
+                int colShift = (int)(Math.Round(Margin.Left / colWidth));
+                int rowShift = (int)(Math.Round(Margin.Top / rowHeight));
+
+                //snap to the correct row/column
+                TileGrid.SetColumn(this, TileGrid.GetColumn(this) + colShift);
+                TileGrid.SetRow(this, TileGrid.GetRow(this) + rowShift);
+                AlignAdorner();
+            }
             //reset back to no margin
             Margin = defaultMargin;
             //put back at the basic level
