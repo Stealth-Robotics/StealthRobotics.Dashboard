@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StealthRobotics.Dashboard"
-        xmlns:A="clr-namespace:Adorners;assembly=AdornedControl"
         xmlns:api="clr-namespace:StealthRobotics.Dashboard.API;assembly=StealthRobotics.Dashboard.API"
         mc:Ignorable="d" Loaded="Window_Loaded" Closed="Window_Closed"
         Title="MainWindow" Height="450" Width="800">
@@ -14,20 +13,9 @@
             <RowDefinition Height="50px"/>
         </Grid.RowDefinitions>
         <api:TileGrid Rows="3" Columns="4">
-            <A:AdornedControl api:TileGrid.Row="2" api:TileGrid.Column="1" api:TileGrid.ColumnSpan="2" HorizontalAdornerPlacement="Outside"
-                              MouseEnter="AdornedControl_MouseEnter" MouseLeave="AdornedControl_MouseLeave">
-                <Button>Test</Button>
-                <A:AdornedControl.AdornerContent>
-                    <Border HorizontalAlignment="Left" Background="#F0808080" Margin="1" CornerRadius="5" Width="15" VerticalAlignment="Top">
-                        <StackPanel Margin="0 5 0 5">
-                            <Button Background="Transparent" BorderBrush="Transparent">A</Button>
-                            <Button Background="Transparent" BorderBrush="Transparent">B</Button>
-                            <Button Background="Transparent" BorderBrush="Transparent">C</Button>
-                            <Thumb DragDelta="Thumb_DragDelta"/>
-                        </StackPanel>
-                    </Border>
-                </A:AdornedControl.AdornerContent>
-            </A:AdornedControl>
+            <api:SourcedControl api:TileGrid.Column="1" api:TileGrid.Row="2">
+                <Button>asdf</Button>
+            </api:SourcedControl>
             <Button Content="asdf" api:TileGrid.Row="0" api:TileGrid.Column="1" api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="2"/>
             <local:CameraStream api:TileGrid.RowSpan="3" api:TileGrid.ColumnSpan="4" Stretch="Uniform" x:Name="camera"/>
         </api:TileGrid>

@@ -1,5 +1,4 @@
-﻿using Adorners;
-using StealthRobotics.Dashboard.API;
+﻿using StealthRobotics.Dashboard.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,21 +51,6 @@ namespace StealthRobotics.Dashboard
         private void Streams_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             camera.StreamSource = NetworkUtil.GetCameraStreamURL(streams.SelectedItem as string);
-        }
-
-        private void AdornedControl_MouseEnter(object sender, MouseEventArgs e)
-        {
-            (sender as AdornedControl)?.ShowAdorner();
-        }
-
-        private void AdornedControl_MouseLeave(object sender, MouseEventArgs e)
-        {
-            (sender as AdornedControl)?.HideAdorner();
-        }
-
-        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
-        {
-
         }
     }
 }
