@@ -32,7 +32,6 @@ namespace StealthRobotics.Dashboard.API
         {
             InitializeComponent();
             defaultMargin = Margin;
-            defaultZIndex = Panel.GetZIndex(this);
         }
 
         private void AlignAdorner()
@@ -91,7 +90,7 @@ namespace StealthRobotics.Dashboard.API
         private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             //put this in the foreground
-            Panel.SetZIndex(this, 1);
+            this.BringToFront();
             //shift by the amount the mouse moved
             Thickness currentMargin = Margin;
             currentMargin.Left += e.HorizontalChange;
@@ -122,8 +121,6 @@ namespace StealthRobotics.Dashboard.API
             }
             //reset back to no margin
             Margin = defaultMargin;
-            //put back at the basic level
-            Panel.SetZIndex(this, defaultZIndex);
         }
     }
 }
