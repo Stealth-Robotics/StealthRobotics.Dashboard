@@ -33,26 +33,25 @@
             <Setter Property="Background" Value="Transparent"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{StaticResource HoverBrush}"/>
+                    <Setter Property="Cursor" Value="SizeAll"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
         <ControlTemplate TargetType="Thumb" x:Key="thumbTemplate">
-            <ControlTemplate.Resources>
-                <local:SizeDownConverter x:Key="shrinker"/>
-                <Style TargetType="Ellipse" x:Key="dot">
-                    <Setter Property="Margin" Value="0.5"/>
-                    <Setter Property="Stroke" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
-                    <Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
-                    <Setter Property="Height" Value="{Binding Height, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource shrinker}}"/>
-                    <Setter Property="Width" Value="{Binding Height, RelativeSource={RelativeSource Self}}"/>
-                </Style>
-            </ControlTemplate.Resources>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="{TemplateBinding Background}">
-                <Ellipse Style="{StaticResource dot}"/>
-                <Ellipse Style="{StaticResource dot}"/>
-                <Ellipse Style="{StaticResource dot}"/>
-            </StackPanel>
+            <Border Background="Transparent">
+                <Path HorizontalAlignment="Center" Fill="{TemplateBinding Foreground}" Stroke="{TemplateBinding Foreground}"
+                        Data="M 2,2 A .5,.5 180 0 1 2,1 A .5,.5 180 0 1 2,2 
+                            M 6,2 A .5,.5 180 0 1 6,1 A .5,.5 180 0 1 6,2
+                            M 10,2 A .5,.5 180 0 1 10,1 A .5,.5 180 0 1 10,2
+                            M 14,2 A .5,.5 180 0 1 14,1 A .5,.5 180 0 1 14,2
+                            M 4,5 A .5,.5 180 0 1 4,4 A .5,.5 180 0 1 4,5
+                            M 8,5 A .5,.5 180 0 1 8,4 A .5,.5 180 0 1 8,5
+                            M 12,5 A .5,.5 180 0 1 12,4 A .5,.5 180 0 1 12,5
+                            M 2,8 A .5,.5 180 0 1 2,7 A .5,.5 180 0 1 2,8 
+                            M 6,8 A .5,.5 180 0 1 6,7 A .5,.5 180 0 1 6,8
+                            M 10,8 A .5,.5 180 0 1 10,7 A .5,.5 180 0 1 10,8
+                            M 14,8 A .5,.5 180 0 1 14,7 A .5,.5 180 0 1 14,8"/>
+            </Border>
         </ControlTemplate>
     </A:AdornedControl.Resources>
     <A:AdornedControl.AdornerContent>
@@ -63,8 +62,8 @@
                 <Button Style="{StaticResource contentOnlyButton}">A</Button>
                 <Button Style="{StaticResource contentOnlyButton}">B</Button>
                 <Button Style="{StaticResource contentOnlyButton}">C</Button>
-                <Thumb Height="10" Padding="2" Template="{StaticResource thumbTemplate}" Style="{StaticResource thumbHoverStyle}"
-                       Foreground="Black" DragDelta="Thumb_DragDelta" DragCompleted="Thumb_DragCompleted"/>
+                <Thumb Height="10" Margin="0 3 0 0" Template="{StaticResource thumbTemplate}" Style="{StaticResource thumbHoverStyle}"
+                       Foreground="#484848" DragDelta="Thumb_DragDelta" DragCompleted="Thumb_DragCompleted"/>
             </StackPanel>
         </Border>
     </A:AdornedControl.AdornerContent>

@@ -21,17 +21,7 @@ namespace StealthRobotics.Dashboard.API
               .Where(x => x != element)
               .Select(x => Panel.GetZIndex(x))
               .Max();
-            //get all children with a z index larger than this
-            IEnumerable<UIElement> higherZ = parent.Children.OfType<UIElement>()
-                .Where(x => Panel.GetZIndex(x) > Panel.GetZIndex(element));
-            //move everything we're passing down by 1 to keep numbers reasonable
-            foreach(UIElement e in higherZ)
-            {
-                Panel.SetZIndex(e, Panel.GetZIndex(e) - 1);
-            }
-            //fill the slot of the top element
-            //if nothing is higher, we need to move up a slot
-            Panel.SetZIndex(element, higherZ.Count() == 0 ? maxZ + 1 : maxZ);
+            Panel.SetZIndex(element, maxZ + 1);
         }
     }
 }

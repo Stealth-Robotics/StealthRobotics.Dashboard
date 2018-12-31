@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -26,7 +27,6 @@ namespace StealthRobotics.Dashboard.API
         private const double maxFadeOutTime = 0.625;
         private DoubleAnimation fadeOut = null;
         private Thickness defaultMargin;
-        private int defaultZIndex;
 
         public SourcedControl()
         {
@@ -87,7 +87,7 @@ namespace StealthRobotics.Dashboard.API
             HideAdorner();
         }
 
-        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
             //put this in the foreground
             this.BringToFront();
@@ -100,7 +100,7 @@ namespace StealthRobotics.Dashboard.API
             Margin = currentMargin;
         }
 
-        private void Thumb_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             //before snapping back, see if we move to a new column/row
             DependencyObject parent = LogicalTreeHelper.GetParent(this);
