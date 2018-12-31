@@ -21,14 +21,14 @@ namespace StealthRobotics.Dashboard.API
     /// <summary>
     /// Interaction logic for SourcedControl.xaml
     /// </summary>
-    public partial class SourcedControl : AdornedControl
+    public partial class SnapControl : AdornedControl
     {
         private const double maxFadeInTime = 0.25;
         private const double maxFadeOutTime = 0.625;
         private DoubleAnimation fadeOut = null;
         private Thickness defaultMargin;
 
-        public SourcedControl()
+        public SnapControl()
         {
             InitializeComponent();
             defaultMargin = Margin;

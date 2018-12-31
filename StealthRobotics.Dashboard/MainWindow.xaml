@@ -13,9 +13,9 @@
             <RowDefinition Height="50px"/>
         </Grid.RowDefinitions>
         <api:TileGrid Rows="3" Columns="4" IsEditable="True">
-            <api:SourcedControl api:TileGrid.Column="1" api:TileGrid.Row="2">
+            <api:SnapControl api:TileGrid.Column="1" api:TileGrid.Row="2">
                 <Button>asdf</Button>
-            </api:SourcedControl>
+            </api:SnapControl>
             <Button Content="asdf" api:TileGrid.Row="0" api:TileGrid.Column="1" api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="2"/>
             <local:CameraStream api:TileGrid.RowSpan="3" api:TileGrid.ColumnSpan="4" Stretch="Uniform" x:Name="camera"/>
         </api:TileGrid>

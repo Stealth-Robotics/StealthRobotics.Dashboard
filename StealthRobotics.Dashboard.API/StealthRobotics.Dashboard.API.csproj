@@ -118,8 +118,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SizeDownConverter.cs" />
-    <Compile Include="SourcedControl.xaml.cs">
-      <DependentUpon>SourcedControl.xaml</DependentUpon>
+    <Compile Include="SnapControl.xaml.cs">
+      <DependentUpon>SnapControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="TileGrid.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -133,7 +133,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="SourcedControl.xaml">
+    <Page Include="SnapControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
