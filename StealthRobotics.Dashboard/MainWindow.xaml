@@ -13,7 +13,13 @@
             <RowDefinition Height="50px"/>
         </Grid.RowDefinitions>
         <api:TileGrid Rows="3" Columns="4" IsEditable="True">
-            <api:SnapControl api:TileGrid.Column="1" api:TileGrid.Row="2">
+            <api:SnapControl api:TileGrid.Column="1" api:TileGrid.ColumnSpan="2" api:TileGrid.Row="2">
+                <api:SnapControl.PopupButtons>
+                    <Button>A</Button>
+                    <Button>B</Button>
+                    <Button>C</Button>
+                    <Button>D</Button>
+                </api:SnapControl.PopupButtons>
                 <Button>asdf</Button>
             </api:SnapControl>
             <Button Content="asdf" api:TileGrid.Row="0" api:TileGrid.Column="1" api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="2"/>

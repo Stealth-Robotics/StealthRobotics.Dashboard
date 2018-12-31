@@ -59,9 +59,11 @@
                 Background="#F0808080" Margin="1" CornerRadius="5" Width="20" Opacity="0"
                 MouseEnter="AdornedControl_MouseEnter" MouseLeave="AdornedControl_MouseLeave">
             <StackPanel Margin="2 5 2 5">
-                <Button Style="{StaticResource contentOnlyButton}">A</Button>
-                <Button Style="{StaticResource contentOnlyButton}">B</Button>
-                <Button Style="{StaticResource contentOnlyButton}">C</Button>
+                <StackPanel Name="menuOptions">
+                    <StackPanel.Resources>
+                        <Style BasedOn="{StaticResource contentOnlyButton}" TargetType="Button"/>
+                    </StackPanel.Resources>
+                </StackPanel>
                 <Thumb Height="10" Margin="0 3 0 0" Template="{StaticResource thumbTemplate}" Style="{StaticResource thumbHoverStyle}"
                        Foreground="#484848" DragDelta="Thumb_DragDelta" DragCompleted="Thumb_DragCompleted"/>
             </StackPanel>

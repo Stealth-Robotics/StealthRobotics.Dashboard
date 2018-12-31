@@ -1,6 +1,8 @@
 ﻿using Adorners;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +21,7 @@ using System.Windows.Shapes;
 namespace StealthRobotics.Dashboard.API
 {
     /// <summary>
-    /// Interaction logic for SourcedControl.xaml
+    /// Interaction logic for SnapControl.xaml
     /// </summary>
     public partial class SnapControl : AdornedControl
     {
@@ -28,10 +30,22 @@ namespace StealthRobotics.Dashboard.API
         private DoubleAnimation fadeOut = null;
         private Thickness defaultMargin;
 
+        public ObservableCollection<Button> PopupButtons { get; } = new ObservableCollection<Button>();
+
         public SnapControl()
         {
             InitializeComponent();
             defaultMargin = Margin;
+            PopupButtons.CollectionChanged += PopupButtons_CollectionChanged;
+        }
+
+        private void PopupButtons_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            menuOptions.Children.Clear();
+            foreach(Button b in PopupButtons)
+            {
+                menuOptions.Children.Add(b);
+            }
         }
 
         private void AlignAdorner()
