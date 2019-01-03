@@ -14,7 +14,7 @@ namespace StealthRobotics.Dashboard.API.UI
     {
         public readonly Type SourceType;
 
-        public event EventHandler SourceChanged;
+        public event NetworkSourceChangedEventHandler SourceChanged;
 
         [DialogProperty]
         public string Source
@@ -29,7 +29,7 @@ namespace StealthRobotics.Dashboard.API.UI
 
         private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as SourcedControl).SourceChanged?.Invoke(d, new EventArgs());
+            (d as SourcedControl).SourceChanged?.Invoke(d, new NetworkSourceChangedEventArgs((string)e.OldValue, (string)e.NewValue));
         }
 
         public SourcedControl() : base()

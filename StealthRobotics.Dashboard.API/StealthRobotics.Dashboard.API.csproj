@@ -126,6 +126,7 @@
     <Compile Include="PropertyEditor\PropertyDialog.xaml.cs">
       <DependentUpon>PropertyDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\NetworkSourceChangedEvent.cs" />
     <Compile Include="UI\SnapControl.xaml.cs">
       <DependentUpon>SnapControl.xaml</DependentUpon>
     </Compile>
