@@ -96,15 +96,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DependencyNotifyListener.cs" />
-    <Compile Include="DialogPropertyAttribute.cs" />
-    <Compile Include="FrameworkElementExt.cs" />
-    <Compile Include="NetworkElement.cs" />
-    <Compile Include="NetworkTree.cs" />
-    <Compile Include="NetworkUtil.cs" />
-    <Compile Include="OneToOneConversionMap.cs" />
-    <Compile Include="NTConverter.cs" />
-    <Compile Include="NetworkBinding.cs" />
+    <Compile Include="Network\DependencyNotifyListener.cs" />
+    <Compile Include="PropertyDialog\DialogPropertyAttribute.cs" />
+    <Compile Include="UI\FrameworkElementExt.cs" />
+    <Compile Include="Network\NetworkElement.cs" />
+    <Compile Include="Network\NetworkTree.cs" />
+    <Compile Include="Network\NetworkUtil.cs" />
+    <Compile Include="Network\OneToOneConversionMap.cs" />
+    <Compile Include="Network\NTConverter.cs" />
+    <Compile Include="Network\NetworkBinding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -118,19 +118,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="PropertyControl.xaml.cs">
+    <Compile Include="PropertyDialog\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PropertyDialog.xaml.cs">
+    <Compile Include="PropertyDialog\PropertyDialog.xaml.cs">
       <DependentUpon>PropertyDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SizeDownConverter.cs" />
-    <Compile Include="SnapControl.xaml.cs">
+    <Compile Include="UI\SnapControl.xaml.cs">
       <DependentUpon>SnapControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SourcedControl.cs" />
-    <Compile Include="StringPropertyControl.cs" />
-    <Compile Include="TileGrid.cs" />
+    <Compile Include="UI\SourcedControl.cs" />
+    <Compile Include="PropertyDialog\StringPropertyControl.cs" />
+    <Compile Include="UI\TileGrid.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -142,15 +141,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="PropertyControl.xaml">
+    <Page Include="PropertyDialog\PropertyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PropertyDialog.xaml">
+    <Page Include="PropertyDialog\PropertyDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SnapControl.xaml">
+    <Page Include="UI\SnapControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -158,5 +157,6 @@
   <ItemGroup>
     <Resource Include="assets\gear.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
