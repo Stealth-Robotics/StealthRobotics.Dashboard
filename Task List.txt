@@ -14,6 +14,8 @@ SendableChooser
 
 -----Dashboard functionality-----
 
+Figure out granularity problem
+	ideally we want grid pieces to be square and retain(ish) size on scaling
 Toggle between editor and competition mode
 Standalone popout menu
 TreeView in popout
@@ -21,6 +23,12 @@ Click on elements in treeview to:
 	hide other expansions
 	expand to show samples of SourcedControls with the appropriate SourceType
 	drag and drop samples onto grid
+Save and load dashboards
+
+-----Release tools-----
+
+Dashboard launcher
+Setup script
 
 -----Extensibility tools-----
 
