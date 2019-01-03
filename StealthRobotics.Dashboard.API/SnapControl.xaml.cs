@@ -125,12 +125,20 @@ namespace StealthRobotics.Dashboard.API
                 double rowHeight = tg.ActualHeight / tg.Rows;
 
                 //get the number of rows and columns traveled. we like to snap, so we'll round to the integer for a more pleasant experience
-                int colShift = (int)(Math.Round(Margin.Left / colWidth));
-                int rowShift = (int)(Math.Round(Margin.Top / rowHeight));
+                int colShift = (int)Math.Round(Margin.Left / colWidth);
+                int rowShift = (int)Math.Round(Margin.Top / rowHeight);
+                int newCol = TileGrid.GetColumn(this) + colShift;
+                int newRow = TileGrid.GetRow(this) + rowShift;
+
+                //if the rowspan and columnspan would exceed the number of rows or columns, fix it
+                if (TileGrid.GetColumnSpan(this) + newCol > tg.Columns)
+                    newCol = tg.Columns - TileGrid.GetColumnSpan(this);
+                if (TileGrid.GetRowSpan(this) + newRow > tg.Rows)
+                    newRow = tg.Rows - TileGrid.GetRowSpan(this);
 
                 //snap to the correct row/column
-                TileGrid.SetColumn(this, TileGrid.GetColumn(this) + colShift);
-                TileGrid.SetRow(this, TileGrid.GetRow(this) + rowShift);
+                TileGrid.SetColumn(this, newCol);
+                TileGrid.SetRow(this, newRow);
                 AlignAdorner();
             }
             //reset back to no margin

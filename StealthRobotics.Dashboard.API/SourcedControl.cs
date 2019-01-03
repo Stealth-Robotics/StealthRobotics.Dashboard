@@ -11,6 +11,8 @@ namespace StealthRobotics.Dashboard.API
 {
     public class SourcedControl : SnapControl
     {
+        public readonly Type SourceType;
+
         public event EventHandler SourceChanged;
 
         [DialogProperty]
@@ -26,7 +28,7 @@ namespace StealthRobotics.Dashboard.API
 
         private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as SourcedControl)?.SourceChanged?.Invoke(d, new EventArgs());
+            (d as SourcedControl).SourceChanged?.Invoke(d, new EventArgs());
         }
 
         public SourcedControl() : base()
@@ -45,7 +47,7 @@ namespace StealthRobotics.Dashboard.API
             PopupButtons.Add(settings);
         }
 
-        private void Settings_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Settings_Click(object sender, RoutedEventArgs e)
         {
             new PropertyDialog(this).ShowDialog();
         }
