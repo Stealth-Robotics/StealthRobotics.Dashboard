@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace StealthRobotics.Dashboard.API
+namespace StealthRobotics.Dashboard.API.PropertyEditor
 {
     /// <summary>
     /// Interaction logic for PropertyDialog.xaml

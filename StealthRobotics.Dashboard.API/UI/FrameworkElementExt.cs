@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace StealthRobotics.Dashboard.API
+namespace StealthRobotics.Dashboard.API.UI
 {
     public static class FrameworkElementExt
     {

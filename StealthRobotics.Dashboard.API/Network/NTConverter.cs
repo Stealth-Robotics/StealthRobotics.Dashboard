@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace StealthRobotics.Dashboard.API
+namespace StealthRobotics.Dashboard.API.Network
 {
     /// <summary>
     /// A base type for a conversion mapping between 2 types across the network

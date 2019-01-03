@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StealthRobotics.Dashboard.API
+namespace StealthRobotics.Dashboard.API.Network
 {
     /// <summary>
     /// Represents an entry in the network table without needing its value

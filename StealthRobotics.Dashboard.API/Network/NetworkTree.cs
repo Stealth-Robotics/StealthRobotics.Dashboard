@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NetworkTables;
 using NetworkTables.Tables;
 
-namespace StealthRobotics.Dashboard.API
+namespace StealthRobotics.Dashboard.API.Network
 {
     /// <summary>
     /// Represents a network table's contents as a tree structure

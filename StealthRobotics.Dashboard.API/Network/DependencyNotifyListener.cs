@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Runtime.CompilerServices;
 
-namespace StealthRobotics.Dashboard.API
+namespace StealthRobotics.Dashboard.API.Network
 {
     internal class DependencyNotifyListener : INotifyPropertyChanged
     {

@@ -1,4 +1,4 @@
-﻿using StealthRobotics.Dashboard.API;
+﻿using StealthRobotics.Dashboard.API.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;

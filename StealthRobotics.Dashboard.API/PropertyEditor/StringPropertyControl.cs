@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace StealthRobotics.Dashboard.API
+namespace StealthRobotics.Dashboard.API.PropertyEditor
 {
     public class StringPropertyControl : PropertyControl
     {

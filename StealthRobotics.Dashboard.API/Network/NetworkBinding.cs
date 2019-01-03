@@ -13,7 +13,7 @@ using System.Windows.Threading;
 using NetworkTables;
 using NetworkTables.Tables;
 
-namespace StealthRobotics.Dashboard.API
+namespace StealthRobotics.Dashboard.API.Network
 {
     /// <summary>
     /// Provides methods for binding WPF controls and ViewModels to the network table

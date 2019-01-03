@@ -97,7 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Network\DependencyNotifyListener.cs" />
-    <Compile Include="PropertyDialog\DialogPropertyAttribute.cs" />
+    <Compile Include="PropertyEditor\DialogPropertyAttribute.cs" />
     <Compile Include="UI\FrameworkElementExt.cs" />
     <Compile Include="Network\NetworkElement.cs" />
     <Compile Include="Network\NetworkTree.cs" />
@@ -118,17 +118,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="PropertyDialog\PropertyControl.xaml.cs">
+    <Compile Include="PropertyEditor\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PropertyDialog\PropertyDialog.xaml.cs">
+    <Compile Include="PropertyEditor\PropertyDialog.xaml.cs">
       <DependentUpon>PropertyDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\SnapControl.xaml.cs">
       <DependentUpon>SnapControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\SourcedControl.cs" />
-    <Compile Include="PropertyDialog\StringPropertyControl.cs" />
+    <Compile Include="PropertyEditor\StringPropertyControl.cs" />
     <Compile Include="UI\TileGrid.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -141,11 +141,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="PropertyDialog\PropertyControl.xaml">
+    <Page Include="PropertyEditor\PropertyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PropertyDialog\PropertyDialog.xaml">
+    <Page Include="PropertyEditor\PropertyDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

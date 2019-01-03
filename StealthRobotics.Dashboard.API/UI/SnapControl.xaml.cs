@@ -18,7 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StealthRobotics.Dashboard.API
+namespace StealthRobotics.Dashboard.API.UI
 {
     /// <summary>
     /// Interaction logic for SnapControl.xaml

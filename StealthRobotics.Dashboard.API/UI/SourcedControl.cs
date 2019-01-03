@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using StealthRobotics.Dashboard.API.PropertyEditor;
 
-namespace StealthRobotics.Dashboard.API
+namespace StealthRobotics.Dashboard.API.UI
 {
     public class SourcedControl : SnapControl
     {
