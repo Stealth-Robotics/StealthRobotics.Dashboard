@@ -21,8 +21,8 @@ namespace StealthRobotics.Dashboard.API.PropertyEditor
     /// </summary>
     public partial class PropertyControl : UserControl
     {
-        PropertyInfo prop;
-        object source;
+        protected readonly PropertyInfo prop;
+        protected readonly object source;
 
         public PropertyControl()
         {

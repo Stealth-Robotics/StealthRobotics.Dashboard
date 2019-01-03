@@ -2,7 +2,6 @@ TODO LIST
 
 -----Property editors-----
 
-NumberPropertyControl (DoubleUpDown)
 EnumPropertyControl (ComboBox)
 
 -----Sourced controls-----

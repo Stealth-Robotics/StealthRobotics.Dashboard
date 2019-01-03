@@ -49,6 +49,18 @@ namespace StealthRobotics.Dashboard.API.PropertyEditor
                 {
                     propEditor = new StringPropertyControl(propertySource, property);
                 }
+                else if(propType == typeof(int))
+                {
+                    propEditor = new NumberPropertyControl(propertySource, property, 0);
+                }
+                else if(propType == typeof(float))
+                {
+                    propEditor = new NumberPropertyControl(propertySource, property, 2);
+                }
+                else if(propType == typeof(double))
+                {
+                    propEditor = new NumberPropertyControl(propertySource, property, 4);
+                }
                 else
                 {
                     continue;

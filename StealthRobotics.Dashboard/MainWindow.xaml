@@ -22,6 +22,7 @@
                 </api:SnapControl.PopupButtons>
                 <Button Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SnapControl}}, Path=Source}"/>
             </api:SourcedControl>
+            <api:TestSourcesControl/>
             <Button Content="asdf" api:TileGrid.Row="0" api:TileGrid.Column="1" api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="2"/>
             <local:CameraStream api:TileGrid.RowSpan="3" api:TileGrid.ColumnSpan="4" Stretch="Uniform" x:Name="camera"/>
         </api:TileGrid>
