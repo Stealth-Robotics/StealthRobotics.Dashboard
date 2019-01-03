@@ -34,6 +34,25 @@ namespace StealthRobotics.Dashboard.API.UI
         public static readonly DependencyProperty SlideyProperty =
             DependencyProperty.Register("Slidey", typeof(double), typeof(TestSourcesControl), new PropertyMetadata(0.0));
 
+        public enum Cards
+        {
+            AceOfDiamonds, JackOfDiamonds, QueenOfDiamonds, KingOfDiamonds,
+            AceOfSpades, JackOfSpades, QueenOfSpades, KingOfSpades,
+            AceOfClubs, JackOfClubs, QueenOfClubs, KingOfClubs,
+            AceOfHearts, JackOfHearts, QueenOfHearts, KingOfHearts
+        }
+
+        [DialogProperty]
+        public Cards Card
+        {
+            get { return (Cards)GetValue(CardProperty); }
+            set { SetValue(CardProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Suit.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CardProperty =
+            DependencyProperty.Register("Card", typeof(Cards), typeof(TestSourcesControl), new PropertyMetadata(Cards.AceOfSpades));
+
         public TestSourcesControl() : base()
         {
             StackPanel p = new StackPanel();

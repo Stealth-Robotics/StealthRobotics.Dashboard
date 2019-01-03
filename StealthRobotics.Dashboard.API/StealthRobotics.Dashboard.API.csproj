@@ -98,6 +98,7 @@
   <ItemGroup>
     <Compile Include="Network\DependencyNotifyListener.cs" />
     <Compile Include="PropertyEditor\DialogPropertyAttribute.cs" />
+    <Compile Include="PropertyEditor\EnumPropertyControl.cs" />
     <Compile Include="PropertyEditor\NumberPropertyControl.cs" />
     <Compile Include="UI\FrameworkElementExt.cs" />
     <Compile Include="Network\NetworkElement.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="PropertyEditor\StringPropertyControl.cs" />
     <Compile Include="UI\TestSourcesControl.cs" />
     <Compile Include="UI\TileGrid.cs" />
+    <Compile Include="Util.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

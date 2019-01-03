@@ -61,20 +61,18 @@ namespace StealthRobotics.Dashboard.API.PropertyEditor
                 {
                     propEditor = new NumberPropertyControl(propertySource, property, 4);
                 }
+                else if(propType.IsEnum)
+                {
+                    propEditor = new EnumPropertyControl(propertySource, property);
+                }
                 else
                 {
                     continue;
                 }
-                propEditor.Label = ToTitleCase(property.Name);
+                propEditor.Label = Util.ToTitleCase(property.Name);
                 propertyDisplay.Children.Add(propEditor);
                 properties.Add(propEditor);
             }
-        }
-
-        //for making labels
-        private string ToTitleCase(string str)
-        {
-            return Regex.Replace(str, @"[a-zA-Z]([A-Z]|\d)", m => $"{m.Value[0]} {m.Value[1]}");
         }
 
         private void Accept_Click(object sender, RoutedEventArgs e)
