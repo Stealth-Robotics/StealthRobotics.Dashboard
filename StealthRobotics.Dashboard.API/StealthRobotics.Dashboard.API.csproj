@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyNotifyListener.cs" />
+    <Compile Include="DialogPropertyAttribute.cs" />
     <Compile Include="FrameworkElementExt.cs" />
     <Compile Include="NetworkElement.cs" />
     <Compile Include="NetworkTree.cs" />
@@ -117,10 +118,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="PropertyControl.xaml.cs">
+      <DependentUpon>PropertyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyDialog.xaml.cs">
+      <DependentUpon>PropertyDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SizeDownConverter.cs" />
     <Compile Include="SnapControl.xaml.cs">
       <DependentUpon>SnapControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SourcedControl.cs" />
+    <Compile Include="StringPropertyControl.cs" />
     <Compile Include="TileGrid.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -133,10 +142,21 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="PropertyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PropertyDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SnapControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="assets\gear.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
