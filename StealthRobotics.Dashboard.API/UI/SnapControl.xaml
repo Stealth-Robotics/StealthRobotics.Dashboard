@@ -57,7 +57,7 @@
     </A:AdornedControl.Resources>
     <A:AdornedControl.AdornerContent>
         <Grid Name="adorner" Width="{Binding ElementName=root, Path=ActualWidth}" Height="{Binding ElementName=root, Path=ActualHeight}"
-              MouseEnter="AdornedControl_MouseEnter" MouseLeave="AdornedControl_MouseLeave" Background="Transparent" Margin="-22 0"
+              MouseEnter="AdornedControl_MouseEnter" MouseLeave="AdornedControl_MouseLeave" Margin="-22 0"
               Opacity="0">
             <Rectangle Width="{Binding ActualWidth}" Height="{Binding ActualHeight}" Stroke="#F0808080" Margin="22 0"/>
             <Border HorizontalAlignment="Left" VerticalAlignment="Top" Name="menu"
