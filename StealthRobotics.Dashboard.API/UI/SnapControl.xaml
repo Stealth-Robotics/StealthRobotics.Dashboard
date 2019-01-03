@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StealthRobotics.Dashboard.API"
              xmlns:A="clr-namespace:Adorners;assembly=AdornedControl"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" HorizontalAdornerPlacement="Outside" IsAdornerVisible="False"
+             mc:Ignorable="d" Name="root"
+             d:DesignHeight="450" d:DesignWidth="800" 
+             HorizontalAdornerPlacement="Outside" IsAdornerVisible="False"
              MouseEnter="AdornedControl_MouseEnter" MouseLeave="AdornedControl_MouseLeave">
     <A:AdornedControl.Resources>
         <SolidColorBrush x:Key="HoverBrush" Color="#F0C0C0C0"/>
@@ -38,7 +39,7 @@
             </Style.Triggers>
         </Style>
         <ControlTemplate TargetType="Thumb" x:Key="thumbTemplate">
-            <Border Background="Transparent">
+            <Border Background="{TemplateBinding Background}">
                 <Path HorizontalAlignment="Center" Fill="{TemplateBinding Foreground}" Stroke="{TemplateBinding Foreground}"
                         Data="M 2,2 A .5,.5 180 0 1 2,1 A .5,.5 180 0 1 2,2 
                             M 6,2 A .5,.5 180 0 1 6,1 A .5,.5 180 0 1 6,2
@@ -55,18 +56,23 @@
         </ControlTemplate>
     </A:AdornedControl.Resources>
     <A:AdornedControl.AdornerContent>
-        <Border HorizontalAlignment="Left" VerticalAlignment="Top" Name="adorner"
-                Background="#F0808080" Margin="1" CornerRadius="5" Width="20" Opacity="0"
-                MouseEnter="AdornedControl_MouseEnter" MouseLeave="AdornedControl_MouseLeave">
-            <StackPanel Margin="2 5 2 5">
-                <StackPanel Name="menuOptions">
-                    <StackPanel.Resources>
-                        <Style BasedOn="{StaticResource contentOnlyButton}" TargetType="Button"/>
-                    </StackPanel.Resources>
+        <Grid Name="adorner" Width="{Binding ElementName=root, Path=ActualWidth}" Height="{Binding ElementName=root, Path=ActualHeight}"
+              MouseEnter="AdornedControl_MouseEnter" MouseLeave="AdornedControl_MouseLeave" Background="Transparent" Margin="-22 0"
+              Opacity="0">
+            <Rectangle Width="{Binding ActualWidth}" Height="{Binding ActualHeight}" Stroke="#F0808080" Margin="22 0"/>
+            <Border HorizontalAlignment="Left" VerticalAlignment="Top" Name="menu"
+                    Background="#F0808080" Margin="1" CornerRadius="5" Width="20"
+                    MouseEnter="AdornedControl_MouseEnter" MouseLeave="AdornedControl_MouseLeave">
+                <StackPanel Margin="2 5 2 5">
+                    <StackPanel Name="menuOptions">
+                        <StackPanel.Resources>
+                            <Style BasedOn="{StaticResource contentOnlyButton}" TargetType="Button"/>
+                        </StackPanel.Resources>
+                    </StackPanel>
+                    <Thumb Height="10" Margin="0 3 0 0" Template="{StaticResource thumbTemplate}" Style="{StaticResource thumbHoverStyle}"
+                           Foreground="#484848" DragDelta="Thumb_DragDelta" DragCompleted="Thumb_DragCompleted"/>
                 </StackPanel>
-                <Thumb Height="10" Margin="0 3 0 0" Template="{StaticResource thumbTemplate}" Style="{StaticResource thumbHoverStyle}"
-                       Foreground="#484848" DragDelta="Thumb_DragDelta" DragCompleted="Thumb_DragCompleted"/>
-            </StackPanel>
-        </Border>
+            </Border>
+        </Grid>
     </A:AdornedControl.AdornerContent>
 </A:AdornedControl>

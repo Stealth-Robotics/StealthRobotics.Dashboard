@@ -20,7 +20,7 @@
                     <Button>C</Button>
                     <Button>D</Button>
                 </api:SnapControl.PopupButtons>
-                <Button Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SnapControl}}, Path=Source}"/>
+                <Button Margin="20" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SnapControl}}, Path=Source}"/>
             </api:SourcedControl>
             <api:TestSourcesControl/>
             <Button Content="asdf" api:TileGrid.Row="0" api:TileGrid.Column="1" api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="2"/>

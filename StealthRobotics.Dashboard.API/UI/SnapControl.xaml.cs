@@ -51,7 +51,7 @@ namespace StealthRobotics.Dashboard.API.UI
         private void AlignAdorner()
         {
             //prefer the adorner to be on the left, but move to the right if we're in the first column
-            adorner.HorizontalAlignment = TileGrid.GetColumn(this) == 0 ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+            menu.HorizontalAlignment = TileGrid.GetColumn(this) == 0 ? HorizontalAlignment.Right : HorizontalAlignment.Left;
         }
 
         private void AdornedControl_MouseEnter(object sender, MouseEventArgs e)
