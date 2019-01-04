@@ -1,5 +1,9 @@
 TODO LIST
 
+-----Property editors-----
+
+BoolPropertyControl (checkbox)
+
 -----Sourced controls-----
 
 Slider

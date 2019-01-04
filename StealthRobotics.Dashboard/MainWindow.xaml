@@ -18,7 +18,6 @@
                     <Button>A</Button>
                     <Button>B</Button>
                     <Button>C</Button>
-                    <Button>D</Button>
                 </api:SnapControl.PopupButtons>
                 <Button Margin="20" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SnapControl}}, Path=Source}"/>
             </api:SourcedControl>

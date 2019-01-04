@@ -116,33 +116,38 @@ namespace StealthRobotics.Dashboard.API.UI
 
         private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
+            //need to alter the drop code for new tilegrid behavior
             //before snapping back, see if we move to a new column/row
             DependencyObject parent = LogicalTreeHelper.GetParent(this);
             if(parent is TileGrid tg)
             {
+                //use relative end positioning to panel rather than to start position.
+                Point endPos = Mouse.GetPosition(tg);
+                //we know where the thumb is but really we would like to know where THIS is
+                Point thumbOffset = Mouse.GetPosition(this);
+                endPos.X -= thumbOffset.X;
+                endPos.Y -= thumbOffset.Y;
                 //get the width and height of each row
                 double colWidth = tg.ActualWidth / tg.Columns;
                 double rowHeight = tg.ActualHeight / tg.Rows;
 
-                //get the number of rows and columns traveled. we like to snap, so we'll round to the integer for a more pleasant experience
-                int colShift = (int)Math.Round(Margin.Left / colWidth);
-                int rowShift = (int)Math.Round(Margin.Top / rowHeight);
-                int newCol = TileGrid.GetColumn(this) + colShift;
-                int newRow = TileGrid.GetRow(this) + rowShift;
+                //get row and column based on position of top-left corner. round off to an integer to snap to nearest
+                int newCol = (int)Math.Round(endPos.X / colWidth);
+                int newRow = (int)Math.Round(endPos.Y / rowHeight);
 
                 //if the rowspan and columnspan would exceed the number of rows or columns, fix it
-                if (TileGrid.GetColumnSpan(this) + newCol > tg.Columns)
-                    newCol = tg.Columns - TileGrid.GetColumnSpan(this);
-                if (TileGrid.GetRowSpan(this) + newRow > tg.Rows)
-                    newRow = tg.Rows - TileGrid.GetRowSpan(this);
+                newCol = Math.Min(tg.Columns - TileGrid.GetColumnSpan(this), newCol);
+                newRow = Math.Min(tg.Rows - TileGrid.GetRowSpan(this), newRow);
 
                 //snap to the correct row/column
+                //this doesn't need to change
                 TileGrid.SetColumn(this, newCol);
                 TileGrid.SetRow(this, newRow);
                 AlignAdorner();
+                //reset back to no margin
+                //only do this if snapping; presumably we actually want to stay dragged otherwise
+                Margin = defaultMargin;
             }
-            //reset back to no margin
-            Margin = defaultMargin;
         }
     }
 }

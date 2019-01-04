@@ -139,15 +139,21 @@ namespace StealthRobotics.Dashboard.API.UI
             double rowHeight = finalSize.Height / Rows;
             foreach(UIElement child in Children)
             {
-                double x = GetColumn(child) * colWidth;
-                double y = GetRow(child) * rowHeight;
-                double width = GetColumnSpan(child) * colWidth;
-                double height = GetRowSpan(child) * rowHeight;
+                int colSpan = GetColumnSpan(child);
+                int rowSpan = GetRowSpan(child);
+                //force children not to overflow; if more rows are added later they can go there
+                int placementCol = Math.Min(Columns - colSpan, GetColumn(child));
+                int placementRow = Math.Min(Rows - rowSpan, GetRow(child));
+                double x = placementCol * colWidth;
+                double y = placementRow * rowHeight;
+                double width = colSpan * colWidth;
+                double height = rowSpan * rowHeight;
+                //shouldn't need anymore; now forces children to be placed in the correct row/column
                 //may need to cut off the object so that it won't bleed outside the allotted space
-                if (x + width > finalSize.Width)
-                    width = Math.Max(0, finalSize.Width - x);
-                if (y + height > finalSize.Height)
-                    height = Math.Max(0, finalSize.Height - y);
+                //if (x + width > finalSize.Width)
+                //    width = Math.Max(0, finalSize.Width - x);
+                //if (y + height > finalSize.Height)
+                //    height = Math.Max(0, finalSize.Height - y);
                 child.Arrange(new Rect(x, y, width, height));
             }
 
