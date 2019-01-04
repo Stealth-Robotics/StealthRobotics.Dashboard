@@ -134,6 +134,7 @@
     <Compile Include="PropertyEditor\StringPropertyControl.cs" />
     <Compile Include="UI\TestSourcesControl.cs" />
     <Compile Include="UI\TileGrid.cs" />
+    <Compile Include="UI\TileGridlineAdorner.cs" />
     <Compile Include="Util.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

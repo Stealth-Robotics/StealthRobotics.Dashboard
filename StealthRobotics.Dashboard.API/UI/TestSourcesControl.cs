@@ -56,6 +56,7 @@ namespace StealthRobotics.Dashboard.API.UI
         public TestSourcesControl() : base()
         {
             StackPanel p = new StackPanel();
+            p.VerticalAlignment = VerticalAlignment.Center;
             Content = p;
 
             Button clicker = new Button();

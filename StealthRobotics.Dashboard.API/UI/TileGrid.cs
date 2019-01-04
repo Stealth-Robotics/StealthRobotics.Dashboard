@@ -113,7 +113,7 @@ namespace StealthRobotics.Dashboard.API.UI
                 double availableChildHeight = GetRowSpan(child) * rowHeight;
                 child.Measure(new Size(availableChildWidth, availableChildHeight));
                 double childFootprint = child.DesiredSize.Width * child.DesiredSize.Height;
-                if (childFootprint > largestFootprint)
+                if (childFootprint >= largestFootprint)
                 {
                     largestChild = child;
                     largestFootprint = childFootprint;
@@ -145,9 +145,9 @@ namespace StealthRobotics.Dashboard.API.UI
                 double height = GetRowSpan(child) * rowHeight;
                 //may need to cut off the object so that it won't bleed outside the allotted space
                 if (x + width > finalSize.Width)
-                    width = finalSize.Width - x;
+                    width = Math.Max(0, finalSize.Width - x);
                 if (y + height > finalSize.Height)
-                    height = finalSize.Height - y;
+                    height = Math.Max(0, finalSize.Height - y);
                 child.Arrange(new Rect(x, y, width, height));
             }
 

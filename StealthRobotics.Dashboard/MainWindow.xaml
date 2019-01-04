@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:StealthRobotics.Dashboard"
         xmlns:api="clr-namespace:StealthRobotics.Dashboard.API.UI;assembly=StealthRobotics.Dashboard.API"
         mc:Ignorable="d" Loaded="Window_Loaded" Closed="Window_Closed"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" SizeChanged="Window_SizeChanged">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50px"/>
         </Grid.RowDefinitions>
-        <api:TileGrid Rows="3" Columns="4" IsEditable="True">
-            <api:SourcedControl api:TileGrid.Column="1" api:TileGrid.ColumnSpan="2" api:TileGrid.Row="2">
+        <api:TileGrid Name="dashboardRoot" Rows="3" Columns="4" IsEditable="True">
+            <api:SourcedControl api:TileGrid.Column="1" api:TileGrid.ColumnSpan="3" api:TileGrid.Row="2" api:TileGrid.RowSpan="2">
                 <api:SnapControl.PopupButtons>
                     <Button>A</Button>
                     <Button>B</Button>
@@ -22,7 +22,7 @@
                 </api:SnapControl.PopupButtons>
                 <Button Margin="20" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SnapControl}}, Path=Source}"/>
             </api:SourcedControl>
-            <api:TestSourcesControl/>
+            <api:TestSourcesControl api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="3"/>
             <Button Content="asdf" api:TileGrid.Row="0" api:TileGrid.Column="1" api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="2"/>
             <local:CameraStream api:TileGrid.RowSpan="3" api:TileGrid.ColumnSpan="4" Stretch="Uniform" x:Name="camera"/>
         </api:TileGrid>
