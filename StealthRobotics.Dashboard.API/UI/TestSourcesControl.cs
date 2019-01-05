@@ -13,15 +13,15 @@ namespace StealthRobotics.Dashboard.API.UI
     public class TestSourcesControl : SourcedControl
     {
         [DialogProperty]
-        public int Count
+        public uint Count
         {
-            get { return (int)GetValue(CountProperty); }
+            get { return (uint)GetValue(CountProperty); }
             set { SetValue(CountProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Count.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CountProperty =
-            DependencyProperty.Register("Count", typeof(int), typeof(TestSourcesControl), new PropertyMetadata(0));
+            DependencyProperty.Register("Count", typeof(uint), typeof(TestSourcesControl), new PropertyMetadata((uint)0));
 
         [DialogProperty]
         public double Slidey
@@ -53,18 +53,30 @@ namespace StealthRobotics.Dashboard.API.UI
         public static readonly DependencyProperty CardProperty =
             DependencyProperty.Register("Card", typeof(Cards), typeof(TestSourcesControl), new PropertyMetadata(Cards.AceOfSpades));
 
+        [DialogProperty]
+        public bool EnableButton
+        {
+            get { return (bool)GetValue(EnableChildrenProperty); }
+            set { SetValue(EnableChildrenProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for EnableChildren.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty EnableChildrenProperty =
+            DependencyProperty.Register("EnableChildren", typeof(bool), typeof(TestSourcesControl), new PropertyMetadata(true));
+
         public TestSourcesControl() : base()
         {
-            StackPanel p = new StackPanel();
-            p.VerticalAlignment = VerticalAlignment.Center;
+            StackPanel p = new StackPanel
+            {
+                VerticalAlignment = VerticalAlignment.Center
+            };
             Content = p;
 
             Button clicker = new Button();
-            Binding countBind = new Binding("Count")
-            {
-                Source = this
-            };
+            Binding countBind = new Binding("Count") { Source = this };
             BindingOperations.SetBinding(clicker, Button.ContentProperty, countBind);
+            Binding enableBinding = new Binding("EnableChildren") { Source = this };
+            BindingOperations.SetBinding(clicker, Button.IsEnabledProperty, enableBinding);
             clicker.Click += Clicker_Click;
 
             Slider slider = new Slider

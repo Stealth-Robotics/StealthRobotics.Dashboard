@@ -12,18 +12,17 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50px"/>
         </Grid.RowDefinitions>
-        <api:TileGrid Name="dashboardRoot" Rows="3" Columns="4" IsEditable="True">
+        <api:TileGrid Name="dashboardRoot" Rows="8" Columns="16" IsEditable="True">
             <api:SourcedControl api:TileGrid.Column="1" api:TileGrid.ColumnSpan="3" api:TileGrid.Row="2" api:TileGrid.RowSpan="2">
                 <api:SnapControl.PopupButtons>
                     <Button>A</Button>
                     <Button>B</Button>
                     <Button>C</Button>
                 </api:SnapControl.PopupButtons>
-                <Button Margin="20" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SnapControl}}, Path=Source}"/>
+                <Button Margin="20" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SourcedControl}}, Path=Source}"/>
             </api:SourcedControl>
             <api:TestSourcesControl api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="3"/>
-            <Button Content="asdf" api:TileGrid.Row="0" api:TileGrid.Column="1" api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="2"/>
-            <local:CameraStream api:TileGrid.RowSpan="3" api:TileGrid.ColumnSpan="4" Stretch="Uniform" x:Name="camera"/>
+            <local:CameraStream api:TileGrid.Row="2" api:TileGrid.Column="5" api:TileGrid.RowSpan="5" api:TileGrid.ColumnSpan="7" Stretch="Uniform" x:Name="camera"/>
         </api:TileGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
             <ComboBox Name="streams" Width="200" Margin="0 10 2.5 10" SelectionChanged="Streams_SelectionChanged"/>
