@@ -33,8 +33,6 @@ namespace StealthRobotics.Dashboard
             NetworkTables.NetworkTable.GetTable("").PutStringArray("CameraPublisher/Fake Camera 0/streams", new List<string>());
             System.Threading.Thread.Sleep(500);//give time to warm up so we can get data on the first go
             Button_Click(null, null);
-            //eventually move this to a property on tilegrid
-            AdornerLayer.GetAdornerLayer(dashboardRoot).Add(new TileGridlineAdorner(dashboardRoot));
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -56,30 +54,12 @@ namespace StealthRobotics.Dashboard
             camera.StreamSource = NetworkUtil.GetCameraStreamURL(streams.SelectedItem as string);
         }
 
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            double newWidth = dashboardRoot.ActualWidth;
-            double newHeight = dashboardRoot.ActualHeight;
-            //divide these so that the boxes stay in the neighborhood of 50 px squares
-            double suggestedCols = newWidth / 50.0;
-            double suggestedRows = newHeight / 50.0;
-            //there's some fiddling to do. first, we want to round to the nearest integer number of rows and columns
-            suggestedCols = Math.Round(suggestedCols);
-            suggestedRows = Math.Round(suggestedRows);
-            //then, we should make sure the grid is more square by getting the panel dimensions close to each other
-            //we should be tending towards more rows/columns as we do not want to lose too many degrees of freedom
-            double suggestedColWidth = newWidth / suggestedCols;
-            double suggestedRowHeight = newHeight / suggestedCols;
-            if(Math.Abs(suggestedColWidth - suggestedRowHeight) > 25)
-            {
-                //if they're off by half the target panel size, add one to the lower value
-                if (suggestedCols < suggestedRows)
-                    suggestedCols++;
-                else
-                    suggestedRows++;
-            }
-            dashboardRoot.Columns = (int)suggestedCols;
-            dashboardRoot.Rows = (int)suggestedRows;
+            if (dashboardRoot.TileSizingMode == TileSizingMode.RowColumn)
+                dashboardRoot.TileSizingMode = TileSizingMode.Uniform;
+            else
+                dashboardRoot.TileSizingMode = TileSizingMode.RowColumn;
         }
     }
 }

@@ -121,6 +121,7 @@ namespace StealthRobotics.Dashboard.API.UI
             DependencyObject parent = LogicalTreeHelper.GetParent(this);
             if(parent is TileGrid tg)
             {
+                Tuple<int, int> rowCol = tg.GetRowColDimensions(new Size(tg.ActualWidth, tg.ActualHeight));
                 //use relative end positioning to panel rather than to start position.
                 Point endPos = Mouse.GetPosition(tg);
                 //we know where the thumb is but really we would like to know where THIS is
@@ -128,16 +129,16 @@ namespace StealthRobotics.Dashboard.API.UI
                 endPos.X -= thumbOffset.X;
                 endPos.Y -= thumbOffset.Y;
                 //get the width and height of each row
-                double colWidth = tg.ActualWidth / tg.Columns;
-                double rowHeight = tg.ActualHeight / tg.Rows;
+                double colWidth = tg.ActualWidth / rowCol.Item2;
+                double rowHeight = tg.ActualHeight / rowCol.Item1;
 
                 //get row and column based on position of top-left corner. round off to an integer to snap to nearest
                 int newCol = (int)Math.Round(endPos.X / colWidth);
                 int newRow = (int)Math.Round(endPos.Y / rowHeight);
 
                 //if the rowspan and columnspan would exceed the number of rows or columns, fix it
-                newCol = Math.Min(tg.Columns - TileGrid.GetColumnSpan(this), newCol);
-                newRow = Math.Min(tg.Rows - TileGrid.GetRowSpan(this), newRow);
+                newCol = Math.Min(rowCol.Item2 - TileGrid.GetColumnSpan(this), newCol);
+                newRow = Math.Min(rowCol.Item1 - TileGrid.GetRowSpan(this), newRow);
 
                 //snap to the correct row/column
                 //this doesn't need to change

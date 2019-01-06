@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 
 namespace StealthRobotics.Dashboard.API.UI
 {
@@ -29,8 +31,44 @@ namespace StealthRobotics.Dashboard.API.UI
 
         // Using a DependencyProperty as the backing store for Columns.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ColumnsProperty =
-            DependencyProperty.Register("Columns", typeof(int), typeof(TileGrid), 
+            DependencyProperty.Register("Columns", typeof(int), typeof(TileGrid),
                 new FrameworkPropertyMetadata(1, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+
+        public TileSizingMode TileSizingMode
+        {
+            get { return (TileSizingMode)GetValue(TileSizingModeProperty); }
+            set { SetValue(TileSizingModeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for GridSizingMode.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TileSizingModeProperty =
+            DependencyProperty.Register("TileSizingMode", typeof(TileSizingMode), typeof(TileGrid),
+                new FrameworkPropertyMetadata(TileSizingMode.RowColumn, FrameworkPropertyMetadataOptions.AffectsMeasure 
+                    | FrameworkPropertyMetadataOptions.AffectsArrange));
+
+        public double TileDimension
+        {
+            get { return (double)GetValue(TileDimensionProperty); }
+            set { SetValue(TileDimensionProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for PanelDimension.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TileDimensionProperty =
+            DependencyProperty.Register("TileDimension", typeof(double), typeof(TileGrid), 
+                new FrameworkPropertyMetadata(50.0, FrameworkPropertyMetadataOptions.AffectsMeasure
+                    | FrameworkPropertyMetadataOptions.AffectsArrange));
+
+        private TileGridlineAdorner gridlines;
+
+        public bool ShowGridlines
+        {
+            get { return (bool)GetValue(ShowGridlinesProperty); }
+            set { SetValue(ShowGridlinesProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ShowGridlines.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowGridlinesProperty =
+            DependencyProperty.Register("ShowGridlines", typeof(bool), typeof(TileGrid), new PropertyMetadata(false));
 
         public static int GetRowSpan(DependencyObject obj)
         {
@@ -98,66 +136,170 @@ namespace StealthRobotics.Dashboard.API.UI
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            //if we have infinite size, we can offer each element infinite size and determine grid size by largest element
-            //if we have finite size, we know we will take all of it, and can give available size to the child by # of rows and cols
-            //these account for possible infinite dimension
-            double colWidth = availableSize.Width / Columns;
-            double rowHeight = availableSize.Height / Rows;
+            double width = availableSize.Width;
+            double height = availableSize.Height;
+            //if neither are infinite, leave as is
+            if (!double.IsPositiveInfinity(width) && !double.IsPositiveInfinity(height))
+                return availableSize;
+            //if we're uniform and at least one dimension is infinite (given), clip it to the other one
+            //this makes easy squares
+            if (TileSizingMode == TileSizingMode.Uniform)
+            {
+                width = Math.Min(width, height);
+                height = width;
+            }
+            double rowHeight;
+            double colWidth;
+            //compute possible row and column dimensions. may be infinite
+            if (TileSizingMode == TileSizingMode.Uniform)
+            {
+                //at this point, either both are finite or both are infinite.
+                //that means everything rounds the same
+                //if the height is infinite, take the desired size
+                //if not, get an integer row number and divide the height by it
+                double dim = double.IsPositiveInfinity(height) ? TileDimension
+                    : height / Math.Round(height / TileDimension);
+                rowHeight = dim;
+                colWidth = dim;
+            }
+            else
+            {
+                rowHeight = height / Rows;
+                colWidth = width / Columns;
+            }
+            //in case either dimension of the panel is still infinite, use largest child trick
             //find the child with the largest footprint in case we have infinite size
             UIElement largestChild = null;
-            //to reduce computation time
             double largestFootprint = 0;
+            //also find the rightmost and bottommost child
+            UIElement rightmostChild = null;
+            UIElement bottommostChild = null;
             foreach (UIElement child in Children)
             {
-                double availableChildWidth = GetColumnSpan(child) * colWidth;
-                double availableChildHeight = GetRowSpan(child) * rowHeight;
-                child.Measure(new Size(availableChildWidth, availableChildHeight));
+                child.Measure(new Size(colWidth * GetColumnSpan(child), rowHeight * GetRowSpan(child)));
                 double childFootprint = child.DesiredSize.Width * child.DesiredSize.Height;
                 if (childFootprint >= largestFootprint)
                 {
                     largestChild = child;
                     largestFootprint = childFootprint;
                 }
+                int rightColumn = GetColumn(child) + GetColumnSpan(child);
+                if (rightmostChild != null)
+                {
+                    int rightmostColumn = GetColumn(rightmostChild) + GetColumnSpan(rightmostChild);
+                    if (rightColumn > rightmostColumn)
+                    {
+                        rightmostChild = child;
+                    }
+                }
+                else rightmostChild = child;
+                int bottomRow = GetRow(child) + GetRowSpan(child);
+                if (bottommostChild != null)
+                {
+                    int bottommostRows = GetRow(bottommostChild) + GetRowSpan(bottommostChild);
+                    if (bottomRow > bottommostRows)
+                    {
+                        bottommostChild = child;
+                    }
+                }
+                else bottommostChild = child;
             }
-            //compute possible grid sizing by largest child, in case a dimension is infinite
-            colWidth = largestChild.DesiredSize.Width / GetColumnSpan(largestChild);
-            rowHeight = largestChild.DesiredSize.Height / GetRowSpan(largestChild);
+            //compute possible number of rows/columns and a final size
+            int rows;
+            int cols;
+            if (TileSizingMode == TileSizingMode.RowColumn)
+            {
+                rows = Rows;
+                cols = Columns;
+            }
+            else
+            {
+                rows = GetRow(bottommostChild) + GetRowSpan(bottommostChild);
+                cols = GetColumn(rightmostChild) + GetColumnSpan(rightmostChild);
+            }
             return new Size
             {
-                //if we have an infinite dimension available, use the largest child. otherwise take all of what we were offered
-                Width = double.IsPositiveInfinity(availableSize.Width) ?
-                    colWidth * Columns : availableSize.Width,
-                Height = double.IsPositiveInfinity(availableSize.Height) ?
-                    rowHeight * Rows : availableSize.Height
+                Width = double.IsPositiveInfinity(width) ? cols * colWidth : width,
+                Height = double.IsPositiveInfinity(height) ? rows * rowHeight : height
             };
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
             //we will take all the size available to us. we know how large each panel is by number of rows and cols
-            double colWidth = finalSize.Width / Columns;
-            double rowHeight = finalSize.Height / Rows;
+            //get the number of rows and columns to display
+            Tuple<int, int> rowCol = GetRowColDimensions(finalSize);
+            double colWidth = finalSize.Width / rowCol.Item2;
+            double rowHeight = finalSize.Height / rowCol.Item1;
             foreach(UIElement child in Children)
             {
                 int colSpan = GetColumnSpan(child);
                 int rowSpan = GetRowSpan(child);
                 //force children not to overflow; if more rows are added later they can go there
-                int placementCol = Math.Min(Columns - colSpan, GetColumn(child));
-                int placementRow = Math.Min(Rows - rowSpan, GetRow(child));
+                int placementCol = Math.Min(rowCol.Item2 - colSpan, GetColumn(child));
+                int placementRow = Math.Min(rowCol.Item1 - rowSpan, GetRow(child));
                 double x = placementCol * colWidth;
                 double y = placementRow * rowHeight;
                 double width = colSpan * colWidth;
                 double height = rowSpan * rowHeight;
-                //shouldn't need anymore; now forces children to be placed in the correct row/column
-                //may need to cut off the object so that it won't bleed outside the allotted space
-                //if (x + width > finalSize.Width)
-                //    width = Math.Max(0, finalSize.Width - x);
-                //if (y + height > finalSize.Height)
-                //    height = Math.Max(0, finalSize.Height - y);
                 child.Arrange(new Rect(x, y, width, height));
             }
-
+            //make sure grid lines are updated as well!
+            AdornerLayer.GetAdornerLayer(this).Update();
             return finalSize;
+        }
+
+        /// <summary>
+        /// Gets the number of rows and columns for layout
+        /// </summary>
+        /// <param name="finalSize">The finite size of the panel</param>
+        internal Tuple<int, int> GetRowColDimensions(Size finalSize)
+        {
+            if (TileSizingMode == TileSizingMode.RowColumn)
+            {
+                return new Tuple<int, int>(Rows, Columns);
+            }
+            else
+            {
+                double availableWidth = finalSize.Width;
+                double availableHeight = finalSize.Height;
+                //divide these so that the boxes stay roughly squares
+                double suggestedCols = availableWidth / TileDimension;
+                double suggestedRows = availableHeight / TileDimension;
+                //there's some fiddling to do. first, we want to round to the nearest integer number of rows and columns
+                suggestedCols = Math.Round(suggestedCols);
+                suggestedRows = Math.Round(suggestedRows);
+                //then, we should make sure the grid is more square by getting the panel dimensions close to each other
+                //we should be tending towards more rows/columns as we do not want to lose too many degrees of freedom
+                double suggestedColWidth = availableWidth / suggestedCols;
+                double suggestedRowHeight = availableHeight / suggestedCols;
+                if (Math.Abs(suggestedColWidth - suggestedRowHeight) > TileDimension / 2.0)
+                {
+                    //if they're off by half the target panel size, add one to the lower value
+                    if (suggestedCols < suggestedRows)
+                        suggestedCols++;
+                    else
+                        suggestedRows++;
+                }
+                return new Tuple<int, int>((int)suggestedRows, (int)suggestedCols);
+            }
+        }
+
+        public TileGrid() : base()
+        {
+            gridlines = new TileGridlineAdorner(this);
+            Binding visBinding = new Binding("ShowGridlines")
+            {
+                Source = this,
+                Converter = new BooleanToVisibilityConverter()
+            };
+            gridlines.SetBinding(Adorner.VisibilityProperty, visBinding);
+            Loaded += TileGrid_Loaded;
+        }
+
+        private void TileGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            AdornerLayer.GetAdornerLayer(this).Add(gridlines);
         }
     }
 }
