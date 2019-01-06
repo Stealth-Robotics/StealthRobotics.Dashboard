@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace StealthRobotics.Dashboard.API.UI
 {
-    public static class FrameworkElementExt
+    public static class WPFExtensions
     {
         public static void BringToFront(this FrameworkElement element)
         {
@@ -29,6 +30,12 @@ namespace StealthRobotics.Dashboard.API.UI
             //if this is the only element at the max level, it stays. otherwise promote it
             if(sameZ.Count() != 0 || thisZ != maxZ)
                 Panel.SetZIndex(element, maxZ + 1);
+        }
+
+        public static void SetBinding(this DependencyObject target, DependencyProperty targetProp, DependencyObject source, string path)
+        {
+            Binding b = new Binding(path) { Source = source };
+            BindingOperations.SetBinding(target, targetProp, b);
         }
     }
 }

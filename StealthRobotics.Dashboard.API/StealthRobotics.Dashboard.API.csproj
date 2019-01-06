@@ -101,7 +101,7 @@
     <Compile Include="PropertyEditor\DialogPropertyAttribute.cs" />
     <Compile Include="PropertyEditor\EnumPropertyControl.cs" />
     <Compile Include="PropertyEditor\NumberPropertyControl.cs" />
-    <Compile Include="UI\FrameworkElementExt.cs" />
+    <Compile Include="UI\WPFExtensions.cs" />
     <Compile Include="Network\NetworkElement.cs" />
     <Compile Include="Network\NetworkTree.cs" />
     <Compile Include="Network\NetworkUtil.cs" />

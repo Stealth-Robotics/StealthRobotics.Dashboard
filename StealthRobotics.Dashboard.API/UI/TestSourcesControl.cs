@@ -73,10 +73,8 @@ namespace StealthRobotics.Dashboard.API.UI
             Content = p;
 
             Button clicker = new Button();
-            Binding countBind = new Binding("Count") { Source = this };
-            BindingOperations.SetBinding(clicker, Button.ContentProperty, countBind);
-            Binding enableBinding = new Binding("EnableChildren") { Source = this };
-            BindingOperations.SetBinding(clicker, Button.IsEnabledProperty, enableBinding);
+            clicker.SetBinding(Button.ContentProperty, this, "Count");
+            clicker.SetBinding(Button.IsEnabledProperty, this, "EnableChildren");
             clicker.Click += Clicker_Click;
 
             Slider slider = new Slider
@@ -84,11 +82,7 @@ namespace StealthRobotics.Dashboard.API.UI
                 Minimum = -10,
                 Maximum = 10
             };
-            Binding slideBind = new Binding("Slidey")
-            {
-                Source = this
-            };
-            BindingOperations.SetBinding(slider, Slider.ValueProperty, slideBind);
+            slider.SetBinding(Slider.ValueProperty, this, "Slidey");
 
             p.Children.Add(clicker);
             p.Children.Add(slider);

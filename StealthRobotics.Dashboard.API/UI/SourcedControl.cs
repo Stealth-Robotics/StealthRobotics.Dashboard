@@ -97,14 +97,10 @@ namespace StealthRobotics.Dashboard.API.UI
             TextBlock label = new TextBlock();
             adorner.Children.Add(label);
             label.Margin = new Thickness(24, 2, 24, 2);
-            Binding textBinding = new Binding("Label") { Source = this };
-            Binding hAlignBinding = new Binding("LabelHorizontalAlignment") { Source = this };
-            Binding vAlignBinding = new Binding("LabelVerticalAlignment") { Source = this };
-            Binding visBinding = new Binding("LabelVisibility") { Source = this };
-            BindingOperations.SetBinding(label, TextBlock.TextProperty, textBinding);
-            BindingOperations.SetBinding(label, TextBlock.HorizontalAlignmentProperty, hAlignBinding);
-            BindingOperations.SetBinding(label, TextBlock.VerticalAlignmentProperty, vAlignBinding);
-            BindingOperations.SetBinding(label, TextBlock.VisibilityProperty, visBinding);
+            label.SetBinding(TextBlock.TextProperty, this, "Label");
+            label.SetBinding(TextBlock.HorizontalAlignmentProperty, this, "LabelHorizontalAlignment");
+            label.SetBinding(TextBlock.VerticalAlignmentProperty, this, "LabelVerticalAlignment");
+            label.SetBinding(TextBlock.VisibilityProperty, this, "LabelVisibility");
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)
