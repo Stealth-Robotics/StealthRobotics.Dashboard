@@ -2,7 +2,6 @@ TODO LIST
 
 -----Sourced controls-----
 
-Slider
 Spinner (DoubleUpDown)
 Number formatted TextBlock
 Camera selector and display
