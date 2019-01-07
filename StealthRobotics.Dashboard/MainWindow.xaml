@@ -16,8 +16,11 @@
                       ShowGridlines="True" Background="Transparent">
             <api:TileGrid.ContextMenu>
                 <ContextMenu>
+                    <ContextMenu.Resources>
+                        <local:InverterConverter x:Key="invert"/>
+                    </ContextMenu.Resources>
                     <MenuItem Header="Show grid" IsCheckable="True" IsChecked="{Binding ShowGridlines}"/>
-                    <MenuItem Header="Competition mode" IsCheckable="True" IsChecked="{Binding IsEditable}"/>
+                    <MenuItem Header="Competition mode" IsCheckable="True" IsChecked="{Binding IsEditable, Converter={StaticResource invert}}"/>
                 </ContextMenu>
             </api:TileGrid.ContextMenu>
             <api:SourcedControl Name="test1" api:TileGrid.Column="1" api:TileGrid.ColumnSpan="3" api:TileGrid.Row="2" api:TileGrid.RowSpan="2">
