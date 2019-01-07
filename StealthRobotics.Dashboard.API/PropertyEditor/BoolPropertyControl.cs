@@ -14,6 +14,8 @@ namespace StealthRobotics.Dashboard.API.PropertyEditor
     {
         public BoolPropertyControl(object source, PropertyInfo prop) : base(source, prop)
         {
+            bool startingVal = (bool)prop.GetValue(source);
+            Value = startingVal;
             //do some minimal rearranging
             StackPanel p = new StackPanel() { Orientation = Orientation.Horizontal };
             layoutRoot.Children.Add(p);
@@ -24,7 +26,7 @@ namespace StealthRobotics.Dashboard.API.PropertyEditor
             CheckBox b = new CheckBox() { Margin = new Thickness(2, 0, 0, 0) };
             b.Checked += CheckBoxToggle;
             b.Unchecked += CheckBoxToggle;
-            b.IsChecked = (bool)prop.GetValue(source);
+            b.IsChecked = startingVal;
             p.Children.Add(b);
         }
 

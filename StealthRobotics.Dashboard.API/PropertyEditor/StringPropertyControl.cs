@@ -12,9 +12,11 @@ namespace StealthRobotics.Dashboard.API.PropertyEditor
     {
         public StringPropertyControl(object source, PropertyInfo prop) : base(source, prop)
         {
+            string startingVal = (string)prop.GetValue(source);
+            Value = startingVal;
             TextBox b = new TextBox();
             b.TextChanged += B_TextChanged;
-            b.Text = (string)prop.GetValue(source);
+            b.Text = startingVal;
             layoutRoot.Children.Add(b);
         }
 

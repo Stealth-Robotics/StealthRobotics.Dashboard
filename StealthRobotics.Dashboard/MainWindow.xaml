@@ -22,6 +22,7 @@
                 <Button Margin="20" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SourcedControl}}, Path=Source}"/>
             </api:SourcedControl>
             <api:TestSourcesControl api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="3"/>
+            <api:SourcedSlider api:TileGrid.Row="1" api:TileGrid.Column="7"/>
             <local:CameraStream api:TileGrid.Row="2" api:TileGrid.Column="4" api:TileGrid.RowSpan="5" api:TileGrid.ColumnSpan="7" Stretch="Uniform" x:Name="camera"/>
             <Button api:TileGrid.Column="5" api:TileGrid.Row="3" Click="Button_Click_1"/>
         </api:TileGrid>

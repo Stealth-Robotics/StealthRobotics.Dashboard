@@ -29,7 +29,7 @@ namespace StealthRobotics.Dashboard
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            NetworkBinding.Initialize(4089, Dispatcher, false);
+            NetworkBinding.Initialize(0, Dispatcher, false);
             NetworkTables.NetworkTable.GetTable("").PutStringArray("CameraPublisher/Fake Camera 0/streams", new List<string>());
             System.Threading.Thread.Sleep(500);//give time to warm up so we can get data on the first go
             Button_Click(null, null);

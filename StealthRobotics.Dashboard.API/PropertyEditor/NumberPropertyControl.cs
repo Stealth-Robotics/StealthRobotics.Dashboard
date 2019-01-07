@@ -14,6 +14,8 @@ namespace StealthRobotics.Dashboard.API.PropertyEditor
         public NumberPropertyControl(object source, PropertyInfo prop, uint decimalPlaces, bool unsigned = false) 
             : base(source, prop)
         {
+            double startingVal = (double)Convert.ChangeType(prop.GetValue(source), typeof(double));
+            Value = startingVal;
             DoubleUpDown spinner = new DoubleUpDown
             {
                 Increment = Math.Pow(0.5, decimalPlaces),
@@ -23,7 +25,7 @@ namespace StealthRobotics.Dashboard.API.PropertyEditor
             if (unsigned)
                 spinner.Minimum = 0;
             spinner.ValueChanged += Spinner_ValueChanged;
-            spinner.Value = (double)Convert.ChangeType(prop.GetValue(source), typeof(double));
+            spinner.Value = startingVal;
             layoutRoot.Children.Add(spinner);
         }
 

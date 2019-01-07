@@ -13,7 +13,7 @@ namespace StealthRobotics.Dashboard.API.UI
 {
     public class SourcedControl : SnapControl
     {
-        public readonly Type SourceType;
+        public Type SourceType { get; protected set; }
 
         public event NetworkSourceChangedEventHandler SourceChanged;
 

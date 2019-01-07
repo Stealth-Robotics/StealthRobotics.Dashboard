@@ -102,9 +102,10 @@ namespace StealthRobotics.Dashboard.API.Network
             {
                 assignmentDispatch = dispatcher;
                 NetworkTable.SetClientMode();
-                //NetworkTable.SetTeam(team);
-                //for local testing
-                NetworkTable.SetIPAddress("localhost");
+                if (team == 0)
+                    NetworkTable.SetIPAddress("localhost");
+                else
+                    NetworkTable.SetTeam(team);
                 NetworkTable.SetUpdateRate(0.1);
                 NetworkTable.SetDSClientEnabled(useDriverStation);
                 NetworkTable.SetNetworkIdentity("C# Dashboard");
