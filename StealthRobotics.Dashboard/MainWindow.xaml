@@ -6,14 +6,21 @@
         xmlns:local="clr-namespace:StealthRobotics.Dashboard"
         xmlns:api="clr-namespace:StealthRobotics.Dashboard.API.UI;assembly=StealthRobotics.Dashboard.API"
         mc:Ignorable="d" Loaded="Window_Loaded" Closed="Window_Closed"
-        Title="MainWindow" Height="450" Width="800">
+        Title="A very Stealthy dashboard" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50px"/>
         </Grid.RowDefinitions>
-        <api:TileGrid Name="dashboardRoot" Rows="6" Columns="8" IsEditable="True" TileSizingMode="Uniform" ShowGridlines="True">
-            <api:SourcedControl api:TileGrid.Column="1" api:TileGrid.ColumnSpan="3" api:TileGrid.Row="2" api:TileGrid.RowSpan="2">
+        <api:TileGrid Name="dashboardRoot" Rows="6" Columns="8" IsEditable="True" TileSizingMode="Uniform" 
+                      ShowGridlines="True" Background="Transparent">
+            <api:TileGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Show grid" IsCheckable="True" IsChecked="{Binding ShowGridlines}"/>
+                    <MenuItem Header="Competition mode" IsCheckable="True" IsChecked="{Binding IsEditable}"/>
+                </ContextMenu>
+            </api:TileGrid.ContextMenu>
+            <api:SourcedControl Name="test1" api:TileGrid.Column="1" api:TileGrid.ColumnSpan="3" api:TileGrid.Row="2" api:TileGrid.RowSpan="2">
                 <api:SnapControl.PopupButtons>
                     <Button>A</Button>
                     <Button>B</Button>
@@ -24,7 +31,6 @@
             <api:TestSourcesControl api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="3"/>
             <api:SourcedSlider api:TileGrid.Row="1" api:TileGrid.Column="7"/>
             <local:CameraStream api:TileGrid.Row="2" api:TileGrid.Column="4" api:TileGrid.RowSpan="5" api:TileGrid.ColumnSpan="7" Stretch="Uniform" x:Name="camera"/>
-            <Button api:TileGrid.Column="5" api:TileGrid.Row="3" Click="Button_Click_1"/>
         </api:TileGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
             <ComboBox Name="streams" Width="200" Margin="0 10 2.5 10" SelectionChanged="Streams_SelectionChanged"/>

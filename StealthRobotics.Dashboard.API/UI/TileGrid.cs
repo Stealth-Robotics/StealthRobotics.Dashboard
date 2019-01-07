@@ -68,7 +68,8 @@ namespace StealthRobotics.Dashboard.API.UI
 
         // Using a DependencyProperty as the backing store for ShowGridlines.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowGridlinesProperty =
-            DependencyProperty.Register("ShowGridlines", typeof(bool), typeof(TileGrid), new PropertyMetadata(false));
+            DependencyProperty.Register("ShowGridlines", typeof(bool), typeof(TileGrid),
+                new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsArrange));
 
         public static int GetRowSpan(DependencyObject obj)
         {
@@ -300,6 +301,7 @@ namespace StealthRobotics.Dashboard.API.UI
         private void TileGrid_Loaded(object sender, RoutedEventArgs e)
         {
             AdornerLayer.GetAdornerLayer(this).Add(gridlines);
+            DataContext = this;
         }
     }
 }

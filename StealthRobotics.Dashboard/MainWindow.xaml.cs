@@ -53,13 +53,5 @@ namespace StealthRobotics.Dashboard
         {
             camera.StreamSource = NetworkUtil.GetCameraStreamURL(streams.SelectedItem as string);
         }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            if (dashboardRoot.TileSizingMode == TileSizingMode.RowColumn)
-                dashboardRoot.TileSizingMode = TileSizingMode.Uniform;
-            else
-                dashboardRoot.TileSizingMode = TileSizingMode.RowColumn;
-        }
     }
 }

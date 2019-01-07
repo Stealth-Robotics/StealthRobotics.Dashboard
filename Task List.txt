@@ -13,7 +13,6 @@ SendableChooser
 
 -----Dashboard functionality-----
 
-Toggle between editor and competition mode
 Standalone popout menu
 TreeView in popout
 Click on elements in treeview to:
@@ -32,3 +31,4 @@ Setup script
 (these may come after kickoff)
 Allow adding new property controls
 Composite controls to allow creativity!
+Control state display (inherit to customize?)

@@ -59,7 +59,7 @@
         <Grid Name="adorner" Width="{Binding ElementName=root, Path=ActualWidth}" Height="{Binding ElementName=root, Path=ActualHeight}"
               MouseEnter="AdornedControl_MouseEnter" MouseLeave="AdornedControl_MouseLeave" Margin="-22 0"
               Opacity="0">
-            <Rectangle Width="{Binding ActualWidth}" Height="{Binding ActualHeight}" Stroke="#F0808080" Margin="22 0"/>
+            <Rectangle Width="{Binding ElementName=root, Path=ActualWidth}" Height="{Binding ElementName=root, Path=ActualHeight}" Stroke="#F0808080" Margin="22 0"/>
             <Border HorizontalAlignment="Left" VerticalAlignment="Top" Name="menu"
                     Background="#F0808080" Margin="1" CornerRadius="5" Width="20"
                     MouseEnter="AdornedControl_MouseEnter" MouseLeave="AdornedControl_MouseLeave">
