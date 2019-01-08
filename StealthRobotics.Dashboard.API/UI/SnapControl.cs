@@ -180,7 +180,6 @@ namespace StealthRobotics.Dashboard.API.UI
 
         private void OnMouseLeave(object sender, MouseEventArgs e)
         {
-            Debug.WriteLine("mouseleave: " + sender);
             //this is usually the case when the mouse leaves, but we also don't want to start fading out if:
             //  -not editable
             //  -something else went wrong
@@ -197,7 +196,6 @@ namespace StealthRobotics.Dashboard.API.UI
 
         private void OnMouseEnter(object sender, MouseEventArgs e)
         {
-            Debug.WriteLine("mouseenter: " + sender);
             //this is specifically designed for a tilegrid.
             //if we're in one, we need to also check whether it can be edited
             DependencyObject parent = LogicalTreeHelper.GetParent(this);

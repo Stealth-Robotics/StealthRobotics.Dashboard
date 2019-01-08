@@ -24,11 +24,11 @@
                 </ContextMenu>
             </api:TileGrid.ContextMenu>
             <api:SourcedControl Name="test1" api:TileGrid.Column="1" api:TileGrid.ColumnSpan="3" api:TileGrid.Row="2" api:TileGrid.RowSpan="2">
-                <api:SnapControl2.PopupButtons>
+                <api:SnapControl.PopupButtons>
                     <Button>A</Button>
                     <Button>B</Button>
                     <Button>C</Button>
-                </api:SnapControl2.PopupButtons>
+                </api:SnapControl.PopupButtons>
                 <Button Margin="20" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SourcedControl}}, Path=Source}"/>
             </api:SourcedControl>
             <local:TestSourcesControl api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="3"/>
