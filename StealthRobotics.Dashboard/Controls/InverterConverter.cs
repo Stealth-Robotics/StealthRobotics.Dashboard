@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace StealthRobotics.Dashboard
+namespace StealthRobotics.Dashboard.Controls
 {
     public class InverterConverter : IValueConverter
     {

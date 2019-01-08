@@ -7,8 +7,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using StealthRobotics.Dashboard.API.PropertyEditor;
+using StealthRobotics.Dashboard.API.UI;
 
-namespace StealthRobotics.Dashboard.API.UI
+namespace StealthRobotics.Dashboard.Controls
 {
     public class TestSourcesControl : SourcedControl
     {

@@ -79,7 +79,7 @@ namespace StealthRobotics.Dashboard.API.UI
             DependencyProperty.Register("LabelVerticalAlignment", typeof(VerticalAlignment),
                 typeof(SourcedControl), new PropertyMetadata(VerticalAlignment.Top));
         
-        public SourcedControl() : base()
+        public SourcedControl()
         {
             Button settings = new Button();
             settings.Click += Settings_Click;

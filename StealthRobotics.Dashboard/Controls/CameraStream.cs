@@ -18,7 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AForge.Video;
 
-namespace StealthRobotics.Dashboard
+namespace StealthRobotics.Dashboard.Controls
 {
     /// <summary>
     /// Displays an MJPEG camera stream

@@ -1,5 +1,6 @@
 ﻿using StealthRobotics.Dashboard.API.Network;
 using StealthRobotics.Dashboard.API.PropertyEditor;
+using StealthRobotics.Dashboard.API.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace StealthRobotics.Dashboard.API.UI
+namespace StealthRobotics.Dashboard.Controls
 {
     public class SourcedSlider : SourcedControl
     {

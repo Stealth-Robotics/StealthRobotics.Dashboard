@@ -101,7 +101,8 @@
     <Compile Include="PropertyEditor\DialogPropertyAttribute.cs" />
     <Compile Include="PropertyEditor\EnumPropertyControl.cs" />
     <Compile Include="PropertyEditor\NumberPropertyControl.cs" />
-    <Compile Include="UI\SourcedSlider.cs" />
+    <Compile Include="UI\SnapControl.cs" />
+    <Compile Include="UI\TemplateBinding.cs" />
     <Compile Include="UI\TileSizingMode.cs" />
     <Compile Include="UI\WPFExtensions.cs" />
     <Compile Include="Network\NetworkElement.cs" />
@@ -130,12 +131,8 @@
       <DependentUpon>PropertyDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\NetworkSourceChangedEvent.cs" />
-    <Compile Include="UI\SnapControl.xaml.cs">
-      <DependentUpon>SnapControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\SourcedControl.cs" />
     <Compile Include="PropertyEditor\StringPropertyControl.cs" />
-    <Compile Include="UI\TestSourcesControl.cs" />
     <Compile Include="UI\TileGrid.cs" />
     <Compile Include="UI\TileGridlineAdorner.cs" />
     <Compile Include="Util.cs" />
@@ -158,14 +155,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\SnapControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="assets\gear.png" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

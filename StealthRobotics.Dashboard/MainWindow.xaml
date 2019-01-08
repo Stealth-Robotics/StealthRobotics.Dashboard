@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:StealthRobotics.Dashboard"
+        xmlns:local="clr-namespace:StealthRobotics.Dashboard.Controls"
         xmlns:api="clr-namespace:StealthRobotics.Dashboard.API.UI;assembly=StealthRobotics.Dashboard.API"
         mc:Ignorable="d" Loaded="Window_Loaded" Closed="Window_Closed"
         Title="A very Stealthy dashboard" Height="450" Width="800">
@@ -24,15 +24,15 @@
                 </ContextMenu>
             </api:TileGrid.ContextMenu>
             <api:SourcedControl Name="test1" api:TileGrid.Column="1" api:TileGrid.ColumnSpan="3" api:TileGrid.Row="2" api:TileGrid.RowSpan="2">
-                <api:SnapControl.PopupButtons>
+                <api:SnapControl2.PopupButtons>
                     <Button>A</Button>
                     <Button>B</Button>
                     <Button>C</Button>
-                </api:SnapControl.PopupButtons>
+                </api:SnapControl2.PopupButtons>
                 <Button Margin="20" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SourcedControl}}, Path=Source}"/>
             </api:SourcedControl>
-            <api:TestSourcesControl api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="3"/>
-            <api:SourcedSlider api:TileGrid.Row="1" api:TileGrid.Column="7"/>
+            <local:TestSourcesControl api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="3"/>
+            <local:SourcedSlider api:TileGrid.Row="1" api:TileGrid.Column="7"/>
             <local:CameraStream api:TileGrid.Row="2" api:TileGrid.Column="4" api:TileGrid.RowSpan="5" api:TileGrid.ColumnSpan="7" Stretch="Uniform" x:Name="camera"/>
         </api:TileGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
