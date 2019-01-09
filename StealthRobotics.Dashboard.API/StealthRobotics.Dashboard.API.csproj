@@ -102,7 +102,6 @@
     <Compile Include="PropertyEditor\EnumPropertyControl.cs" />
     <Compile Include="PropertyEditor\NumberPropertyControl.cs" />
     <Compile Include="UI\SnapControl.cs" />
-    <Compile Include="UI\TemplateBinding.cs" />
     <Compile Include="UI\TileSizingMode.cs" />
     <Compile Include="UI\WPFExtensions.cs" />
     <Compile Include="Network\NetworkElement.cs" />

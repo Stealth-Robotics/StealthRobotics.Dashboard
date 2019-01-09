@@ -47,13 +47,17 @@ namespace StealthRobotics.Dashboard.API.Network
                     //in case the conversion was invalid
                     if (attemptedVal != DependencyProperty.UnsetValue) value = attemptedVal;
                 }
-                //write to the dashboard
-                Value data = Value.MakeValue(value);
-                NetworkUtil.SmartDashboard.PutValue(networkPath, data);
-                //the network table doesn't know any better and won't try to notify us of this change
-                //therefore, bindings won't be updated again, so we should initiate a network table update
-                //this is ok, because we only write to network table on effective value changes
-                OnNetworkTableChange(NetworkUtil.SmartDashboard, networkPath, data, NotifyFlags.NotifyUpdate);
+                //apparently network table STRONGLY dislikes null values
+                if (value != null)
+                {
+                    //write to the dashboard
+                    Value data = Value.MakeValue(value);
+                    NetworkUtil.SmartDashboard.PutValue(networkPath, data);
+                    //the network table doesn't know any better and won't try to notify us of this change
+                    //therefore, bindings won't be updated again, so we should initiate a network table update
+                    //this is ok, because we only write to network table on effective value changes
+                    OnNetworkTableChange(NetworkUtil.SmartDashboard, networkPath, data, NotifyFlags.NotifyUpdate);
+                }
             }
         }
 
@@ -78,10 +82,16 @@ namespace StealthRobotics.Dashboard.API.Network
                         //in case the conversion was invalid
                         if (attemptedVal != DependencyProperty.UnsetValue) value = attemptedVal;
                     }
-                    //correct any type inconsitencies (eg if we want to display an integer from the network, which only stores doubles)
-                    if(value.GetType() != inf.PropertyType)
+                    //correct any type inconsistencies (eg if we want to display an integer from the network, which only stores doubles)
+                    if(value != null && value.GetType() != inf.PropertyType)
                     {
-                        value = Convert.ChangeType(value, inf.PropertyType);
+                        Type targetType = inf.PropertyType;
+                        if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                        {
+                            targetType = targetType.GetGenericArguments()[0];
+                        }
+                        //anything still here can make an invalid cast to let them know to use a converter
+                        value = Convert.ChangeType(value, targetType);
                     }
                     //write to the object
                     assignmentDispatch.BeginInvoke(new ThreadStart(() => inf.SetValue(bindingSource, value)));
