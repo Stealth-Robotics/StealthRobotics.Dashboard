@@ -11,6 +11,7 @@ using Xceed.Wpf.Toolkit;
 
 namespace StealthRobotics.Dashboard.Controls
 {
+    [NetworkSourceListener(typeof(double))]
     public class SourcedSpinner : SourcedControl
     {
         [DialogProperty]
@@ -80,11 +81,11 @@ namespace StealthRobotics.Dashboard.Controls
 
         public SourcedSpinner()
         {
-            SourceType = typeof(double);
             spinner = new DoubleUpDown()
             {
                 Margin = new Thickness(2),
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Center,
+                Value = 0
             };
             Content = spinner;
             //150x50 should be fine

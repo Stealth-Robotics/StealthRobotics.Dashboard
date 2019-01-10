@@ -11,6 +11,7 @@ using System.Windows.Controls;
 
 namespace StealthRobotics.Dashboard.Controls
 {
+    [NetworkSourceListener(typeof(double))]
     public class SourcedSlider : SourcedControl
     {
         [DialogProperty]
@@ -89,7 +90,6 @@ namespace StealthRobotics.Dashboard.Controls
 
         public SourcedSlider(string source)
         {
-            SourceType = typeof(double);
             s = new Slider()
             {
                 Margin = new Thickness(2),

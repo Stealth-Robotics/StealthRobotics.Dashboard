@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Network\DependencyNotifyListener.cs" />
+    <Compile Include="Network\NetworkSourceListenerAttribute.cs" />
     <Compile Include="PropertyEditor\BoolPropertyControl.cs" />
     <Compile Include="PropertyEditor\DialogPropertyAttribute.cs" />
     <Compile Include="PropertyEditor\EnumPropertyControl.cs" />
