@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace StealthRobotics.Dashboard.API.Network
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    sealed class NetworkSourceListenerAttribute : Attribute
+    public sealed class NetworkSourceListenerAttribute : Attribute
     {
         public Type[] SourceTypes { get; }
 
