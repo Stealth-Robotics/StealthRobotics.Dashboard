@@ -101,10 +101,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\Switch.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -119,9 +115,6 @@
     <Compile Include="Controls\NumberFormatConverter.cs" />
     <Compile Include="Controls\NumberSlider.cs" />
     <Compile Include="Controls\NumberSpinner.cs" />
-    <Compile Include="Controls\Switch.xaml.cs">
-      <DependentUpon>Switch.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\TestSourcesControl.cs" />
     <Compile Include="Controls\InverterConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
