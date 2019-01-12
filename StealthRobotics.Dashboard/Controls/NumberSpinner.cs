@@ -12,7 +12,7 @@ using Xceed.Wpf.Toolkit;
 namespace StealthRobotics.Dashboard.Controls
 {
     [NetworkSourceListener(typeof(double))]
-    public class SourcedSpinner : SourcedControl
+    public class NumberSpinner : SourcedControl
     {
         [DialogProperty]
         public double Minimum
@@ -23,7 +23,7 @@ namespace StealthRobotics.Dashboard.Controls
 
         // Using a DependencyProperty as the backing store for Minimum.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MinimumProperty =
-            DependencyProperty.Register("Minimum", typeof(double), typeof(SourcedSpinner), new PropertyMetadata(double.NegativeInfinity));
+            DependencyProperty.Register("Minimum", typeof(double), typeof(NumberSpinner), new PropertyMetadata(double.NegativeInfinity));
 
         [DialogProperty]
         public double Maximum
@@ -34,7 +34,7 @@ namespace StealthRobotics.Dashboard.Controls
 
         // Using a DependencyProperty as the backing store for Maximum.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MaximumProperty =
-            DependencyProperty.Register("Maximum", typeof(double), typeof(SourcedSpinner), new PropertyMetadata(double.PositiveInfinity));
+            DependencyProperty.Register("Maximum", typeof(double), typeof(NumberSpinner), new PropertyMetadata(double.PositiveInfinity));
 
         [DialogProperty]
         public double Interval
@@ -45,7 +45,7 @@ namespace StealthRobotics.Dashboard.Controls
 
         // Using a DependencyProperty as the backing store for Interval.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IntervalProperty =
-            DependencyProperty.Register("Interval", typeof(double), typeof(SourcedSpinner), new PropertyMetadata(0.1));
+            DependencyProperty.Register("Interval", typeof(double), typeof(NumberSpinner), new PropertyMetadata(0.1));
 
         [DialogProperty]
         public NumberFormat Format
@@ -56,7 +56,7 @@ namespace StealthRobotics.Dashboard.Controls
 
         // Using a DependencyProperty as the backing store for Format.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FormatProperty =
-            DependencyProperty.Register("Format", typeof(NumberFormat), typeof(SourcedSpinner), 
+            DependencyProperty.Register("Format", typeof(NumberFormat), typeof(NumberSpinner), 
                 new PropertyMetadata(NumberFormat.General, OnDisplayFormatChanged));
 
         [DialogProperty]
@@ -68,18 +68,18 @@ namespace StealthRobotics.Dashboard.Controls
 
         // Using a DependencyProperty as the backing store for Precision.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PrecisionProperty =
-            DependencyProperty.Register("Precision", typeof(int), typeof(SourcedSpinner), 
+            DependencyProperty.Register("Precision", typeof(int), typeof(NumberSpinner), 
                 new PropertyMetadata(3, OnDisplayFormatChanged));
 
         private static void OnDisplayFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SourcedSpinner sender = d as SourcedSpinner;
+            NumberSpinner sender = d as NumberSpinner;
             sender.spinner.FormatString = $"{(char)sender.Format}{sender.Precision}";
         }
 
         private DoubleUpDown spinner;
 
-        public SourcedSpinner()
+        public NumberSpinner()
         {
             spinner = new DoubleUpDown()
             {
@@ -101,7 +101,14 @@ namespace StealthRobotics.Dashboard.Controls
 
         private void SourcedSpinner_SourceChanged(object sender, NetworkSourceChangedEventArgs e)
         {
-            NetworkBinding.Update(spinner, DoubleUpDown.ValueProperty, e.NewSource);
+            if (!string.IsNullOrWhiteSpace(e.NewSource))
+            {
+                NetworkBinding.Update(spinner, DoubleUpDown.ValueProperty, e.NewSource);
+            }
+            else
+            {
+                NetworkBinding.Delete(spinner, DoubleUpDown.ValueProperty);
+            }
         }
     }
 }

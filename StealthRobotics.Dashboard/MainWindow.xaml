@@ -31,9 +31,11 @@
                 </api:SnapControl.PopupButtons>
                 <Button Margin="20" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SourcedControl}}, Path=Source}"/>
             </api:SourcedControl>
-            <local:SourcedSpinner api:TileGrid.Row="5"/>
+            <local:NumberSpinner api:TileGrid.Row="5"/>
+            <local:NumberDisplay api:TileGrid.Row="5" api:TileGrid.Column="5"/>
             <local:TestSourcesControl api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="3"/>
-            <local:SourcedSlider api:TileGrid.Row="1" api:TileGrid.Column="7"/>
+            <local:NumberSlider api:TileGrid.Row="1" api:TileGrid.Column="7"/>
+            <local:NumberSlider api:TileGrid.Column="10"/>
             <local:CameraStream api:TileGrid.Row="2" api:TileGrid.Column="4" api:TileGrid.RowSpan="5" api:TileGrid.ColumnSpan="7" Stretch="Uniform" x:Name="camera"/>
         </api:TileGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">

@@ -12,6 +12,7 @@ SendableChooser
 
 -----Dashboard functionality-----
 
+Add delete button to SourcedControl
 Standalone popout menu (thicknessanimation)
 TreeView in popout
 Click on elements in treeview to:
@@ -31,3 +32,9 @@ Setup script
 Allow adding new property controls
 Composite controls to allow creativity!
 Control state display (inherit to customize?)
+
+-----Known issues-----
+Having multiple number controls bound on same value sometimes causes crash (cause unknown)
+	seems related to interaction between NumberSpinner and NumberFormatDisplay
+	reproduced by slider value being too granular
+	binding order matters

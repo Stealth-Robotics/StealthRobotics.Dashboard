@@ -12,7 +12,7 @@ using System.Windows.Controls;
 namespace StealthRobotics.Dashboard.Controls
 {
     [NetworkSourceListener(typeof(double))]
-    public class SourcedSlider : SourcedControl
+    public class NumberSlider : SourcedControl
     {
         [DialogProperty]
         public double Minimum
@@ -23,7 +23,7 @@ namespace StealthRobotics.Dashboard.Controls
 
         // Using a DependencyProperty as the backing store for Minimum.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MinimumProperty =
-            DependencyProperty.Register("Minimum", typeof(double), typeof(SourcedSlider), new PropertyMetadata(-10.0));
+            DependencyProperty.Register("Minimum", typeof(double), typeof(NumberSlider), new PropertyMetadata(-10.0));
 
         [DialogProperty]
         public double Maximum
@@ -34,7 +34,7 @@ namespace StealthRobotics.Dashboard.Controls
 
         // Using a DependencyProperty as the backing store for Maximum.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MaximumProperty =
-            DependencyProperty.Register("Maximum", typeof(double), typeof(SourcedSlider), new PropertyMetadata(10.0));
+            DependencyProperty.Register("Maximum", typeof(double), typeof(NumberSlider), new PropertyMetadata(10.0));
 
         [DialogProperty]
         public double Interval
@@ -45,7 +45,7 @@ namespace StealthRobotics.Dashboard.Controls
 
         // Using a DependencyProperty as the backing store for Interval.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IntervalProperty =
-            DependencyProperty.Register("Interval", typeof(double), typeof(SourcedSlider), new PropertyMetadata(0.01));
+            DependencyProperty.Register("Interval", typeof(double), typeof(NumberSlider), new PropertyMetadata(0.01));
 
         [DialogProperty]
         public bool SnapToInterval
@@ -56,7 +56,7 @@ namespace StealthRobotics.Dashboard.Controls
 
         // Using a DependencyProperty as the backing store for SnapToInterval.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SnapToIntervalProperty =
-            DependencyProperty.Register("SnapToInterval", typeof(bool), typeof(SourcedSlider), new PropertyMetadata(false));
+            DependencyProperty.Register("SnapToInterval", typeof(bool), typeof(NumberSlider), new PropertyMetadata(false));
 
         [DialogProperty]
         public Orientation Orientation
@@ -67,7 +67,7 @@ namespace StealthRobotics.Dashboard.Controls
 
         // Using a DependencyProperty as the backing store for Orientation.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OrientationProperty =
-            DependencyProperty.Register("Orientation", typeof(Orientation), typeof(SourcedSlider),
+            DependencyProperty.Register("Orientation", typeof(Orientation), typeof(NumberSlider),
                 new PropertyMetadata(Orientation.Horizontal, OrientationChanged));
 
         private static void OrientationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -76,19 +76,19 @@ namespace StealthRobotics.Dashboard.Controls
             int oldColSpan = TileGrid.GetColumnSpan(sender);
             TileGrid.SetColumnSpan(sender, oldRowSpan);
             TileGrid.SetRowSpan(sender, oldColSpan);
-            HorizontalAlignment oldHAlign = (sender as SourcedSlider).s.HorizontalAlignment;
-            VerticalAlignment oldVAlign = (sender as SourcedSlider).s.VerticalAlignment;
-            (sender as SourcedSlider).s.HorizontalAlignment = 
+            HorizontalAlignment oldHAlign = (sender as NumberSlider).s.HorizontalAlignment;
+            VerticalAlignment oldVAlign = (sender as NumberSlider).s.VerticalAlignment;
+            (sender as NumberSlider).s.HorizontalAlignment = 
                 oldHAlign == HorizontalAlignment.Center ? HorizontalAlignment.Stretch : HorizontalAlignment.Center;
-            (sender as SourcedSlider).s.VerticalAlignment =
+            (sender as NumberSlider).s.VerticalAlignment =
                 oldVAlign == VerticalAlignment.Center ? VerticalAlignment.Stretch : VerticalAlignment.Center;
         }
 
         private Slider s;
 
-        public SourcedSlider() : this("") { }
+        public NumberSlider() : this("") { }
 
-        public SourcedSlider(string source)
+        public NumberSlider(string source)
         {
             s = new Slider()
             {
@@ -111,7 +111,14 @@ namespace StealthRobotics.Dashboard.Controls
 
         private void SourcedSlider_SourceChanged(object sender, NetworkSourceChangedEventArgs e)
         {
-            NetworkBinding.Update(s, Slider.ValueProperty, e.NewSource);
+            if (!string.IsNullOrEmpty(e.NewSource))
+            {
+                NetworkBinding.Update(s, Slider.ValueProperty, e.NewSource);
+            }
+            else
+            {
+                NetworkBinding.Delete(s, Slider.ValueProperty);
+            }
         }
     }
 }

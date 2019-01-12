@@ -110,9 +110,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\CameraStream.cs" />
+    <Compile Include="Controls\NumberDisplay.cs" />
     <Compile Include="Controls\NumberFormat.cs" />
-    <Compile Include="Controls\SourcedSlider.cs" />
-    <Compile Include="Controls\SourcedSpinner.cs" />
+    <Compile Include="Controls\NumberFormatConverter.cs" />
+    <Compile Include="Controls\NumberSlider.cs" />
+    <Compile Include="Controls\NumberSpinner.cs" />
     <Compile Include="Controls\TestSourcesControl.cs" />
     <Compile Include="Controls\InverterConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
