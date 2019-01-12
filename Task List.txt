@@ -34,7 +34,3 @@ Composite controls to allow creativity!
 Control state display (inherit to customize?)
 
 -----Known issues-----
-Having multiple number controls bound on same value sometimes causes crash (cause unknown)
-	seems related to interaction between NumberSpinner and NumberFormatDisplay
-	reproduced by slider value being too granular
-	binding order matters

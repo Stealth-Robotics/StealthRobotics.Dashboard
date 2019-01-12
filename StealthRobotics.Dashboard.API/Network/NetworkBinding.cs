@@ -94,7 +94,7 @@ namespace StealthRobotics.Dashboard.API.Network
                         value = Convert.ChangeType(value, targetType);
                     }
                     //write to the object
-                    assignmentDispatch.BeginInvoke(new ThreadStart(() => inf.SetValue(bindingSource, value)));
+                    assignmentDispatch.Invoke(() => inf.SetValue(bindingSource, value));
                 }
             }
         }
