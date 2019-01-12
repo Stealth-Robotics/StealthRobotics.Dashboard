@@ -2,9 +2,8 @@ TODO LIST
 
 -----Sourced controls-----
 
-Number formatted TextBlock
 Camera selector and display
-Switch
+Switch and/or checkbox
 Indicator
 Image state display
 Color state display
@@ -12,7 +11,7 @@ SendableChooser
 
 -----Dashboard functionality-----
 
-Add delete button to SourcedControl
+Add delete button to SnapControl
 Standalone popout menu (thicknessanimation)
 TreeView in popout
 Click on elements in treeview to:
