@@ -44,6 +44,9 @@
     <Reference Include="AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
       <HintPath>..\packages\AForge.Video.2.2.5\lib\AForge.Video.dll</HintPath>
     </Reference>
+    <Reference Include="CSharpControls.Wpf">
+      <HintPath>..\..\..\..\..\Downloads\WpfToggleSwitch\CSharp\CSharpControls.Wpf\bin\Debug\CSharpControls.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="FRC.NetworkTables, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FRC.NetworkTables.3.1.8\lib\net46\FRC.NetworkTables.dll</HintPath>
     </Reference>
@@ -109,6 +112,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\AddOneConverter.cs" />
+    <Compile Include="Controls\BoolSwitch.cs" />
+    <Compile Include="Controls\CameraControl.cs" />
     <Compile Include="Controls\CameraStream.cs" />
     <Compile Include="Controls\NumberDisplay.cs" />
     <Compile Include="Controls\NumberFormat.cs" />

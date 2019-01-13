@@ -29,29 +29,14 @@ namespace StealthRobotics.Dashboard
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            //init network table and put test camera
             NetworkBinding.Initialize(0, Dispatcher, false);
             NetworkTables.NetworkTable.GetTable("").PutStringArray("CameraPublisher/Fake Camera 0/streams", new List<string>());
-            System.Threading.Thread.Sleep(500);//give time to warm up so we can get data on the first go
-            Button_Click(null, null);
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             NetworkBinding.Shutdown();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            streams.Items.Clear();
-            foreach(string cam in NetworkUtil.GetCameras())
-            {
-                streams.Items.Add(cam);
-            }
-        }
-
-        private void Streams_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            camera.StreamSource = NetworkUtil.GetCameraStreamURL(streams.SelectedItem as string);
         }
     }
 }

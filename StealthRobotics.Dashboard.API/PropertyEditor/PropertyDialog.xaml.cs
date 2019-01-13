@@ -73,6 +73,10 @@ namespace StealthRobotics.Dashboard.API.PropertyEditor
                 {
                     propEditor = new EnumPropertyControl(propertySource, property);
                 }
+                else if(propType == typeof(Brush) || propType == typeof(Color))
+                {
+                    propEditor = new ColorPropertyControl(propertySource, property);
+                }
                 else
                 {
                     continue;

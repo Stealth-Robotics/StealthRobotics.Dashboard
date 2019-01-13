@@ -2,8 +2,6 @@ TODO LIST
 
 -----Sourced controls-----
 
-Camera selector and display
-Switch and/or checkbox
 Indicator
 Image state display
 Color state display
