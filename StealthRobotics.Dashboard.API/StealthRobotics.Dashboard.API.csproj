@@ -96,6 +96,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Network\ComplexNetworkTypeListenerAttribute.cs" />
     <Compile Include="Network\DependencyNotifyListener.cs" />
     <Compile Include="Network\NetworkSourceListenerAttribute.cs" />
     <Compile Include="PropertyEditor\BoolPropertyControl.cs" />
