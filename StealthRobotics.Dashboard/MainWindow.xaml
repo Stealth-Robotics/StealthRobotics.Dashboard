@@ -34,6 +34,7 @@
             <local:NumberSlider api:TileGrid.Column="10"/>
             <local:BoolSwitch api:TileGrid.Column="8" api:TileGrid.Row="5"/>
             <local:CameraControl api:TileGrid.Row="2" api:TileGrid.Column="4"/>
+            <local:SendableChooserControl api:TileGrid.Row="3" api:TileGrid.Column="12"/>
         </api:TileGrid>
     </Grid>
 </Window>

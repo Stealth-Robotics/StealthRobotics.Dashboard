@@ -26,7 +26,7 @@ namespace StealthRobotics.Dashboard.API.PropertyEditor
             layoutRoot.Children.Add(selector);
         }
 
-        private void Selector_SelectedColorChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<Color?> e)
+        private void Selector_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             Value = GetValue((sender as ColorCanvas).SelectedColor ?? Colors.Transparent);
         }

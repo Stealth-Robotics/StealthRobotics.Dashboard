@@ -74,7 +74,8 @@ namespace StealthRobotics.Dashboard.API.Network
                     //grab the converter and use it if needed
                     IValueConverter converter = conversionMap.GetConverterByFirst(property);
                     PropertyInfo inf = bindingSource.GetType().GetProperty(property);
-                    object value = NetworkUtil.ReadValue(v);
+                    //issue using v for some reason
+                    object value = NetworkUtil.ReadValue(NetworkUtil.SmartDashboard.GetValue(key, null));
                     if(converter != null)
                     {
                         //in an NTConverter (required in API) the null values are never used so we don't need to set them
