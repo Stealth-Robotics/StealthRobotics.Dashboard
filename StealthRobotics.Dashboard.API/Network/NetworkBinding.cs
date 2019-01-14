@@ -25,6 +25,9 @@ namespace StealthRobotics.Dashboard.API.Network
         //  Can lookup by a changing network table value or a changing object property in ~O(1)) time
         private static readonly Dictionary<INotifyPropertyChanged, OneToOneConversionMap<string, string>> propertyLookup = 
             new Dictionary<INotifyPropertyChanged, OneToOneConversionMap<string, string>>();
+        //lookup for network table source
+        private static readonly Dictionary<INotifyPropertyChanged, ITable> customTables =
+            new Dictionary<INotifyPropertyChanged, ITable>();
 
         private static Dispatcher assignmentDispatch;
                 
@@ -32,6 +35,7 @@ namespace StealthRobotics.Dashboard.API.Network
         {
             INotifyPropertyChanged obj = sender as INotifyPropertyChanged;
             OneToOneConversionMap<string, string> map = propertyLookup[obj];
+            ITable boundTable = customTables[obj];
             object bindingSource = (obj is DependencyNotifyListener) ? (object)(obj as DependencyNotifyListener).source : obj;
             //first, verify that the property that changed is bound to something
             if (map.TryGetByFirst(e.PropertyName, out string networkPath))
@@ -52,11 +56,11 @@ namespace StealthRobotics.Dashboard.API.Network
                 {
                     //write to the dashboard
                     Value data = Value.MakeValue(value);
-                    NetworkUtil.SmartDashboard.PutValue(networkPath, data);
+                    boundTable.PutValue(networkPath, data);
                     //the network table doesn't know any better and won't try to notify us of this change
                     //therefore, bindings won't be updated again, so we should initiate a network table update
                     //this is ok, because we only write to network table on effective value changes
-                    OnNetworkTableChange(NetworkUtil.SmartDashboard, networkPath, data, NotifyFlags.NotifyUpdate);
+                    OnNetworkTableChange(boundTable, networkPath, data, NotifyFlags.NotifyUpdate);
                 }
             }
         }
@@ -67,7 +71,9 @@ namespace StealthRobotics.Dashboard.API.Network
             foreach(INotifyPropertyChanged source in propertyLookup.Keys)
             {
                 OneToOneConversionMap<string, string> conversionMap = propertyLookup[source];
+                ITable boundTable = customTables[source];
                 object bindingSource = (source is DependencyNotifyListener) ? (object)(source as DependencyNotifyListener).source : source;
+                if (table.ToString() != boundTable.ToString()) continue;
                 if (conversionMap.TryGetBySecond(key, out string property))
                 {
                     //the property that changed is bound to this object
@@ -75,7 +81,7 @@ namespace StealthRobotics.Dashboard.API.Network
                     IValueConverter converter = conversionMap.GetConverterByFirst(property);
                     PropertyInfo inf = bindingSource.GetType().GetProperty(property);
                     //issue using v for some reason
-                    object value = NetworkUtil.ReadValue(NetworkUtil.SmartDashboard.GetValue(key, null));
+                    object value = NetworkUtil.ReadValue(boundTable.GetValue(key, null));
                     if(converter != null)
                     {
                         //in an NTConverter (required in API) the null values are never used so we don't need to set them
@@ -148,6 +154,21 @@ namespace StealthRobotics.Dashboard.API.Network
             }
         }
         
+        private static Tuple<ITable, string> NormalizeKey(string key)
+        {
+            ITable t = NetworkUtil.SmartDashboard;
+            char[] sep = new char[] { '/' };
+            string[] parts = key.Split(sep, 2);
+            while(parts.Length > 1)
+            {
+                key = parts[1];
+                t = t.GetSubTable(parts[0]);
+                parts = key.Split(sep, 2);
+            }
+            t.AddTableListener(key, OnNetworkTableChange);
+            return new Tuple<ITable, string>(t, key);
+        }
+
         /// <summary>
         /// Creates a binding between an observable object property and a network table entry
         /// </summary>
@@ -174,10 +195,13 @@ namespace StealthRobotics.Dashboard.API.Network
             NTConverter<TLocal, TNetwork> converter, bool localOverride = false)
         {
             if (!isRunning) throw new InvalidOperationException("Can only create bindings while the network table is running");
+            Tuple<ITable, string> networkSource = NormalizeKey(networkPath);
+            networkPath = networkSource.Item2;
             //add these to our dictionary
             if (!propertyLookup.ContainsKey(source))
             {
                 propertyLookup[source] = new OneToOneConversionMap<string, string>();
+                customTables[source] = networkSource.Item1;
                 //this is a new item being bound; have it notify us of updates
                 source.PropertyChanged += OnLocalValueChange;
             }
@@ -188,7 +212,7 @@ namespace StealthRobotics.Dashboard.API.Network
                 propertyLookup[source].MapConversionByFirst(property, converter);
                 //make the values consistent by forcing an update.
                 //first check if the dashboard has a value at all
-                object data = NetworkUtil.SmartDashboard.GetValue(networkPath, null);
+                object data = networkSource.Item1.GetValue(networkPath, null);
                 if (data == null || localOverride)
                 {
                     //send the local value to the network by "updating" the local value
@@ -198,7 +222,7 @@ namespace StealthRobotics.Dashboard.API.Network
                 else
                 {
                     //pull the dashboard from the local value by "updating" the network value
-                    OnNetworkTableChange(NetworkUtil.SmartDashboard, networkPath, Value.MakeValue(data), NotifyFlags.NotifyUpdate);
+                    OnNetworkTableChange(networkSource.Item1, networkPath, Value.MakeValue(data), NotifyFlags.NotifyUpdate);
                 }
             }
         }
@@ -229,11 +253,14 @@ namespace StealthRobotics.Dashboard.API.Network
             NTConverter<TLocal, TNetwork> converter, bool localOverride = false)
         {
             if (!isRunning) throw new InvalidOperationException("Can only create bindings while the network table is running");
+            Tuple<ITable, string> networkSource = NormalizeKey(networkPath);
+            networkPath = networkSource.Item2;
             //because of additional work that needs to be done to bind the value, simpler to reimplement
             DependencyNotifyListener listener = new DependencyNotifyListener(source);
             if (!propertyLookup.ContainsKey(listener))
             {
                 propertyLookup[listener] = new OneToOneConversionMap<string, string>();
+                customTables[listener] = networkSource.Item1;
                 //this is a new item being bound, have it notify us of updates
                 listener.PropertyChanged += OnLocalValueChange;
             }
@@ -246,7 +273,7 @@ namespace StealthRobotics.Dashboard.API.Network
                 propertyLookup[listener].MapConversionByFirst(property.Name, converter);
                 //make the values consistent by forcing an update.
                 //first check if the dashboard has a value at all
-                Value data = NetworkUtil.SmartDashboard.GetValue(networkPath, null);
+                Value data = networkSource.Item1.GetValue(networkPath, null);
                 if (data == null || localOverride)
                 {
                     //send the local value to the network by "updating" the local value
@@ -256,7 +283,7 @@ namespace StealthRobotics.Dashboard.API.Network
                 else
                 {
                     //pull the dashboard from the local value by "updating" the network value
-                    OnNetworkTableChange(NetworkUtil.SmartDashboard, networkPath, data, NotifyFlags.NotifyUpdate);
+                    OnNetworkTableChange(networkSource.Item1, networkPath, data, NotifyFlags.NotifyUpdate);
                 }
             }
         }

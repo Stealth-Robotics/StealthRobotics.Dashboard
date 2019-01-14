@@ -35,7 +35,7 @@ namespace StealthRobotics.Dashboard.Controls
             }
         }
 
-        string def;
+        string def = "";
         public string Default
         {
             set
@@ -74,6 +74,7 @@ namespace StealthRobotics.Dashboard.Controls
 
         private void SendableChooserControl_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            object savedSelection = options.SelectedItem;
             options.Items.Clear();
             if (Options != null)
             {
@@ -82,10 +83,11 @@ namespace StealthRobotics.Dashboard.Controls
                     options.Items.Add(option);
                 }
             }
-            if(e.PropertyName == "Default")
+            if (e.PropertyName == "Default")
             {
                 options.SelectedItem = Default;
             }
+            else options.SelectedItem = savedSelection;
         }
 
         private void SendableChooserControl_SourceChanged(object sender, NetworkSourceChangedEventArgs e)
