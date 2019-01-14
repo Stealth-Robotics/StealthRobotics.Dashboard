@@ -113,8 +113,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\AddOneConverter.cs" />
+    <Compile Include="Controls\BoolIndicator.cs" />
     <Compile Include="Controls\BoolSwitch.cs" />
-    <Compile Include="Controls\CameraControl.cs" />
+    <Compile Include="Controls\CameraViewSelector.cs" />
     <Compile Include="Controls\CameraStream.cs" />
     <Compile Include="Controls\NumberDisplay.cs" />
     <Compile Include="Controls\NumberFormat.cs" />

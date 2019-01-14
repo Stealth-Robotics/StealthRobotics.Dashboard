@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 
 namespace StealthRobotics.Dashboard.Controls
 {
-    public class CameraControl : SourcedControl
+    public class CameraViewSelector : SourcedControl
     {
         //we don't actually want a source in the editor, so sneakily hide it
         private new string Source { get; set; }
@@ -28,7 +28,7 @@ namespace StealthRobotics.Dashboard.Controls
 
         // Using a DependencyProperty as the backing store for PaneWidth.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DisplayPanelWidthProperty =
-            DependencyProperty.Register("DisplayPanelWidth", typeof(int), typeof(CameraControl), new PropertyMetadata(7));
+            DependencyProperty.Register("DisplayPanelWidth", typeof(int), typeof(CameraViewSelector), new PropertyMetadata(7));
 
         [DialogProperty]
         public int DisplayPanelHeight
@@ -39,18 +39,18 @@ namespace StealthRobotics.Dashboard.Controls
 
         // Using a DependencyProperty as the backing store for PaneHeight.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DisplayPanelHeightProperty =
-            DependencyProperty.Register("DisplayPanelHeight", typeof(int), typeof(CameraControl), new PropertyMetadata(5, OnPanelHeightChanged));
+            DependencyProperty.Register("DisplayPanelHeight", typeof(int), typeof(CameraViewSelector), new PropertyMetadata(5, OnPanelHeightChanged));
 
         private static void OnPanelHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as CameraControl).BuildRows();
+            (d as CameraViewSelector).BuildRows();
         }
 
         Grid layout;
         CameraStream stream;
         ComboBox streams;
 
-        public CameraControl()
+        public CameraViewSelector()
         {
             layout = new Grid();
             BuildRows();
