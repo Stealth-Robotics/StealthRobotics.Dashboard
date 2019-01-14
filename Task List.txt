@@ -1,11 +1,5 @@
 TODO LIST
 
------Sourced controls-----
-
-Indicator
-Image state display
-Color state display
-
 -----Dashboard functionality-----
 
 Add delete button to SnapControl
@@ -22,9 +16,9 @@ Save and load dashboards
 Dashboard launcher
 Setup script
 
------Extensibility tools-----
+-----Post-release-----
 
-(these may come after kickoff)
+StateDisplays
 Allow adding new property controls
 Composite controls to allow creativity!
 Control state display (inherit to customize?)
