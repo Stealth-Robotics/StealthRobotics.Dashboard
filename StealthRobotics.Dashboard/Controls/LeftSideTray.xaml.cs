@@ -39,7 +39,7 @@ namespace StealthRobotics.Dashboard.Controls
             if(slideOut == null)
             {
                 //slide out
-                double slideTime = maxSlideOutTime * (-Margin.Left / ActualWidth);
+                double slideTime = maxSlideOutTime * GetSlidePercent();
                 slideOut = new ThicknessAnimation(new Thickness(0), new Duration(TimeSpan.FromSeconds(slideTime)));
                 BeginAnimation(MarginProperty, slideOut);
             }
@@ -48,10 +48,16 @@ namespace StealthRobotics.Dashboard.Controls
                 //cancel the slide out
                 slideOut = null;
                 //slide out
-                double slideTime = maxSlideInTime * (1 + Margin.Left / ActualWidth);
+                double slideTime = maxSlideInTime * (1 - GetSlidePercent());
                 ThicknessAnimation slideIn = new ThicknessAnimation(defaultMargin, new Duration(TimeSpan.FromSeconds(slideTime)));
                 BeginAnimation(MarginProperty, slideIn);
             }
+        }
+
+        private double GetSlidePercent()
+        {
+            double widthDivisor = ActualWidth > 0 ? ActualWidth : 1;
+            return -Margin.Left / widthDivisor;
         }
 
         private void AdornedControl_Loaded(object sender, RoutedEventArgs e)

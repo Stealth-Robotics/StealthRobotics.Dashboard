@@ -11,7 +11,9 @@
         <Button Width="20" Height="50" VerticalAlignment="Center" HorizontalAlignment="Right" Click="Adorner_Click" Name="adorner">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="0 5 5 0" Background="{TemplateBinding Background}"/>
+                    <Border CornerRadius="0 5 5 0" Background="{TemplateBinding Background}">
+                        <ContentPresenter/>
+                    </Border>
                 </ControlTemplate>
             </Button.Template>
             <Button.Style>
@@ -27,11 +29,12 @@
                     </Style.Triggers>
                 </Style>
             </Button.Style>
+            <Path Stroke="#808080" StrokeThickness="2" Data="M 4,17.5 v 15 m 5,0 v -15 m 5,0 v 15"/>
         </Button>
     </a:AdornedControl.AdornerContent>
     <a:AdornedControl.Template>
         <ControlTemplate>
-            <Border BorderBrush="Gray" BorderThickness="2" Background="White">
+            <Border BorderBrush="Gray" BorderThickness="1" Background="White">
                 <ContentPresenter/>
             </Border>
         </ControlTemplate>
