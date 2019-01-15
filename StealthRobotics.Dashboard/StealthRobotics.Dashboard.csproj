@@ -104,6 +104,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\LeftSideTray.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -125,6 +129,9 @@
     <Compile Include="Controls\SendableChooserControl.cs" />
     <Compile Include="Controls\TestSourcesControl.cs" />
     <Compile Include="Controls\InverterConverter.cs" />
+    <Compile Include="Controls\LeftSideTray.xaml.cs">
+      <DependentUpon>LeftSideTray.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Util.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

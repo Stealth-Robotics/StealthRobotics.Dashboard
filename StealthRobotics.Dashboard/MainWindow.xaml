@@ -3,40 +3,46 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:a="clr-namespace:Adorners;assembly=AdornedControl"
         xmlns:local="clr-namespace:StealthRobotics.Dashboard.Controls"
         xmlns:api="clr-namespace:StealthRobotics.Dashboard.API.UI;assembly=StealthRobotics.Dashboard.API"
         mc:Ignorable="d" Loaded="Window_Loaded" Closed="Window_Closed"
         Title="A very Stealthy dashboard" Height="450" Width="800">
-    <Grid>
-        <api:TileGrid Name="dashboardRoot" Rows="6" Columns="8" IsEditable="True" TileSizingMode="Uniform" 
-                      ShowGridlines="True" Background="Transparent">
-            <api:TileGrid.ContextMenu>
-                <ContextMenu>
-                    <ContextMenu.Resources>
-                        <local:InverterConverter x:Key="invert"/>
-                    </ContextMenu.Resources>
-                    <MenuItem Header="Show grid" IsCheckable="True" IsChecked="{Binding ShowGridlines}"/>
-                    <MenuItem Header="Competition mode" IsCheckable="True" IsChecked="{Binding IsEditable, Converter={StaticResource invert}}"/>
-                </ContextMenu>
-            </api:TileGrid.ContextMenu>
-            <api:SourcedControl Name="test1" api:TileGrid.Column="1" api:TileGrid.ColumnSpan="3" api:TileGrid.Row="2" api:TileGrid.RowSpan="2">
-                <api:SnapControl.PopupButtons>
-                    <Button>A</Button>
-                    <Button>B</Button>
-                    <Button>C</Button>
-                </api:SnapControl.PopupButtons>
-                <Button Margin="20" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SourcedControl}}, Path=Source}"/>
-            </api:SourcedControl>
-            <local:NumberSpinner api:TileGrid.Row="5"/>
-            <local:NumberDisplay api:TileGrid.Row="5" api:TileGrid.Column="5"/>
-            <local:TestSourcesControl api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="3"/>
-            <local:NumberSlider api:TileGrid.Row="1" api:TileGrid.Column="7"/>
-            <local:NumberSlider api:TileGrid.Column="10"/>
-            <local:BoolSwitch api:TileGrid.Column="11" api:TileGrid.Row="5"/>
-            <local:CameraViewSelector api:TileGrid.Row="2" api:TileGrid.Column="4"/>
-            <local:SendableChooserControl api:TileGrid.Row="3" api:TileGrid.Column="12"/>
-            <local:SendableChooserControl api:TileGrid.Row="4" api:TileGrid.Column="12"/>
-            <local:BoolIndicator api:TileGrid.Row="6" api:TileGrid.Column="12"/>
-        </api:TileGrid>
-    </Grid>
+    <a:AdornedControl IsAdornerVisible="True">
+        <a:AdornedControl.AdornerContent>
+            <local:LeftSideTray Width="300" HorizontalAlignment="Left"/>
+        </a:AdornedControl.AdornerContent>
+        <Grid>
+            <api:TileGrid Name="dashboardRoot" Rows="6" Columns="8" IsEditable="True" TileSizingMode="Uniform" 
+                            ShowGridlines="True" Background="Transparent">
+                <api:TileGrid.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.Resources>
+                            <local:InverterConverter x:Key="invert"/>
+                        </ContextMenu.Resources>
+                        <MenuItem Header="Show grid" IsCheckable="True" IsChecked="{Binding ShowGridlines}"/>
+                        <MenuItem Header="Competition mode" IsCheckable="True" IsChecked="{Binding IsEditable, Converter={StaticResource invert}}"/>
+                    </ContextMenu>
+                </api:TileGrid.ContextMenu>
+                <api:SourcedControl Name="test1" api:TileGrid.Column="1" api:TileGrid.ColumnSpan="3" api:TileGrid.Row="2" api:TileGrid.RowSpan="2">
+                    <api:SnapControl.PopupButtons>
+                        <Button>A</Button>
+                        <Button>B</Button>
+                        <Button>C</Button>
+                    </api:SnapControl.PopupButtons>
+                    <Button Margin="20" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SourcedControl}}, Path=Source}"/>
+                </api:SourcedControl>
+                <local:NumberSpinner api:TileGrid.Row="5"/>
+                <local:NumberDisplay api:TileGrid.Row="5" api:TileGrid.Column="5"/>
+                <local:TestSourcesControl api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="3"/>
+                <local:NumberSlider api:TileGrid.Row="1" api:TileGrid.Column="7"/>
+                <local:NumberSlider api:TileGrid.Column="10"/>
+                <local:BoolSwitch api:TileGrid.Column="11" api:TileGrid.Row="5"/>
+                <local:CameraViewSelector api:TileGrid.Row="2" api:TileGrid.Column="4"/>
+                <local:SendableChooserControl api:TileGrid.Row="3" api:TileGrid.Column="12"/>
+                <local:SendableChooserControl api:TileGrid.Row="4" api:TileGrid.Column="12"/>
+                <local:BoolIndicator api:TileGrid.Row="6" api:TileGrid.Column="12"/>
+            </api:TileGrid>
+        </Grid>
+    </a:AdornedControl>
 </Window>
