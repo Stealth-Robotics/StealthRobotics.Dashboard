@@ -104,6 +104,7 @@
     <Compile Include="PropertyEditor\DialogPropertyAttribute.cs" />
     <Compile Include="PropertyEditor\EnumPropertyControl.cs" />
     <Compile Include="PropertyEditor\NumberPropertyControl.cs" />
+    <Compile Include="UI\NetworkDataFormats.cs" />
     <Compile Include="UI\SnapControl.cs" />
     <Compile Include="UI\TileSizingMode.cs" />
     <Compile Include="UI\WPFExtensions.cs" />

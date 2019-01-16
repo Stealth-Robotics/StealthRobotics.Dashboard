@@ -49,11 +49,11 @@ namespace StealthRobotics.Dashboard
         }
 
         Point dragStartPoint;
-        bool isDragging = false;
+        bool isStartingDrag = false;
         private void TreeView_MouseDown(object sender, MouseButtonEventArgs e)
         {
             dragStartPoint = e.GetPosition(null);
-            isDragging = true;
+            isStartingDrag = true;
         }
 
         private void TreeView_MouseMove(object sender, MouseEventArgs e)
@@ -61,7 +61,7 @@ namespace StealthRobotics.Dashboard
             Point mousePos = e.GetPosition(null);
             Vector motion = dragStartPoint - mousePos;
 
-            if(e.LeftButton == MouseButtonState.Pressed && isDragging &&
+            if(e.LeftButton == MouseButtonState.Pressed && isStartingDrag &&
                 (Math.Abs(motion.X) > SystemParameters.MinimumHorizontalDragDistance ||
                 Math.Abs(motion.Y) > SystemParameters.MinimumVerticalDragDistance))
             {
@@ -69,29 +69,45 @@ namespace StealthRobotics.Dashboard
 
                 NetworkElement data = (NetworkElement)element.DataContext;
 
-                DataObject dragInfo = new DataObject("NTSource", data);
-                DragDrop.DoDragDrop(element, dragInfo, DragDropEffects.Move);
+                DataObject dragInfo = new DataObject(NetworkDataFormats.NetworkElement, data);
+                DragDrop.DoDragDrop(element, dragInfo, DragDropEffects.All);
             }
         }
 
         private void TreeView_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            isDragging = false;
+            isStartingDrag = false;
         }
 
         private void DashboardRoot_DragEnter(object sender, DragEventArgs e)
         {
-            //NTSource and NTControl should be a constants somewhere in api once this works
-            if (e.Data.GetDataPresent("NTSource") || e.Data.GetDataPresent("NTControl"))
+            if (e.Data.GetDataPresent(NetworkDataFormats.NetworkElement)
+                || e.Data.GetDataPresent(NetworkDataFormats.SourcedControl))
             {
                 tray.Hide();
             }
-            e.Effects = DragDropEffects.None;
         }
 
         private void DashboardRoot_Drop(object sender, DragEventArgs e)
         {
+            if(e.Data.GetDataPresent(NetworkDataFormats.SourcedControl))
+            {
 
+            }
+            e.Handled = true;
+        }
+
+        private void DashboardRoot_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(NetworkDataFormats.SourcedControl))
+            {
+                e.Effects = DragDropEffects.Move;
+            }
+            else
+            {
+                e.Effects = DragDropEffects.None;
+            }
+            e.Handled = true;
         }
     }
 }

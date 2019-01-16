@@ -102,35 +102,40 @@ namespace StealthRobotics.Dashboard.API.UI
             label.SetBinding(TextBlock.VisibilityProperty, this, "LabelVisibility");
 
             AllowDrop = true;
-            DragEnter += SourcedControl_DragEnter;
+            DragOver += SourcedControl_DragOver;
             Drop += SourcedControl_Drop;
         }
 
-        private void SourcedControl_DragEnter(object sender, DragEventArgs e)
+        private void SourcedControl_DragOver(object sender, DragEventArgs e)
         {
             //assume we'll reject, otherwise we can fix it
-            e.Effects = DragDropEffects.None;
-            if (e.Data.GetDataPresent("NTSource"))
+            if (e.Data.GetDataPresent(NetworkDataFormats.NetworkElement))
             {
-                NetworkElement element = e.Data.GetData("NTSource") as NetworkElement;
-                if(ValidateDropType(element))
+                NetworkElement element = e.Data.GetData(NetworkDataFormats.NetworkElement) as NetworkElement;
+                if (ValidateDropType(element))
                 {
                     e.Effects = DragDropEffects.Copy;
                 }
+                else
+                {
+                    e.Effects = DragDropEffects.None;
+                }
             }
+            e.Handled = true;
         }
 
         private void SourcedControl_Drop(object sender, DragEventArgs e)
         {
-            if(e.Data.GetDataPresent("NTSource"))
+            if(e.Data.GetDataPresent(NetworkDataFormats.NetworkElement))
             {
-                NetworkElement element = e.Data.GetData("NTSource") as NetworkElement;
+                NetworkElement element = e.Data.GetData(NetworkDataFormats.NetworkElement) as NetworkElement;
                 if (ValidateDropType(element))
                 {
                     //source = full path
                     Source = element.FullPath.Replace("/SmartDashboard/", "");
                 }
             }
+            e.Handled = true;
         }
 
         private bool ValidateDropType(NetworkElement e)
