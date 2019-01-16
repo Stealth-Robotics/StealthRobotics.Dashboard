@@ -24,7 +24,9 @@ namespace StealthRobotics.Dashboard.API.Network
                 return children.AsReadOnly();
             }
         }
-        internal NetworkTree(string root, ITable baseTree = null) : base(root, typeof(NetworkTree))
+
+        internal NetworkTree(string root, ITable baseTree = null, NetworkTree parent = null) 
+            : base(root, typeof(NetworkTree), parent)
         {
             ConstructChildren(root, baseTree);
         }
@@ -35,12 +37,12 @@ namespace StealthRobotics.Dashboard.API.Network
             ITable table = baseTree?.GetSubTable(root) ?? NetworkTable.GetTable(root);
             foreach(string key in table.GetKeys())
             {
-                children.Add(new NetworkElement(key, NetworkUtil.TypeOf(table.GetValue(key, null))));
+                children.Add(new NetworkElement(key, NetworkUtil.TypeOf(table.GetValue(key, null)), this));
             }
             foreach(string key in table.GetSubTables())
             {
                 //ok being recursive, network tables usually stay fairly small
-                children.Add(new NetworkTree(key, table));
+                children.Add(new NetworkTree(key, table, this));
             }
         }
     }

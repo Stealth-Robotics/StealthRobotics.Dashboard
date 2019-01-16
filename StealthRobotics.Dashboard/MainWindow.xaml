@@ -6,45 +6,62 @@
         xmlns:a="clr-namespace:Adorners;assembly=AdornedControl"
         xmlns:local="clr-namespace:StealthRobotics.Dashboard.Controls"
         xmlns:api="clr-namespace:StealthRobotics.Dashboard.API.UI;assembly=StealthRobotics.Dashboard.API"
+        xmlns:network="clr-namespace:StealthRobotics.Dashboard.API.Network;assembly=StealthRobotics.Dashboard.API"
         mc:Ignorable="d" Loaded="Window_Loaded" Closed="Window_Closed"
         Title="A very Stealthy dashboard" Height="450" Width="800">
     <a:AdornedControl IsAdornerVisible="True">
         <a:AdornedControl.AdornerContent>
-            <local:LeftSideTray Width="300" HorizontalAlignment="Left"/>
+            <local:LeftSideTray Width="300" HorizontalAlignment="Left" x:Name="tray" Expanded="Tray_Expanded">
+                <TreeView PreviewMouseDown="TreeView_MouseDown" MouseUp="TreeView_MouseUp" MouseMove="TreeView_MouseMove">
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="TreeViewItem">
+                            <Setter Property="IsExpanded" Value="True"/>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                    <TreeView.Resources>
+                        <HierarchicalDataTemplate DataType="{x:Type network:NetworkTree}" ItemsSource="{Binding Children}">
+                            <TextBlock Text="{Binding Name}"/>
+                        </HierarchicalDataTemplate>
+                        <DataTemplate DataType="{x:Type network:NetworkElement}">
+                            <TextBlock Text="{Binding}"/>
+                        </DataTemplate>
+                    </TreeView.Resources>
+                </TreeView>
+            </local:LeftSideTray>
         </a:AdornedControl.AdornerContent>
+        <!--This sets a separate adorner layer for the grid and its contents-->
         <AdornerDecorator>
-            <Grid>
-                <api:TileGrid Name="dashboardRoot" Rows="6" Columns="8" IsEditable="True" TileSizingMode="Uniform" 
-                                ShowGridlines="True" Background="Transparent">
-                    <api:TileGrid.ContextMenu>
-                        <ContextMenu>
-                            <ContextMenu.Resources>
-                                <local:InverterConverter x:Key="invert"/>
-                            </ContextMenu.Resources>
-                            <MenuItem Header="Show grid" IsCheckable="True" IsChecked="{Binding ShowGridlines}"/>
-                            <MenuItem Header="Competition mode" IsCheckable="True" IsChecked="{Binding IsEditable, Converter={StaticResource invert}}"/>
-                        </ContextMenu>
-                    </api:TileGrid.ContextMenu>
-                    <api:SourcedControl Name="test1" api:TileGrid.Column="1" api:TileGrid.ColumnSpan="3" api:TileGrid.Row="2" api:TileGrid.RowSpan="2">
-                        <api:SnapControl.PopupButtons>
-                            <Button>A</Button>
-                            <Button>B</Button>
-                            <Button>C</Button>
-                        </api:SnapControl.PopupButtons>
-                        <Button Margin="20" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SourcedControl}}, Path=Source}"/>
-                    </api:SourcedControl>
-                    <local:NumberSpinner api:TileGrid.Row="5"/>
-                    <local:NumberDisplay api:TileGrid.Row="5" api:TileGrid.Column="5"/>
-                    <local:TestSourcesControl api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="3"/>
-                    <local:NumberSlider api:TileGrid.Row="1" api:TileGrid.Column="7"/>
-                    <local:NumberSlider api:TileGrid.Column="10"/>
-                    <local:BoolSwitch api:TileGrid.Column="11" api:TileGrid.Row="5"/>
-                    <local:CameraViewSelector api:TileGrid.Row="2" api:TileGrid.Column="4"/>
-                    <local:SendableChooserControl api:TileGrid.Row="3" api:TileGrid.Column="12"/>
-                    <local:SendableChooserControl api:TileGrid.Row="4" api:TileGrid.Column="12"/>
-                    <local:BoolIndicator api:TileGrid.Row="6" api:TileGrid.Column="12"/>
-                </api:TileGrid>
-            </Grid>
+            <api:TileGrid Name="dashboardRoot" Rows="6" Columns="8" IsEditable="True" TileSizingMode="Uniform" 
+                          ShowGridlines="True" Background="Transparent" AllowDrop="True"
+                          DragEnter="DashboardRoot_DragEnter" Drop="DashboardRoot_Drop">
+                <api:TileGrid.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.Resources>
+                            <local:InverterConverter x:Key="invert"/>
+                        </ContextMenu.Resources>
+                        <MenuItem Header="Show grid" IsCheckable="True" IsChecked="{Binding ShowGridlines}"/>
+                        <MenuItem Header="Competition mode" IsCheckable="True" IsChecked="{Binding IsEditable, Converter={StaticResource invert}}"/>
+                    </ContextMenu>
+                </api:TileGrid.ContextMenu>
+                <api:SourcedControl Name="test1" api:TileGrid.Column="1" api:TileGrid.ColumnSpan="3" api:TileGrid.Row="2" api:TileGrid.RowSpan="2">
+                    <api:SnapControl.PopupButtons>
+                        <Button>A</Button>
+                        <Button>B</Button>
+                        <Button>C</Button>
+                    </api:SnapControl.PopupButtons>
+                    <Button Margin="20" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SourcedControl}}, Path=Source}"/>
+                </api:SourcedControl>
+                <local:NumberSpinner api:TileGrid.Row="5"/>
+                <local:NumberDisplay api:TileGrid.Row="5" api:TileGrid.Column="5"/>
+                <local:TestSourcesControl api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="3"/>
+                <local:NumberSlider api:TileGrid.Row="1" api:TileGrid.Column="7"/>
+                <local:NumberSlider api:TileGrid.Column="10"/>
+                <local:BoolSwitch api:TileGrid.Column="11" api:TileGrid.Row="5"/>
+                <local:CameraViewSelector api:TileGrid.Row="2" api:TileGrid.Column="4"/>
+                <local:SendableChooserControl api:TileGrid.Row="3" api:TileGrid.Column="12"/>
+                <local:SendableChooserControl api:TileGrid.Row="4" api:TileGrid.Column="12"/>
+                <local:BoolIndicator api:TileGrid.Row="6" api:TileGrid.Column="12"/>
+            </api:TileGrid>
         </AdornerDecorator>
     </a:AdornedControl>
 </Window>

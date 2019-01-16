@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
+using StealthRobotics.Dashboard.API.Network;
 using StealthRobotics.Dashboard.API.PropertyEditor;
 
 namespace StealthRobotics.Dashboard.API.UI
@@ -99,6 +100,30 @@ namespace StealthRobotics.Dashboard.API.UI
             label.SetBinding(TextBlock.HorizontalAlignmentProperty, this, "LabelHorizontalAlignment");
             label.SetBinding(TextBlock.VerticalAlignmentProperty, this, "LabelVerticalAlignment");
             label.SetBinding(TextBlock.VisibilityProperty, this, "LabelVisibility");
+
+            AllowDrop = true;
+            DragEnter += SourcedControl_DragEnter;
+            Drop += SourcedControl_Drop;
+        }
+
+        private void SourcedControl_DragEnter(object sender, DragEventArgs e)
+        {
+            //assume we'll reject, otherwise we can fix it
+            e.Effects = DragDropEffects.None;
+            if (e.Data.GetDataPresent("NTSource"))
+            {
+                NetworkElement element = e.Data.GetData("NTSource") as NetworkElement;
+            }
+        }
+
+        private void SourcedControl_Drop(object sender, DragEventArgs e)
+        {
+            if(e.Data.GetDataPresent("NTSource"))
+            {
+                NetworkElement element = e.Data.GetData("NTSource") as NetworkElement;
+                //source = full path
+                Source = element.FullPath.Replace("/SmartDashboard/", "");
+            }
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)

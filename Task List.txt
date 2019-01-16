@@ -3,7 +3,6 @@ TODO LIST
 -----Dashboard functionality-----
 
 Add delete button to SnapControl
-Standalone popout menu (thicknessanimation)
 TreeView in popout
 Click on elements in treeview to:
 	hide other expansions

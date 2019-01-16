@@ -28,6 +28,9 @@ namespace StealthRobotics.Dashboard.Controls
         private ThicknessAnimation slideOut = null;
         private Thickness defaultMargin;
 
+        public event EventHandler Expanded;
+        public event EventHandler Closed;
+
         public LeftSideTray()
         {
             InitializeComponent();
@@ -38,20 +41,32 @@ namespace StealthRobotics.Dashboard.Controls
             this.BringToFront();
             if(slideOut == null)
             {
-                //slide out
-                double slideTime = maxSlideOutTime * GetSlidePercent();
-                slideOut = new ThicknessAnimation(new Thickness(0), new Duration(TimeSpan.FromSeconds(slideTime)));
-                BeginAnimation(MarginProperty, slideOut);
+                Show();
             }
             else
             {
-                //cancel the slide out
-                slideOut = null;
-                //slide out
-                double slideTime = maxSlideInTime * (1 - GetSlidePercent());
-                ThicknessAnimation slideIn = new ThicknessAnimation(defaultMargin, new Duration(TimeSpan.FromSeconds(slideTime)));
-                BeginAnimation(MarginProperty, slideIn);
+                Hide();
             }
+        }
+
+        public void Show()
+        {
+            //slide out
+            double slideTime = maxSlideOutTime * GetSlidePercent();
+            slideOut = new ThicknessAnimation(new Thickness(0), new Duration(TimeSpan.FromSeconds(slideTime)));
+            BeginAnimation(MarginProperty, slideOut);
+            Expanded?.Invoke(this, new EventArgs());
+        }
+
+        public void Hide()
+        {
+            //cancel the slide out
+            slideOut = null;
+            //slide out
+            double slideTime = maxSlideInTime * (1 - GetSlidePercent());
+            ThicknessAnimation slideIn = new ThicknessAnimation(defaultMargin, new Duration(TimeSpan.FromSeconds(slideTime)));
+            BeginAnimation(MarginProperty, slideIn);
+            Closed?.Invoke(this, new EventArgs());
         }
 
         private double GetSlidePercent()
