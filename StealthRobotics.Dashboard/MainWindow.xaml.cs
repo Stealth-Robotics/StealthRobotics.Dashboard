@@ -43,7 +43,7 @@ namespace StealthRobotics.Dashboard
         private void Tray_Expanded(object sender, EventArgs e)
         {
             TreeView netTree = tray.Content as TreeView;
-            NetworkTree actualTree = NetworkUtil.GetTableOutline();
+            NetworkTree actualTree = NetworkUtil.GetTableOutline("SmartDashboard");
             netTree?.Items.Clear();
             netTree?.Items.Add(actualTree);
         }

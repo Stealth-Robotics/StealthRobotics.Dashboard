@@ -8,7 +8,6 @@ namespace StealthRobotics.Dashboard.Controls
 {
     public enum NumberFormat
     {
-        Currency = 'C',
         FixedPoint = 'F',
         General = 'G',
         Number = 'N',

@@ -3,7 +3,6 @@ TODO LIST
 -----Dashboard functionality-----
 
 Add delete button to SnapControl
-TreeView in popout
 Click on elements in treeview to:
 	hide other expansions
 	expand to show samples of SourcedControls with the appropriate SourceType

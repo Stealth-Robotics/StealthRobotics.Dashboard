@@ -30,7 +30,7 @@ namespace StealthRobotics.Dashboard.API.Network
             if (parent != null)
                 FullPath = parent.FullPath + "/" + name;
             else
-                FullPath = name;
+                FullPath = "/" + name;
         }
 
         public override string ToString()

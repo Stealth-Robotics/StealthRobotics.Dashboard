@@ -113,6 +113,10 @@ namespace StealthRobotics.Dashboard.API.UI
             if (e.Data.GetDataPresent("NTSource"))
             {
                 NetworkElement element = e.Data.GetData("NTSource") as NetworkElement;
+                if(ValidateDropType(element))
+                {
+                    e.Effects = DragDropEffects.Copy;
+                }
             }
         }
 
@@ -121,8 +125,31 @@ namespace StealthRobotics.Dashboard.API.UI
             if(e.Data.GetDataPresent("NTSource"))
             {
                 NetworkElement element = e.Data.GetData("NTSource") as NetworkElement;
-                //source = full path
-                Source = element.FullPath.Replace("/SmartDashboard/", "");
+                if (ValidateDropType(element))
+                {
+                    //source = full path
+                    Source = element.FullPath.Replace("/SmartDashboard/", "");
+                }
+            }
+        }
+
+        private bool ValidateDropType(NetworkElement e)
+        {
+            if (e.Type == typeof(NetworkTree))
+            {
+                //deal with complex types - later
+                throw new NotImplementedException();
+            }
+            else
+            {
+                //deal with primitives
+                //get all the unique primitive types allowed
+                IEnumerable<Type> allowedPrimitiveTypes = GetType()
+                    .GetCustomAttributes(typeof(NetworkSourceListenerAttribute), true)
+                    .Cast<NetworkSourceListenerAttribute>()
+                    .SelectMany((listener) => listener.SourceTypes)
+                    .Distinct();
+                return allowedPrimitiveTypes.Contains(e.Type);
             }
         }
 
