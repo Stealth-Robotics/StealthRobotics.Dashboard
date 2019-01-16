@@ -70,7 +70,8 @@ namespace StealthRobotics.Dashboard
                 NetworkElement data = (NetworkElement)element.DataContext;
 
                 DataObject dragInfo = new DataObject(NetworkDataFormats.NetworkElement, data);
-                DragDrop.DoDragDrop(element, dragInfo, DragDropEffects.All);
+                DragDrop.DoDragDrop(element, dragInfo, DragDropEffects.Copy | DragDropEffects.Move);
+                tray.Show();
             }
         }
 
