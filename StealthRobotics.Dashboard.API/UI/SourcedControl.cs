@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using StealthRobotics.Dashboard.API.Network;
 using StealthRobotics.Dashboard.API.PropertyEditor;
 
@@ -93,6 +95,20 @@ namespace StealthRobotics.Dashboard.API.UI
             settings.Content = i;
             PopupButtons.Add(settings);
 
+            Button close = new Button();
+            close.Click += Close_Click;
+            Path x = new Path()
+            {
+                //same color as the gear
+                Stroke = new SolidColorBrush(Color.FromRgb(51, 51, 51)),
+                Data = Geometry.Parse("M 3 3 L 13 13 M 3 13 L 13 3"),
+                StrokeThickness = 3,
+                Width = 16,
+                Height = 16
+            };
+            close.Content = x;
+            PopupButtons.Add(close);
+
             TextBlock label = new TextBlock();
             adorner.Children.Add(label);
             label.Margin = new Thickness(24, 2, 24, 2);
@@ -104,6 +120,22 @@ namespace StealthRobotics.Dashboard.API.UI
             AllowDrop = true;
             DragOver += SourcedControl_DragOver;
             Drop += SourcedControl_Drop;
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Panel parent = LogicalTreeHelper.GetParent(this) as Panel;
+            if (parent != null)
+            {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to remove this control?",
+                    "Confirm deletion", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    //this should unbind the network table
+                    Source = null;
+                    parent.Children.Remove(this);
+                }
+            }
         }
 
         private void SourcedControl_DragOver(object sender, DragEventArgs e)
@@ -142,7 +174,7 @@ namespace StealthRobotics.Dashboard.API.UI
         {
             if (e.Type == typeof(NetworkTree))
             {
-                //deal with complex types - later
+                //deal with complex types
                 throw new NotImplementedException();
             }
             else

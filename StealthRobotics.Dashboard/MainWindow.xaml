@@ -12,7 +12,7 @@
     <a:AdornedControl IsAdornerVisible="True">
         <a:AdornedControl.AdornerContent>
             <local:LeftSideTray Width="300" HorizontalAlignment="Left" x:Name="tray" Expanded="Tray_Expanded">
-                <TreeView PreviewMouseDown="TreeView_MouseDown" MouseUp="TreeView_MouseUp" MouseMove="TreeView_MouseMove">
+                <TreeView PreviewMouseDown="TreeView_MouseDown" MouseMove="TreeView_MouseMove">
                     <TreeView.ItemContainerStyle>
                         <Style TargetType="TreeViewItem">
                             <Setter Property="IsExpanded" Value="True"/>

@@ -141,7 +141,8 @@ namespace StealthRobotics.Dashboard.API.UI
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
                 Background = bestColor,
-                Margin = new Thickness(1),
+                //give it a bunch of space to expand beyond the control if the menu is large
+                Margin = new Thickness(1, 1, 1, double.MinValue),
                 CornerRadius = new CornerRadius(5),
                 Width = 20
             };

@@ -57,7 +57,6 @@ namespace StealthRobotics.Dashboard.Controls
             Content = layout;
 
             stream = new CameraStream() { Stretch = Stretch.Uniform };
-            stream.Source = new BitmapImage(new Uri(@"http://i.redd.it/dy4okatb7v901.jpg"));
             layout.Children.Add(stream);
 
             StackPanel chooserArea = new StackPanel()

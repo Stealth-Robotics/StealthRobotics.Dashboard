@@ -49,11 +49,9 @@ namespace StealthRobotics.Dashboard
         }
 
         Point dragStartPoint;
-        bool isStartingDrag = false;
         private void TreeView_MouseDown(object sender, MouseButtonEventArgs e)
         {
             dragStartPoint = e.GetPosition(null);
-            isStartingDrag = true;
         }
 
         private void TreeView_MouseMove(object sender, MouseEventArgs e)
@@ -61,11 +59,12 @@ namespace StealthRobotics.Dashboard
             Point mousePos = e.GetPosition(null);
             Vector motion = dragStartPoint - mousePos;
 
-            if(e.LeftButton == MouseButtonState.Pressed && isStartingDrag &&
+            if(e.LeftButton == MouseButtonState.Pressed &&
                 (Math.Abs(motion.X) > SystemParameters.MinimumHorizontalDragDistance ||
                 Math.Abs(motion.Y) > SystemParameters.MinimumVerticalDragDistance))
             {
                 TreeViewItem element = ((DependencyObject)e.OriginalSource).FindAncestor<TreeViewItem>();
+                if (element == null) return;
 
                 NetworkElement data = (NetworkElement)element.DataContext;
 
@@ -73,11 +72,6 @@ namespace StealthRobotics.Dashboard
                 DragDrop.DoDragDrop(element, dragInfo, DragDropEffects.Copy | DragDropEffects.Move);
                 tray.Show();
             }
-        }
-
-        private void TreeView_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            isStartingDrag = false;
         }
 
         private void DashboardRoot_DragEnter(object sender, DragEventArgs e)
