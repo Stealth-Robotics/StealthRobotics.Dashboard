@@ -1,4 +1,5 @@
-﻿using StealthRobotics.Dashboard.API.Network;
+﻿using Adorners;
+using StealthRobotics.Dashboard.API.Network;
 using StealthRobotics.Dashboard.API.UI;
 using System;
 using System.Collections.Generic;
@@ -72,6 +73,12 @@ namespace StealthRobotics.Dashboard
                 DragDrop.DoDragDrop(element, dragInfo, DragDropEffects.Copy | DragDropEffects.Move);
                 tray.Show();
             }
+        }
+
+        private void TreeItem_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            TextBlock b = sender as TextBlock;
+            NetworkElement n = (NetworkElement)b.DataContext;
         }
 
         private void DashboardRoot_DragEnter(object sender, DragEventArgs e)

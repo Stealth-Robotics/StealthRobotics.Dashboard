@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using NetworkTables;
 using StealthRobotics.Dashboard.API.Network;
 using StealthRobotics.Dashboard.API.PropertyEditor;
 
@@ -124,8 +125,7 @@ namespace StealthRobotics.Dashboard.API.UI
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            Panel parent = LogicalTreeHelper.GetParent(this) as Panel;
-            if (parent != null)
+            if (LogicalTreeHelper.GetParent(this) is Panel parent)
             {
                 MessageBoxResult result = MessageBox.Show("Are you sure you want to remove this control?",
                     "Confirm deletion", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -175,7 +175,14 @@ namespace StealthRobotics.Dashboard.API.UI
             if (e.Type == typeof(NetworkTree))
             {
                 //deal with complex types
-                throw new NotImplementedException();
+                NetworkTable table = NetworkTable.GetTable(e.FullPath);
+                string dataType = table.GetString("type", null);
+                IEnumerable<string> allowedTypes = GetType()
+                    .GetCustomAttributes(typeof(ComplexNetworkListenerAttribute), true)
+                    .Cast<ComplexNetworkListenerAttribute>()
+                    .SelectMany((listener) => listener.TableTypes)
+                    .Distinct();
+                return allowedTypes.Contains(dataType);
             }
             else
             {

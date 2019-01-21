@@ -14,7 +14,7 @@ using System.ComponentModel;
 
 namespace StealthRobotics.Dashboard.Controls
 {
-    [ComplexNetworkTypeListener("SendableChooser")]
+    [ComplexNetworkListenerAttribute("SendableChooser")]
     public class SendableChooserControl : SourcedControl, INotifyPropertyChanged
     {
         string[] opts = new string[0];
