@@ -11,22 +11,29 @@
         Title="A very Stealthy dashboard" Height="450" Width="800">
     <a:AdornedControl IsAdornerVisible="True">
         <a:AdornedControl.AdornerContent>
-            <local:LeftSideTray Width="300" HorizontalAlignment="Left" x:Name="tray" Expanded="Tray_Expanded">
-                <TreeView PreviewMouseDown="TreeView_MouseDown" MouseMove="TreeView_MouseMove">
-                    <TreeView.ItemContainerStyle>
-                        <Style TargetType="TreeViewItem">
-                            <Setter Property="IsExpanded" Value="True"/>
-                        </Style>
-                    </TreeView.ItemContainerStyle>
-                    <TreeView.Resources>
-                        <HierarchicalDataTemplate DataType="{x:Type network:NetworkTree}" ItemsSource="{Binding Children}">
-                            <TextBlock Text="{Binding Name}" MouseUp="TreeItem_MouseUp"/>
-                        </HierarchicalDataTemplate>
-                        <DataTemplate DataType="{x:Type network:NetworkElement}">
-                            <TextBlock Text="{Binding}" MouseUp="TreeItem_MouseUp"/>
-                        </DataTemplate>
-                    </TreeView.Resources>
-                </TreeView>
+            <local:LeftSideTray x:Name="tray" Width="300" HorizontalAlignment="Left" Expanded="Tray_Expanded">
+                <TabControl Margin="1.5">
+                    <TabItem Header="Sources">
+                        <TreeView Name="netTree" PreviewMouseDown="TreeView_MouseDown" MouseMove="TreeView_MouseMove" BorderBrush="Transparent">
+                            <TreeView.ItemContainerStyle>
+                                <Style TargetType="TreeViewItem">
+                                    <Setter Property="IsExpanded" Value="True"/>
+                                </Style>
+                            </TreeView.ItemContainerStyle>
+                            <TreeView.Resources>
+                                <HierarchicalDataTemplate DataType="{x:Type network:NetworkTree}" ItemsSource="{Binding Children}">
+                                    <TextBlock Text="{Binding Name}" MouseUp="TreeItem_MouseUp"/>
+                                </HierarchicalDataTemplate>
+                                <DataTemplate DataType="{x:Type network:NetworkElement}">
+                                    <TextBlock Text="{Binding}" MouseUp="TreeItem_MouseUp"/>
+                                </DataTemplate>
+                            </TreeView.Resources>
+                        </TreeView>
+                    </TabItem>
+                    <TabItem Header="Controls">
+                        <TextBlock Text="coming soon!"/>
+                    </TabItem>
+                </TabControl>
             </local:LeftSideTray>
         </a:AdornedControl.AdornerContent>
         <!--This sets a separate adorner layer for the grid and its contents-->
