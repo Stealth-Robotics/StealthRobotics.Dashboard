@@ -32,7 +32,7 @@ namespace StealthRobotics.Dashboard.Controls
         private Thickness defaultMargin;
 
         public event EventHandler Expanded;
-        public event EventHandler Closed;
+        public event EventHandler Hidden;
 
         public LeftSideTray()
         {
@@ -120,7 +120,7 @@ namespace StealthRobotics.Dashboard.Controls
             double slideTime = maxSlideInTime * (1 - GetSlidePercent());
             ThicknessAnimation slideIn = new ThicknessAnimation(defaultMargin, new Duration(TimeSpan.FromSeconds(slideTime)));
             BeginAnimation(MarginProperty, slideIn);
-            Closed?.Invoke(this, new EventArgs());
+            Hidden?.Invoke(this, new EventArgs());
         }
 
         private double GetSlidePercent()

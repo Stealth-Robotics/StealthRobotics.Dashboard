@@ -40,7 +40,7 @@ namespace StealthRobotics.Dashboard
         {
             NetworkBinding.Shutdown();
         }
-
+        
         private void Tray_Expanded(object sender, EventArgs e)
         {
             NetworkTree actualTree = NetworkUtil.GetTableOutline("SmartDashboard");
@@ -74,16 +74,9 @@ namespace StealthRobotics.Dashboard
             }
         }
 
-        private void TreeItem_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            TextBlock b = sender as TextBlock;
-            NetworkElement n = (NetworkElement)b.DataContext;
-        }
-
         private void DashboardRoot_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(NetworkDataFormats.NetworkElement)
-                || e.Data.GetDataPresent(NetworkDataFormats.SourcedControl))
+            if (e.Data.GetDataPresent(NetworkDataFormats.NetworkElement))
             {
                 tray.Hide();
             }
@@ -91,16 +84,19 @@ namespace StealthRobotics.Dashboard
 
         private void DashboardRoot_Drop(object sender, DragEventArgs e)
         {
-            if(e.Data.GetDataPresent(NetworkDataFormats.SourcedControl))
+            if(e.KeyStates.HasFlag(DragDropKeyStates.ControlKey) &&
+                e.Data.GetDataPresent(NetworkDataFormats.NetworkElement))
             {
-
+                //create the control here
+                MessageBox.Show("ok cool");
             }
             e.Handled = true;
         }
 
         private void DashboardRoot_DragOver(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(NetworkDataFormats.SourcedControl))
+            if(e.KeyStates.HasFlag(DragDropKeyStates.ControlKey) &&
+                e.Data.GetDataPresent(NetworkDataFormats.NetworkElement))
             {
                 e.Effects = DragDropEffects.Move;
             }

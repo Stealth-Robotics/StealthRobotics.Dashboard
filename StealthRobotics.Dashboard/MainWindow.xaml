@@ -22,10 +22,10 @@
                             </TreeView.ItemContainerStyle>
                             <TreeView.Resources>
                                 <HierarchicalDataTemplate DataType="{x:Type network:NetworkTree}" ItemsSource="{Binding Children}">
-                                    <TextBlock Text="{Binding Name}" MouseUp="TreeItem_MouseUp"/>
+                                    <TextBlock Text="{Binding Name}"/>
                                 </HierarchicalDataTemplate>
                                 <DataTemplate DataType="{x:Type network:NetworkElement}">
-                                    <TextBlock Text="{Binding}" MouseUp="TreeItem_MouseUp"/>
+                                    <TextBlock Text="{Binding}"/>
                                 </DataTemplate>
                             </TreeView.Resources>
                         </TreeView>

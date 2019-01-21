@@ -2,10 +2,11 @@ TODO LIST
 
 -----Dashboard functionality-----
 
-Click on elements in treeview to:
-	hide other expansions
-	expand to show samples of SourcedControls with the appropriate SourceType
-	drag and drop samples onto grid
+approach change: 
+if we control-drop a network element
+	pop up a preview window
+	if the user highlights a sample and clicks ok
+		create the control (centered?) at the drop site
 Save and load dashboards
 
 -----Release tools-----
@@ -15,7 +16,6 @@ Setup script
 
 -----Post-release-----
 
-StateDisplays
 Allow adding new property controls
 Composite controls to allow creativity!
 Control state display (inherit to customize?)
