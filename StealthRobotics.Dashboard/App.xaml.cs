@@ -30,6 +30,8 @@ namespace StealthRobotics.Dashboard
                 {
                     Process p = new Process();
                     p.StartInfo.FileName = "java";
+                    p.StartInfo.CreateNoWindow = true;
+                    p.StartInfo.UseShellExecute = false;
                     string userprofile = Environment.GetFolderPath(SpecialFolder.UserProfile);
                     p.StartInfo.Arguments = $"-jar \"{userprofile}/wpilib/tools/OutlineViewer.jar\"";
                     p.Start();

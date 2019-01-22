@@ -106,7 +106,7 @@ namespace StealthRobotics.Dashboard.API.Network
             }
         }
 
-        private static bool isRunning = false;
+        public static bool IsRunning { get; private set; } = false;
 
         /// <summary>
         /// Starts up the network binding engine, including network table access. Only call once during normal program execution
@@ -115,7 +115,7 @@ namespace StealthRobotics.Dashboard.API.Network
         /// <param name="dispatcher">The dispatcher of the UI thread so writes can happen</param>
         public static void Initialize(int team, Dispatcher dispatcher, bool useDriverStation = true)
         {
-            if (!isRunning)
+            if (!IsRunning)
             {
                 assignmentDispatch = dispatcher;
                 NetworkTable.SetClientMode();
@@ -132,7 +132,7 @@ namespace StealthRobotics.Dashboard.API.Network
                     (item as DependencyNotifyListener)?.RefreshBindings();
                 }
                 NetworkUtil.SmartDashboard.AddTableListener(OnNetworkTableChange, true);
-                isRunning = true;
+                IsRunning = true;
             }
         }
 
@@ -141,7 +141,7 @@ namespace StealthRobotics.Dashboard.API.Network
         /// </summary>
         public static void Shutdown()
         {
-            if(isRunning)
+            if(IsRunning)
             {
                 //may dislike DS behavior, consider adding a delay
                 NetworkTable.Shutdown();
@@ -150,7 +150,7 @@ namespace StealthRobotics.Dashboard.API.Network
                 {
                     (item as DependencyNotifyListener)?.UnbindAll();
                 }
-                isRunning = false;
+                IsRunning = false;
             }
         }
         
@@ -194,7 +194,7 @@ namespace StealthRobotics.Dashboard.API.Network
         public static void Create<TLocal, TNetwork>(INotifyPropertyChanged source, string property, string networkPath,
             NTConverter<TLocal, TNetwork> converter, bool localOverride = false)
         {
-            if (!isRunning) throw new InvalidOperationException("Can only create bindings while the network table is running");
+            if (!IsRunning) throw new InvalidOperationException("Can only create bindings while the network table is running");
             Tuple<ITable, string> networkSource = NormalizeKey(networkPath);
             networkPath = networkSource.Item2;
             //add these to our dictionary
@@ -252,7 +252,7 @@ namespace StealthRobotics.Dashboard.API.Network
         public static void Create<TLocal, TNetwork>(DependencyObject source, DependencyProperty property, string networkPath,
             NTConverter<TLocal, TNetwork> converter, bool localOverride = false)
         {
-            if (!isRunning) throw new InvalidOperationException("Can only create bindings while the network table is running");
+            if (!IsRunning) throw new InvalidOperationException("Can only create bindings while the network table is running");
             Tuple<ITable, string> networkSource = NormalizeKey(networkPath);
             networkPath = networkSource.Item2;
             //because of additional work that needs to be done to bind the value, simpler to reimplement
@@ -295,7 +295,7 @@ namespace StealthRobotics.Dashboard.API.Network
         /// <param name="property">The property to unbind</param>
         public static void Delete(INotifyPropertyChanged source, string property)
         {
-            if (!isRunning) throw new InvalidOperationException("Can only delete bindings while the network table is running");
+            if (!IsRunning) throw new InvalidOperationException("Can only delete bindings while the network table is running");
             if(propertyLookup.ContainsKey(source))
             {
                 propertyLookup[source].TryRemoveByFirst(property);
@@ -309,7 +309,7 @@ namespace StealthRobotics.Dashboard.API.Network
         /// <param name="property">The property to unbind</param>
         public static void Delete(DependencyObject source, DependencyProperty property)
         {
-            if (!isRunning) throw new InvalidOperationException("Can only delete bindings while the network table is running");
+            if (!IsRunning) throw new InvalidOperationException("Can only delete bindings while the network table is running");
             DependencyNotifyListener listener = new DependencyNotifyListener(source);
             if (propertyLookup.ContainsKey(listener))
             {

@@ -124,15 +124,15 @@
     <Compile Include="Controls\NumberSlider.cs" />
     <Compile Include="Controls\NumberSpinner.cs" />
     <Compile Include="Controls\SendableChooserControl.cs" />
-    <Compile Include="Controls\TestSourcesControl.cs" />
     <Compile Include="Controls\InverterConverter.cs" />
-    <Compile Include="Controls\Util.cs" />
+    <Compile Include="Util.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PluginLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

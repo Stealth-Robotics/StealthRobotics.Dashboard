@@ -11,9 +11,9 @@
         Title="A very Stealthy dashboard" Height="450" Width="800">
     <a:AdornedControl IsAdornerVisible="True">
         <a:AdornedControl.AdornerContent>
-            <local:LeftSideTray x:Name="tray" Width="300" HorizontalAlignment="Left" Expanded="Tray_Expanded">
-                <TabControl Margin="1.5">
-                    <TabItem Header="Sources">
+            <local:LeftSideTray x:Name="tray" Width="350" HorizontalAlignment="Left" Expanded="Tray_Expanded">
+                <TabControl Margin="1.5" SelectionChanged="TabControl_SelectionChanged">
+                    <TabItem Name="sources" Header="Sources">
                         <TreeView Name="netTree" PreviewMouseDown="TreeView_MouseDown" MouseMove="TreeView_MouseMove" BorderBrush="Transparent">
                             <TreeView.ItemContainerStyle>
                                 <Style TargetType="TreeViewItem">
@@ -30,8 +30,10 @@
                             </TreeView.Resources>
                         </TreeView>
                     </TabItem>
-                    <TabItem Header="Controls">
-                        <TextBlock Text="coming soon!"/>
+                    <TabItem Name="controls" Header="Controls">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <WrapPanel MouseDown="AvailableControls_MouseDown" MouseMove="AvailableControls_MouseMove" Name="availableControls"/>
+                        </ScrollViewer>
                     </TabItem>
                 </TabControl>
             </local:LeftSideTray>
@@ -60,7 +62,6 @@
                 </api:SourcedControl>
                 <local:NumberSpinner api:TileGrid.Row="5"/>
                 <local:NumberDisplay api:TileGrid.Row="5" api:TileGrid.Column="5"/>
-                <local:TestSourcesControl api:TileGrid.RowSpan="2" api:TileGrid.ColumnSpan="3"/>
                 <local:NumberSlider api:TileGrid.Row="1" api:TileGrid.Column="7"/>
                 <local:NumberSlider api:TileGrid.Column="10"/>
                 <local:BoolSwitch api:TileGrid.Column="11" api:TileGrid.Row="5"/>

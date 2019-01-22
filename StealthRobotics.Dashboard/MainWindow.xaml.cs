@@ -40,24 +40,97 @@ namespace StealthRobotics.Dashboard
         {
             NetworkBinding.Shutdown();
         }
-        
-        private void Tray_Expanded(object sender, EventArgs e)
+
+        private void RefreshSources()
         {
-            NetworkTree actualTree = NetworkUtil.GetTableOutline("SmartDashboard");
-            netTree?.Items.Clear();
-            netTree?.Items.Add(actualTree);
+            if (NetworkBinding.IsRunning)
+            {
+                NetworkTree actualTree = NetworkUtil.GetTableOutline("SmartDashboard");
+                netTree?.Items.Clear();
+                netTree?.Items.Add(actualTree);
+            }
         }
 
-        Point dragStartPoint;
+        private void PopulateControlPreviewWrapPanel(WrapPanel wp, IEnumerable<Type> controlTypes)
+        {
+            wp.Children.Clear();
+            foreach (Type controlType in controlTypes)
+            {
+                //do some fancy arranging. what we need:
+                //size-to-fit border (plus some extra space) with transparent background to register the hits.
+                //label the extra space with the name of the control
+                SourcedControl c = (SourcedControl)controlType.GetConstructor(Type.EmptyTypes).Invoke(null);
+                c.IsEnabled = false;
+                double expectedWidth = TileGrid.GetColumnSpan(c) * 50;
+                double expectedHeight = TileGrid.GetRowSpan(c) * 50;
+                TileGrid container = new TileGrid()
+                {
+                    ShowGridlines = false,
+                    IsEditable = false,
+                    TileSizingMode = TileSizingMode.Uniform,
+                    Width = expectedWidth,
+                    Height = expectedHeight
+                };
+                container.Children.Add(c);
+                Border outline = new Border()
+                {
+                    Background = new SolidColorBrush(Colors.Transparent),
+                    BorderBrush = new SolidColorBrush(Colors.Black),
+                    BorderThickness = new Thickness(1),
+                    Margin = new Thickness(5)
+                };
+                StackPanel p = new StackPanel();
+                outline.Child = p;
+                TextBlock label = new TextBlock()
+                {
+                    Text = Util.ToTitleCase(controlType.Name),
+                    Margin = new Thickness(2)
+                };
+                p.Children.Add(label);
+                p.Children.Add(new Separator());
+                p.Children.Add(container);
+                wp.Children.Add(outline);
+            }
+        }
+
+        private void RefreshControls()
+        {
+            IEnumerable<Type> controlTypes = PluginLoader.GetControls();
+            PopulateControlPreviewWrapPanel(availableControls, controlTypes);
+        }
+
+        private void RefreshTrayDisplay()
+        {
+            if (sources.IsSelected)
+            {
+                RefreshSources();
+            }
+            else if(controls.IsSelected)
+            {
+                RefreshControls();
+            }
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefreshTrayDisplay();
+        }
+
+        private void Tray_Expanded(object sender, EventArgs e)
+        {
+            RefreshTrayDisplay();
+        }
+
+        Point treeDragStartPoint;
         private void TreeView_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            dragStartPoint = e.GetPosition(null);
+            treeDragStartPoint = e.GetPosition(null);
         }
 
         private void TreeView_MouseMove(object sender, MouseEventArgs e)
         {
             Point mousePos = e.GetPosition(null);
-            Vector motion = dragStartPoint - mousePos;
+            Vector motion = treeDragStartPoint - mousePos;
 
             if(e.LeftButton == MouseButtonState.Pressed &&
                 (Math.Abs(motion.X) > SystemParameters.MinimumHorizontalDragDistance ||
@@ -74,9 +147,41 @@ namespace StealthRobotics.Dashboard
             }
         }
 
+        Point controlDragStartPoint;
+        private void AvailableControls_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            controlDragStartPoint = e.GetPosition(null);
+        }
+
+        private void AvailableControls_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point mousePos = e.GetPosition(null);
+            Vector motion = controlDragStartPoint - mousePos;
+
+            if(e.LeftButton == MouseButtonState.Pressed &&
+                (Math.Abs(motion.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                Math.Abs(motion.Y) > SystemParameters.MinimumVerticalDragDistance))
+            {
+                Border source = ((DependencyObject)e.OriginalSource).FindAncestor<Border>();
+                if (source == null) return;
+
+                StackPanel p = source.Child as StackPanel;
+                //the first child is the label, the second is a separator, and the third is the tilegrid
+                TileGrid tileGrid = p.Children.Cast<UIElement>().Last() as TileGrid;
+                //the tilegrid's only child is the control!
+                SourcedControl c = tileGrid.Children.Cast<UIElement>().Last() as SourcedControl;
+                //get the source control type info to pass to the dragdrop
+                Type controlType = c.GetType();
+                DataObject dragInfo = new DataObject(NetworkDataFormats.SourcedControl, controlType);
+                DragDrop.DoDragDrop(source, dragInfo, DragDropEffects.Copy | DragDropEffects.Move);
+                tray.Show();
+            }
+        }
+
         private void DashboardRoot_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(NetworkDataFormats.NetworkElement))
+            if (e.Data.GetDataPresent(NetworkDataFormats.NetworkElement)
+                || e.Data.GetDataPresent(NetworkDataFormats.SourcedControl))
             {
                 tray.Hide();
             }
@@ -87,8 +192,30 @@ namespace StealthRobotics.Dashboard
             if(e.KeyStates.HasFlag(DragDropKeyStates.ControlKey) &&
                 e.Data.GetDataPresent(NetworkDataFormats.NetworkElement))
             {
-                //create the control here
+                //offer to create the bound control here
                 MessageBox.Show("ok cool");
+            }
+            else if(e.Data.GetDataPresent(NetworkDataFormats.SourcedControl))
+            {
+                //create the control here
+                Type controlType = (Type)e.Data.GetData(NetworkDataFormats.SourcedControl);
+                SourcedControl c = (SourcedControl)controlType.GetConstructor(Type.EmptyTypes).Invoke(null);
+                Point dropPoint = e.GetPosition(dashboardRoot);
+                //centering. goal: if there span is even, we want to center on nearest line,
+                //if span is odd, center the nearest full tile
+                int colSpan = TileGrid.GetColumnSpan(c);
+                int rowSpan = TileGrid.GetRowSpan(c);
+                double preciseCol = dropPoint.X / 50;
+                double preciseRow = dropPoint.Y / 50;
+                int col = colSpan % 2 == 0 ? (int)Math.Round(preciseCol) : (int)Math.Floor(preciseCol);
+                int row = rowSpan % 2 == 0 ? (int)Math.Round(preciseRow) : (int)Math.Floor(preciseRow);
+                int colOffset = colSpan / 2;
+                int rowOffset = rowSpan / 2;
+                col = Math.Max(col - colOffset, 0);
+                row = Math.Max(row - rowOffset, 0);
+                TileGrid.SetColumn(c, col);
+                TileGrid.SetRow(c, row);
+                dashboardRoot.Children.Add(c);
             }
             e.Handled = true;
         }
@@ -99,6 +226,10 @@ namespace StealthRobotics.Dashboard
                 e.Data.GetDataPresent(NetworkDataFormats.NetworkElement))
             {
                 e.Effects = DragDropEffects.Move;
+            }
+            else if(e.Data.GetDataPresent(NetworkDataFormats.SourcedControl))
+            {
+                e.Effects = DragDropEffects.Copy;
             }
             else
             {

@@ -9,6 +9,12 @@ if we control-drop a network element
 		create the control (centered?) at the drop site
 Save and load dashboards
 
+-----Pre-release tests------
+
+Make an example plugin for:
+	documentation
+	testing plugin loading
+
 -----Release tools-----
 
 Dashboard launcher

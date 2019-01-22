@@ -9,5 +9,6 @@ namespace StealthRobotics.Dashboard.API.UI
     public static class NetworkDataFormats
     {
         public const string NetworkElement = "NTSource";
+        public const string SourcedControl = "NTControl";
     }
 }
