@@ -146,7 +146,7 @@ namespace StealthRobotics.Dashboard.API.UI
                 NetworkElement element = e.Data.GetData(NetworkDataFormats.NetworkElement) as NetworkElement;
                 if (ValidateDropType(element))
                 {
-                    e.Effects = DragDropEffects.Copy;
+                    e.Effects = DragDropEffects.Link;
                 }
                 else
                 {
@@ -165,9 +165,10 @@ namespace StealthRobotics.Dashboard.API.UI
                 {
                     //source = full path
                     Source = element.FullPath.Replace("/SmartDashboard/", "");
+                    //only handle if successful drop
+                    e.Handled = true;
                 }
             }
-            e.Handled = true;
         }
 
         private bool ValidateDropType(NetworkElement e)

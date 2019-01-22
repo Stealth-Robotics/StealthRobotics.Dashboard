@@ -142,7 +142,7 @@ namespace StealthRobotics.Dashboard
                 NetworkElement data = (NetworkElement)element.DataContext;
 
                 DataObject dragInfo = new DataObject(NetworkDataFormats.NetworkElement, data);
-                DragDrop.DoDragDrop(element, dragInfo, DragDropEffects.Copy | DragDropEffects.Move);
+                DragDrop.DoDragDrop(element, dragInfo, DragDropEffects.Copy | DragDropEffects.Move | DragDropEffects.Link);
                 tray.Show();
             }
         }
@@ -222,12 +222,9 @@ namespace StealthRobotics.Dashboard
 
         private void DashboardRoot_DragOver(object sender, DragEventArgs e)
         {
-            if(e.KeyStates.HasFlag(DragDropKeyStates.ControlKey) &&
-                e.Data.GetDataPresent(NetworkDataFormats.NetworkElement))
-            {
-                e.Effects = DragDropEffects.Move;
-            }
-            else if(e.Data.GetDataPresent(NetworkDataFormats.SourcedControl))
+            if((e.KeyStates.HasFlag(DragDropKeyStates.ControlKey) &&
+                e.Data.GetDataPresent(NetworkDataFormats.NetworkElement)) ||
+                e.Data.GetDataPresent(NetworkDataFormats.SourcedControl))
             {
                 e.Effects = DragDropEffects.Copy;
             }
