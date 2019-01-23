@@ -74,9 +74,8 @@ namespace StealthRobotics.Dashboard.Controls
             //100x50
             TileGrid.SetColumnSpan(this, 2);
             TileGrid.SetRowSpan(this, 1);
-
-            //REMOVE THIS LATER
-            display.Text = "test";
+            
+            display.Text = "no data available";
             display.SetBinding(TextBlock.FontSizeProperty, this, "FontSize");
             SourceChanged += NumberDisplay_SourceChanged;
         }

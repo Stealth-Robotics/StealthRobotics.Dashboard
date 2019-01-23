@@ -2,11 +2,6 @@ TODO LIST
 
 -----Dashboard functionality-----
 
-approach change: 
-if we control-drop a network element
-	pop up a preview window
-	if the user highlights a sample and clicks ok
-		create the control (centered?) at the drop site
 Save and load dashboards
 
 -----Pre-release tests------

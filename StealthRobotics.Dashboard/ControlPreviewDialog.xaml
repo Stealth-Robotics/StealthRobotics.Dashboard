@@ -1,0 +1,29 @@
+﻿<Window x:Class="StealthRobotics.Dashboard.ControlPreviewDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StealthRobotics.Dashboard"
+        mc:Ignorable="d"
+        Title="Create a control" Height="500" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="50"/>
+                    <Setter Property="Padding" Value="2.75"/>
+                    <Setter Property="Margin" Value="0.75 0 0.75 0"/>
+                </Style>
+            </StackPanel.Resources>
+            <Button Name="accept" IsDefault="True" Click="Accept_Click">Create</Button>
+            <Button Name="cancel" IsCancel="True">Cancel</Button>
+        </StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <WrapPanel Name="availableControls" MouseDown="AvailableControls_MouseUp"/>
+        </ScrollViewer>
+    </Grid>
+</Window>

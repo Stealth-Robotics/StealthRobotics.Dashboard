@@ -32,8 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdornedControl">
-      <HintPath>..\AdornedControl.dll</HintPath>
+    <Reference Include="AdornedControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\AdornedControl.dll</HintPath>
     </Reference>
     <Reference Include="FRC.CameraServer, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FRC.CameraServer.1.0.2\lib\net45\FRC.CameraServer.dll</HintPath>

@@ -17,6 +17,40 @@ namespace StealthRobotics.Dashboard.API.UI
 {
     public class SourcedControl : SnapControl
     {
+        /// <summary>
+        /// Gets all the primitive data types that a given SourcedControl type can handle
+        /// </summary>
+        /// <param name="t">The SourcedControl type to check</param>
+        /// <remarks>Throws an InvalidOperationException if t is not a descendant of SourcedControl</remarks>
+        public static IEnumerable<Type> GetAllowedPrimitiveTypes(Type t)
+        {
+            if (!typeof(SourcedControl).IsAssignableFrom(t))
+                throw new InvalidOperationException("Can't define allowed types on non-SourceControl objects.");
+            IEnumerable<Type> allowedPrimitiveTypes = t
+                .GetCustomAttributes(typeof(NetworkSourceListenerAttribute), true)
+                .Cast<NetworkSourceListenerAttribute>()
+                .SelectMany((listener) => listener.SourceTypes)
+                .Distinct();
+            return allowedPrimitiveTypes;
+        }
+
+        /// <summary>
+        /// Gets all the complex data types that a given SourcedControl type can handle
+        /// </summary>
+        /// <param name="t">The SourcedControl type to check</param>
+        /// <remarks>Throws an InvalidOperationException if t is not a descendant of SourcedControl</remarks>
+        public static IEnumerable<string> GetAllowedComplexTypes(Type t)
+        {
+            if (!typeof(SourcedControl).IsAssignableFrom(t))
+                throw new InvalidOperationException("Can't define allowed types on non-SourceControl objects.");
+            IEnumerable<string> allowedTypes = t
+                .GetCustomAttributes(typeof(ComplexNetworkListenerAttribute), true)
+                .Cast<ComplexNetworkListenerAttribute>()
+                .SelectMany((listener) => listener.TableTypes)
+                .Distinct();
+            return allowedTypes;
+        }
+
         public event NetworkSourceChangedEventHandler SourceChanged;
 
         [DialogProperty]
@@ -178,23 +212,13 @@ namespace StealthRobotics.Dashboard.API.UI
                 //deal with complex types
                 NetworkTable table = NetworkTable.GetTable(e.FullPath);
                 string dataType = table.GetString("type", null);
-                IEnumerable<string> allowedTypes = GetType()
-                    .GetCustomAttributes(typeof(ComplexNetworkListenerAttribute), true)
-                    .Cast<ComplexNetworkListenerAttribute>()
-                    .SelectMany((listener) => listener.TableTypes)
-                    .Distinct();
-                return allowedTypes.Contains(dataType);
+                return GetAllowedComplexTypes(GetType()).Contains(dataType);
             }
             else
             {
                 //deal with primitives
                 //get all the unique primitive types allowed
-                IEnumerable<Type> allowedPrimitiveTypes = GetType()
-                    .GetCustomAttributes(typeof(NetworkSourceListenerAttribute), true)
-                    .Cast<NetworkSourceListenerAttribute>()
-                    .SelectMany((listener) => listener.SourceTypes)
-                    .Distinct();
-                return allowedPrimitiveTypes.Contains(e.Type);
+                return GetAllowedPrimitiveTypes(GetType()).Contains(e.Type);
             }
         }
 

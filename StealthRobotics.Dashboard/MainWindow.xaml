@@ -41,7 +41,7 @@
         <!--This sets a separate adorner layer for the grid and its contents-->
         <AdornerDecorator>
             <api:TileGrid Name="dashboardRoot" Rows="6" Columns="8" IsEditable="True" TileSizingMode="Uniform" 
-                          ShowGridlines="True" Background="Transparent" AllowDrop="True"
+                          ShowGridlines="True" Background="Transparent" AllowDrop="True" MouseDown="DashboardRoot_MouseDown"
                           DragEnter="DashboardRoot_DragEnter" Drop="DashboardRoot_Drop" DragOver="DashboardRoot_DragOver">
                 <api:TileGrid.ContextMenu>
                     <ContextMenu>
