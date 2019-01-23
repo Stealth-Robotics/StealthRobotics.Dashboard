@@ -251,6 +251,24 @@ namespace StealthRobotics.Dashboard.API.UI
         }
 
         /// <summary>
+        /// Gets the render width of each displayed column.
+        /// </summary>
+        public double GetColumnWidth()
+        {
+            Tuple<int, int> rowcol = GetRowColDimensions(new Size(ActualWidth, ActualHeight));
+            return ActualWidth / rowcol.Item2;
+        }
+
+        /// <summary>
+        /// Gets the render height of each displayed row.
+        /// </summary>
+        public double GetRowHeight()
+        {
+            Tuple<int, int> rowcol = GetRowColDimensions(new Size(ActualWidth, ActualHeight));
+            return ActualHeight / rowcol.Item1;
+        }
+
+        /// <summary>
         /// Gets the number of rows and columns for layout
         /// </summary>
         /// <param name="finalSize">The finite size of the panel</param>

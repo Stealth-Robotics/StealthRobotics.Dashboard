@@ -20,7 +20,7 @@ namespace StealthRobotics.Dashboard.API.Network
         /// </summary>
         public string FullPath { get; private set; }
         /// <summary>
-        /// The type of the entry. Can be a primitive type or NetworkTable
+        /// The type of the entry. Can be a primitive type or NetworkTree
         /// </summary>
         public readonly Type Type;
         internal NetworkElement(string name, Type type, NetworkTree parent = null)

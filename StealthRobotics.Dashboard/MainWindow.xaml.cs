@@ -1,4 +1,5 @@
 ﻿using Adorners;
+using NetworkTables;
 using StealthRobotics.Dashboard.API.Network;
 using StealthRobotics.Dashboard.API.UI;
 using System;
@@ -33,7 +34,7 @@ namespace StealthRobotics.Dashboard
         {
             //init network table and put test camera
             NetworkBinding.Initialize(0, Dispatcher, false);
-            NetworkTables.NetworkTable.GetTable("").PutStringArray("CameraPublisher/Fake Camera 0/streams", new List<string>());
+            NetworkTable.GetTable("").PutStringArray("CameraPublisher/Fake Camera 0/streams", new List<string>());
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -69,7 +70,8 @@ namespace StealthRobotics.Dashboard
                     IsEditable = false,
                     TileSizingMode = TileSizingMode.Uniform,
                     Width = expectedWidth,
-                    Height = expectedHeight
+                    Height = expectedHeight,
+                    Background = new SolidColorBrush(Colors.Transparent)
                 };
                 container.Children.Add(c);
                 Border outline = new Border()
@@ -193,28 +195,44 @@ namespace StealthRobotics.Dashboard
                 e.Data.GetDataPresent(NetworkDataFormats.NetworkElement))
             {
                 //offer to create the bound control here
-                MessageBox.Show("ok cool");
+                NetworkElement dataSource = (NetworkElement)e.Data.GetData(NetworkDataFormats.NetworkElement);
+                //all available types
+                IEnumerable<Type> controlTypes = PluginLoader.GetControls();
+                IEnumerable<Type> allowedControls;
+                //check whether this is a primitive or complex data and filter the controls appropriately
+                if(dataSource.Type == typeof(NetworkTree))
+                {
+                    //get the expected type of the element
+                    NetworkTable table = NetworkTable.GetTable(dataSource.FullPath);
+                    string dataType = table.GetString("type", null);
+                    allowedControls = controlTypes
+                        .Where((t) => SourcedControl.GetAllowedComplexTypes(t).Contains(dataType));
+                }
+                else
+                {
+                    allowedControls = controlTypes
+                        .Where((t) => SourcedControl.GetAllowedPrimitiveTypes(t).Contains(dataSource.Type));
+                }
+                ControlPreviewDialog previewDialog = new ControlPreviewDialog();
+                PopulateControlPreviewWrapPanel(previewDialog.availableControls, allowedControls);
+                if(previewDialog.ShowDialog() == true)
+                {
+                    Type controlType = previewDialog.SelectedType;
+                    if (controlType != null)
+                    {
+                        SourcedControl c = (SourcedControl)controlType.GetConstructor(Type.EmptyTypes).Invoke(null);
+                        PlaceAtDropPoint(c, e);
+                        dashboardRoot.Children.Add(c);
+                        c.Source = dataSource.FullPath.Replace("/SmartDashboard/", "");
+                    }
+                }
             }
             else if(e.Data.GetDataPresent(NetworkDataFormats.SourcedControl))
             {
                 //create the control here
                 Type controlType = (Type)e.Data.GetData(NetworkDataFormats.SourcedControl);
                 SourcedControl c = (SourcedControl)controlType.GetConstructor(Type.EmptyTypes).Invoke(null);
-                Point dropPoint = e.GetPosition(dashboardRoot);
-                //centering. goal: if there span is even, we want to center on nearest line,
-                //if span is odd, center the nearest full tile
-                int colSpan = TileGrid.GetColumnSpan(c);
-                int rowSpan = TileGrid.GetRowSpan(c);
-                double preciseCol = dropPoint.X / 50;
-                double preciseRow = dropPoint.Y / 50;
-                int col = colSpan % 2 == 0 ? (int)Math.Round(preciseCol) : (int)Math.Floor(preciseCol);
-                int row = rowSpan % 2 == 0 ? (int)Math.Round(preciseRow) : (int)Math.Floor(preciseRow);
-                int colOffset = colSpan / 2;
-                int rowOffset = rowSpan / 2;
-                col = Math.Max(col - colOffset, 0);
-                row = Math.Max(row - rowOffset, 0);
-                TileGrid.SetColumn(c, col);
-                TileGrid.SetRow(c, row);
+                PlaceAtDropPoint(c, e);
                 dashboardRoot.Children.Add(c);
             }
             e.Handled = true;
@@ -233,6 +251,25 @@ namespace StealthRobotics.Dashboard
                 e.Effects = DragDropEffects.None;
             }
             e.Handled = true;
+        }
+
+        private void PlaceAtDropPoint(SourcedControl c, DragEventArgs e)
+        {
+            Point dropPoint = e.GetPosition(dashboardRoot);
+            //centering. goal: if there span is even, we want to center on nearest line,
+            //if span is odd, center the nearest full tile
+            int colSpan = TileGrid.GetColumnSpan(c);
+            int rowSpan = TileGrid.GetRowSpan(c);
+            double preciseCol = dropPoint.X / dashboardRoot.GetColumnWidth();
+            double preciseRow = dropPoint.Y / dashboardRoot.GetRowHeight();
+            int col = colSpan % 2 == 0 ? (int)Math.Round(preciseCol) : (int)Math.Floor(preciseCol);
+            int row = rowSpan % 2 == 0 ? (int)Math.Round(preciseRow) : (int)Math.Floor(preciseRow);
+            int colOffset = colSpan / 2;
+            int rowOffset = rowSpan / 2;
+            col = Math.Max(col - colOffset, 0);
+            row = Math.Max(row - rowOffset, 0);
+            TileGrid.SetColumn(c, col);
+            TileGrid.SetRow(c, row);
         }
     }
 }

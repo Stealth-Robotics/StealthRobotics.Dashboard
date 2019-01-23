@@ -33,7 +33,7 @@ namespace StealthRobotics.Dashboard.Controls
                 }
                 return ret;
             }
-            return double.NaN;
+            return 0;
         }
     }
 }
