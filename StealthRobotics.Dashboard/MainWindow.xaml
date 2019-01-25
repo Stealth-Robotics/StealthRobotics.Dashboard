@@ -9,7 +9,7 @@
         xmlns:network="clr-namespace:StealthRobotics.Dashboard.API.Network;assembly=StealthRobotics.Dashboard.API"
         mc:Ignorable="d" Loaded="Window_Loaded" Closed="Window_Closed"
         Title="A very Stealthy dashboard" Height="450" Width="800">
-    <a:AdornedControl IsAdornerVisible="True">
+    <a:AdornedControl IsAdornerVisible="True" Name="mainContent">
         <a:AdornedControl.AdornerContent>
             <local:LeftSideTray x:Name="tray" Width="350" HorizontalAlignment="Left" Expanded="Tray_Expanded">
                 <TabControl Margin="1.5" SelectionChanged="TabControl_SelectionChanged">
@@ -41,7 +41,7 @@
         <!--This sets a separate adorner layer for the grid and its contents-->
         <AdornerDecorator>
             <api:TileGrid Name="dashboardRoot" Rows="6" Columns="8" IsEditable="True" TileSizingMode="Uniform" 
-                          ShowGridlines="True" Background="Transparent" AllowDrop="True" MouseDown="DashboardRoot_MouseDown"
+                          ShowGridlines="True" Background="Transparent" AllowDrop="True"
                           DragEnter="DashboardRoot_DragEnter" Drop="DashboardRoot_Drop" DragOver="DashboardRoot_DragOver">
                 <api:TileGrid.ContextMenu>
                     <ContextMenu>
@@ -49,7 +49,8 @@
                             <local:InverterConverter x:Key="invert"/>
                         </ContextMenu.Resources>
                         <MenuItem Header="Show grid" IsCheckable="True" IsChecked="{Binding ShowGridlines}"/>
-                        <MenuItem Header="Competition mode" IsCheckable="True" IsChecked="{Binding IsEditable, Converter={StaticResource invert}}"/>
+                        <MenuItem Checked="MenuItem_Checked" Unchecked="MenuItem_Unchecked"
+                                  Header="Competition mode" IsCheckable="True" IsChecked="{Binding IsEditable, Converter={StaticResource invert}}"/>
                     </ContextMenu>
                 </api:TileGrid.ContextMenu>
                 <api:SourcedControl Name="test1" api:TileGrid.Column="1" api:TileGrid.ColumnSpan="3" api:TileGrid.Row="2" api:TileGrid.RowSpan="2">

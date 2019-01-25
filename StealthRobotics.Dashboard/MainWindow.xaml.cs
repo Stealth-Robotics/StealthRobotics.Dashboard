@@ -2,6 +2,7 @@
 using NetworkTables;
 using StealthRobotics.Dashboard.API.Network;
 using StealthRobotics.Dashboard.API.UI;
+using StealthRobotics.Dashboard.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -213,18 +214,25 @@ namespace StealthRobotics.Dashboard
                     allowedControls = controlTypes
                         .Where((t) => SourcedControl.GetAllowedPrimitiveTypes(t).Contains(dataSource.Type));
                 }
-                ControlPreviewDialog previewDialog = new ControlPreviewDialog();
-                PopulateControlPreviewWrapPanel(previewDialog.availableControls, allowedControls);
-                if(previewDialog.ShowDialog() == true)
+                if (allowedControls.Count() != 0)
                 {
-                    Type controlType = previewDialog.SelectedType;
-                    if (controlType != null)
+                    ControlPreviewDialog previewDialog = new ControlPreviewDialog();
+                    PopulateControlPreviewWrapPanel(previewDialog.availableControls, allowedControls);
+                    if (previewDialog.ShowDialog() == true)
                     {
-                        SourcedControl c = (SourcedControl)controlType.GetConstructor(Type.EmptyTypes).Invoke(null);
-                        PlaceAtDropPoint(c, e);
-                        dashboardRoot.Children.Add(c);
-                        c.Source = dataSource.FullPath.Replace("/SmartDashboard/", "");
+                        Type controlType = previewDialog.SelectedType;
+                        if (controlType != null)
+                        {
+                            SourcedControl c = (SourcedControl)controlType.GetConstructor(Type.EmptyTypes).Invoke(null);
+                            PlaceAtDropPoint(c, e);
+                            dashboardRoot.Children.Add(c);
+                            c.Source = dataSource.FullPath.Replace("/SmartDashboard/", "");
+                        }
                     }
+                }
+                else
+                {
+                    MessageBox.Show("There are no controls that can display this entry!", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
             }
             else if(e.Data.GetDataPresent(NetworkDataFormats.SourcedControl))
@@ -258,6 +266,7 @@ namespace StealthRobotics.Dashboard
             Point dropPoint = e.GetPosition(dashboardRoot);
             //centering. goal: if there span is even, we want to center on nearest line,
             //if span is odd, center the nearest full tile
+            //for even, rounding works because the division causes the control to tend towards the left
             int colSpan = TileGrid.GetColumnSpan(c);
             int rowSpan = TileGrid.GetRowSpan(c);
             double preciseCol = dropPoint.X / dashboardRoot.GetColumnWidth();
@@ -270,6 +279,17 @@ namespace StealthRobotics.Dashboard
             row = Math.Max(row - rowOffset, 0);
             TileGrid.SetColumn(c, col);
             TileGrid.SetRow(c, row);
+        }
+
+        private void MenuItem_Checked(object sender, RoutedEventArgs e)
+        {
+            tray.Hide();
+            tray.HideAdorner();
+        }
+
+        private void MenuItem_Unchecked(object sender, RoutedEventArgs e)
+        {
+            tray.ShowAdorner();
         }
     }
 }
