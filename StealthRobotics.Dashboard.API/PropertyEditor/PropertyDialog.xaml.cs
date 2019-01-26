@@ -33,12 +33,8 @@ namespace StealthRobotics.Dashboard.API.PropertyEditor
             InitializeComponent();
 
             Type t = propertySource.GetType();
-            IEnumerable<PropertyInfo> props = t.GetProperties().Where((x) =>
-            {
-                IEnumerable<Attribute> attrs = x.GetCustomAttributes<DialogPropertyAttribute>();
-                return attrs.Count() > 0;
-            });
-
+            IEnumerable<PropertyInfo> props = PropertyManager.GetEditorProperties(t);
+ 
             foreach(PropertyInfo property in props)
             {
                 //add these to the display to be modified

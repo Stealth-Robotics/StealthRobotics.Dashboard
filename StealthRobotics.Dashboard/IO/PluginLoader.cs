@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
 
-namespace StealthRobotics.Dashboard
+namespace StealthRobotics.Dashboard.IO
 {
     public static class PluginLoader
     {

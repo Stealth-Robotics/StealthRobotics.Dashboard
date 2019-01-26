@@ -52,6 +52,9 @@
     <Reference Include="FRC.NetworkTables, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FRC.NetworkTables.3.1.8\lib\net46\FRC.NetworkTables.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Nito.AsyncEx.Context, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nito.AsyncEx.Context.1.1.0\lib\net46\Nito.AsyncEx.Context.dll</HintPath>
     </Reference>
@@ -133,7 +136,10 @@
     <Compile Include="Controls\NumberSlider.cs" />
     <Compile Include="Controls\NumberSpinner.cs" />
     <Compile Include="Controls\SendableChooserControl.cs" />
-    <Compile Include="Controls\InverterConverter.cs" />
+    <Compile Include="IO\LayoutContractResolver.cs" />
+    <Compile Include="IO\LayoutFileManager.cs" />
+    <Compile Include="IO\TileGridColProvider.cs" />
+    <Compile Include="IO\TileGridRowProvider.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -141,7 +147,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PluginLoader.cs" />
+    <Compile Include="IO\PluginLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

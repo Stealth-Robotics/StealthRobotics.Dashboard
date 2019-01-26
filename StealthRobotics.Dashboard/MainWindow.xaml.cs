@@ -3,6 +3,7 @@ using NetworkTables;
 using StealthRobotics.Dashboard.API.Network;
 using StealthRobotics.Dashboard.API.UI;
 using StealthRobotics.Dashboard.Controls;
+using StealthRobotics.Dashboard.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -300,10 +301,15 @@ namespace StealthRobotics.Dashboard
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-
+            LayoutFileManager.Save("test.txt", dashboardRoot.Children);
         }
 
         private void Load_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Plugins_Click(object sender, RoutedEventArgs e)
         {
 
         }
