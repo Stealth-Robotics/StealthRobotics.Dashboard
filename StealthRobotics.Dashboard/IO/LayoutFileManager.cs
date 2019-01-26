@@ -22,7 +22,6 @@ namespace StealthRobotics.Dashboard.IO
             IEnumerable<UIElement> list = c.Cast<UIElement>();
             JsonSerializer serializer = new JsonSerializer
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 ContractResolver = new LayoutContractResolver(),
                 Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.Auto
