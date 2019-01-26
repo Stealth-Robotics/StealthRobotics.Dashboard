@@ -12,32 +12,44 @@ namespace StealthRobotics.Dashboard.IO
 {
     public static class LayoutFileManager
     {
+        private static JsonSerializer serializer = new JsonSerializer
+        {
+            ContractResolver = new LayoutContractResolver(),
+            Formatting = Formatting.Indented,
+            TypeNameHandling = TypeNameHandling.Auto
+        };
+
         /// <summary>
         /// Saves a dashboard layout as a json-formatted file
         /// </summary>
         /// <param name="filename">A filename. If the file doesn't exist, it will be created.</param>
-        /// <param name="c">The layout to save</param>
-        public static void Save(string filename, UIElementCollection c)
+        /// <param name="source">The layout to save</param>
+        public static void Save(string filename, UIElementCollection source)
         {
-            IEnumerable<UIElement> list = c.Cast<UIElement>();
-            JsonSerializer serializer = new JsonSerializer
-            {
-                ContractResolver = new LayoutContractResolver(),
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto
-            };
             using (StreamWriter sw = new StreamWriter(filename))
             {
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
-                    serializer.Serialize(writer, list);
+                    serializer.Serialize(writer, source);
                 }
             }
         }
 
-        public static UIElementCollection Load(string fileName)
+        public static void Load(string fileName, UIElementCollection target)
         {
-            return null;
+            List<UIElement> content;
+            using (StreamReader sr = new StreamReader(fileName))
+            {
+                using (JsonReader reader = new JsonTextReader(sr))
+                {
+                    content = serializer.Deserialize<List<UIElement>>(reader);
+                }
+            }
+            target.Clear();
+            foreach (UIElement e in content)
+            {
+                target.Add(e);
+            }
         }
     }
 }

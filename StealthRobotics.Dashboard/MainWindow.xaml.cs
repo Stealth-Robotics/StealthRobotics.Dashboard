@@ -306,7 +306,7 @@ namespace StealthRobotics.Dashboard
 
         private void Load_Click(object sender, RoutedEventArgs e)
         {
-
+            LayoutFileManager.Load("test.txt", dashboardRoot.Children);
         }
 
         private void Plugins_Click(object sender, RoutedEventArgs e)

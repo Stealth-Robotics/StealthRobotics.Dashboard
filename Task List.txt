@@ -2,7 +2,7 @@ TODO LIST
 
 -----Dashboard functionality-----
 
-Save and load dashboards
+save and load from plugins - ISerializationBinder
 
 -----Pre-release tests------
 
