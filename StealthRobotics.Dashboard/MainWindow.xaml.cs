@@ -285,11 +285,27 @@ namespace StealthRobotics.Dashboard
         {
             tray.Hide();
             tray.HideAdorner();
+            //binding being weird
+            contextComp.IsChecked = true;
+            menuComp.IsChecked = true;
         }
 
         private void MenuItem_Unchecked(object sender, RoutedEventArgs e)
         {
             tray.ShowAdorner();
+            //binding being weird
+            contextComp.IsChecked = false;
+            menuComp.IsChecked = false;
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Load_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

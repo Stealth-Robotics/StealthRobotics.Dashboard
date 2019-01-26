@@ -83,7 +83,8 @@ namespace StealthRobotics.Dashboard.Controls
             ControlTemplate contentTheme = (ControlTemplate)XamlReader.Parse(
                 @"<ControlTemplate xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
                                    xmlns:a=""clr-namespace:Adorners;assembly=AdornedControl""
-                                   TargetType=""a:AdornedControl"">
+                                   xmlns:local=""clr-namespace:StealthRobotics.Dashboard.Controls;assembly=StealthRobotics.Dashboard""
+                                   TargetType=""local:LeftSideTray"">
                     <Border Background=""White"" BorderBrush=""Gray"" BorderThickness=""1"">
                         <ContentPresenter/>
                     </Border>
