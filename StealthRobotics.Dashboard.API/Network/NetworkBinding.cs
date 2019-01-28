@@ -67,41 +67,51 @@ namespace StealthRobotics.Dashboard.API.Network
 
         private static void OnNetworkTableChange(ITable table, string key, Value v, NotifyFlags flags)
         {
-            //multiple objects could be bound to this key
-            foreach(INotifyPropertyChanged source in propertyLookup.Keys)
+            try
             {
-                OneToOneConversionMap<string, string> conversionMap = propertyLookup[source];
-                ITable boundTable = customTables[source];
-                object bindingSource = (source is DependencyNotifyListener) ? (object)(source as DependencyNotifyListener).source : source;
-                if (table.ToString() != boundTable.ToString()) continue;
-                if (conversionMap.TryGetBySecond(key, out string property))
+                //multiple objects could be bound to this key
+                foreach (INotifyPropertyChanged source in propertyLookup.Keys)
                 {
-                    //the property that changed is bound to this object
-                    //grab the converter and use it if needed
-                    IValueConverter converter = conversionMap.GetConverterByFirst(property);
-                    PropertyInfo inf = bindingSource.GetType().GetProperty(property);
-                    //issue using v for some reason
-                    object value = NetworkUtil.ReadValue(boundTable.GetValue(key, null));
-                    if(converter != null)
+                    OneToOneConversionMap<string, string> conversionMap = propertyLookup[source];
+                    ITable boundTable = customTables[source];
+                    object bindingSource = (source is DependencyNotifyListener) ? (object)(source as DependencyNotifyListener).source : source;
+                    if (table.ToString() != boundTable.ToString()) continue;
+                    if (conversionMap.TryGetBySecond(key, out string property))
                     {
-                        //in an NTConverter (required in API) the null values are never used so we don't need to set them
-                        object attemptedVal = converter.ConvertBack(value, null, null, null);
-                        //in case the conversion was invalid
-                        if (attemptedVal != DependencyProperty.UnsetValue) value = attemptedVal;
-                    }
-                    //correct any type inconsistencies (eg if we want to display an integer from the network, which only stores doubles)
-                    if(value != null && value.GetType() != inf.PropertyType)
-                    {
-                        Type targetType = inf.PropertyType;
-                        if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                        //the property that changed is bound to this object
+                        //grab the converter and use it if needed
+                        IValueConverter converter = conversionMap.GetConverterByFirst(property);
+                        PropertyInfo inf = bindingSource.GetType().GetProperty(property);
+                        //issue using v for some reason
+                        object value = NetworkUtil.ReadValue(boundTable.GetValue(key, null));
+                        if (converter != null)
                         {
-                            targetType = targetType.GetGenericArguments()[0];
+                            //in an NTConverter (required in API) the null values are never used so we don't need to set them
+                            object attemptedVal = converter.ConvertBack(value, null, null, null);
+                            //in case the conversion was invalid
+                            if (attemptedVal != DependencyProperty.UnsetValue) value = attemptedVal;
                         }
-                        //anything still here can make an invalid cast to let them know to use a converter
-                        value = Convert.ChangeType(value, targetType);
+                        //correct any type inconsistencies (eg if we want to display an integer from the network, which only stores doubles)
+                        if (value != null && value.GetType() != inf.PropertyType)
+                        {
+                            Type targetType = inf.PropertyType;
+                            if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                            {
+                                targetType = targetType.GetGenericArguments()[0];
+                            }
+                            //anything still here can make an invalid cast to let them know to use a converter
+                            value = Convert.ChangeType(value, targetType);
+                        }
+                        //write to the object
+                        assignmentDispatch.Invoke(() => inf.SetValue(bindingSource, value));
                     }
-                    //write to the object
-                    assignmentDispatch.Invoke(() => inf.SetValue(bindingSource, value));
+                }
+            }
+            catch (InvalidOperationException e)
+            {
+                if(!e.Message.StartsWith("Collection was modified"))
+                {
+                    throw e;
                 }
             }
         }

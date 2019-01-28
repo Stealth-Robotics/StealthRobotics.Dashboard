@@ -54,7 +54,7 @@ namespace StealthRobotics.Dashboard.IO
         public static IEnumerable<string> GetLoadedPlugins()
         {
             string pluginDir = EnsurePluginsDir();
-            return Directory.GetFiles(pluginDir).Select((s) => Path.GetFileNameWithoutExtension(s));
+            return Directory.GetFiles(pluginDir, "*.dll").Select((s) => Assembly.LoadFrom(s).FullName.Split(',')[0]);
         }
 
         public static void UnloadPlugin(string pluginName)

@@ -3,6 +3,7 @@ TODO LIST
 -----Dashboard functionality-----
 
 save and load from plugins - ISerializationBinder
+test with invalid layout file
 
 -----Pre-release tests------
 

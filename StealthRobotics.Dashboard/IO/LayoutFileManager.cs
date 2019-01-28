@@ -14,9 +14,10 @@ namespace StealthRobotics.Dashboard.IO
     {
         private static JsonSerializer serializer = new JsonSerializer
         {
-            ContractResolver = new LayoutContractResolver(),
+            ContractResolver = LayoutContractResolver.Instance,
             Formatting = Formatting.Indented,
-            TypeNameHandling = TypeNameHandling.Auto
+            TypeNameHandling = TypeNameHandling.Auto,
+            SerializationBinder = LayoutSerializationBinder.Instance
         };
 
         /// <summary>
@@ -38,6 +39,7 @@ namespace StealthRobotics.Dashboard.IO
         public static void Load(string fileName, UIElementCollection target)
         {
             List<UIElement> content;
+            serializer.Error += Serializer_Error;
             using (StreamReader sr = new StreamReader(fileName))
             {
                 using (JsonReader reader = new JsonTextReader(sr))
@@ -45,11 +47,18 @@ namespace StealthRobotics.Dashboard.IO
                     content = serializer.Deserialize<List<UIElement>>(reader);
                 }
             }
+            serializer.Error -= Serializer_Error;
             target.Clear();
             foreach (UIElement e in content)
             {
                 target.Add(e);
             }
+        }
+
+        private static void Serializer_Error(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs e)
+        {
+            //handle any errors. possibly do something if the file isn't a layout at all
+            e.ErrorContext.Handled = true;
         }
     }
 }
