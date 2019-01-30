@@ -13,7 +13,7 @@ namespace StealthRobotics.Dashboard.API.Network
     /// </summary>
     /// <typeparam name="TFirst">The type of the "key"</typeparam>
     /// <typeparam name="TSecond">The type of the "value"</typeparam>
-    internal class OneToOneConversionMap<TFirst, TSecond>
+    public class OneToOneConversionMap<TFirst, TSecond>
     {
         IDictionary<TFirst, TSecond> firstToSecond = new Dictionary<TFirst, TSecond>();
         IDictionary<TSecond, TFirst> secondToFirst = new Dictionary<TSecond, TFirst>();
