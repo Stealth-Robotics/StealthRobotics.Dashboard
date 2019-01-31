@@ -1,4 +1,5 @@
 ﻿using Adorners;
+using Microsoft.Win32;
 using NetworkTables;
 using StealthRobotics.Dashboard.API.Network;
 using StealthRobotics.Dashboard.API.UI;
@@ -289,6 +290,7 @@ namespace StealthRobotics.Dashboard
             //binding being weird
             contextComp.IsChecked = true;
             menuComp.IsChecked = true;
+            dashboardRoot.IsEditable = false;
         }
 
         private void MenuItem_Unchecked(object sender, RoutedEventArgs e)
@@ -297,16 +299,31 @@ namespace StealthRobotics.Dashboard
             //binding being weird
             contextComp.IsChecked = false;
             menuComp.IsChecked = false;
+            dashboardRoot.IsEditable = true;
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            LayoutFileManager.Save("test.txt", dashboardRoot.Children);
+            SaveFileDialog dlg = new SaveFileDialog()
+            {
+                Filter = "Dashboard layouts|*.dbl"
+            };
+            if (dlg.ShowDialog() == true)
+            {
+                LayoutFileManager.Save(dlg.FileName, dashboardRoot.Children);
+            }
         }
 
         private void Load_Click(object sender, RoutedEventArgs e)
         {
-            LayoutFileManager.Load("test.txt", dashboardRoot.Children);
+            OpenFileDialog dlg = new OpenFileDialog()
+            {
+                Filter = "Dashboard layouts|*.dbl"
+            };
+            if (dlg.ShowDialog() == true)
+            {
+                LayoutFileManager.Load(dlg.FileName, dashboardRoot.Children);
+            }
         }
 
         private void Plugins_Click(object sender, RoutedEventArgs e)
