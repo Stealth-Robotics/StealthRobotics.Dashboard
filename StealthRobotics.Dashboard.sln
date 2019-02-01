@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StealthRobotics.Dashboard",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StealthRobotics.Dashboard.APITests", "StealthRobotics.Dashboard.APITests\StealthRobotics.Dashboard.APITests.csproj", "{63757762-4403-4ED6-9335-8C6B2CD6D3D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StealthRobotics.Dashboard.SamplePlugin", "StealthRobotics.Dashboard.SamplePlugin\StealthRobotics.Dashboard.SamplePlugin.csproj", "{7759CA90-1717-4481-8723-71A4CB74AFE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{63757762-4403-4ED6-9335-8C6B2CD6D3D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63757762-4403-4ED6-9335-8C6B2CD6D3D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63757762-4403-4ED6-9335-8C6B2CD6D3D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7759CA90-1717-4481-8723-71A4CB74AFE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7759CA90-1717-4481-8723-71A4CB74AFE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7759CA90-1717-4481-8723-71A4CB74AFE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7759CA90-1717-4481-8723-71A4CB74AFE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
