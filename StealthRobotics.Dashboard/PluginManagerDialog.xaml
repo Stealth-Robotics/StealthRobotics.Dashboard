@@ -5,12 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StealthRobotics.Dashboard"
         mc:Ignorable="d"
-        Title="Manage plugins" Height="425" Width="375">
+        Title="Manage plugins" Height="400" Width="350">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <DockPanel>
+            <StackPanel VerticalAlignment="Center" DockPanel.Dock="Right" Margin="5">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Padding" Value="2"/>
+                        <Setter Property="Margin" Value="0 0 0 2"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button Click="Add_Click" Content="Add plugin"/>
+                <Button Click="Unload_Click" Content="Unload selected"/>
+            </StackPanel>
+            <Grid DockPanel.Dock="Left">
+                <ScrollViewer Margin="5 5 0 5" VerticalScrollBarVisibility="Auto">
+                    <ListBox Name="PluginList"/>
+                </ScrollViewer>
+            </Grid>
+        </DockPanel>
         <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Orientation="Horizontal">
             <StackPanel.Resources>
                 <Style TargetType="Button">

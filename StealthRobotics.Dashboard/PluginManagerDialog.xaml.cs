@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StealthRobotics.Dashboard.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,12 +23,28 @@ namespace StealthRobotics.Dashboard
         public PluginManagerDialog()
         {
             InitializeComponent();
+            ListItems();
+        }
+
+        private void ListItems()
+        {
+            PluginList.ItemsSource = PluginLoader.GetLoadedPlugins();
         }
 
         private void Accept_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
             Close();
+        }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Unload_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
