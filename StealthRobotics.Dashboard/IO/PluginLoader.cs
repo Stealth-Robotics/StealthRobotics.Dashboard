@@ -30,6 +30,7 @@ namespace StealthRobotics.Dashboard.IO
             IEnumerable<Type> plugins = Directory.GetFiles(pluginsDir, "*.dll")
                 .SelectMany((file) =>
                 {
+                    //might have ANY dll in plugins, make sure we only have valid .NET plugins
                     try
                     {
                         Assembly pluginAsm = Assembly.LoadFrom(file);
@@ -48,13 +49,13 @@ namespace StealthRobotics.Dashboard.IO
         {
             string filename = Path.GetFileName(path);
             string pluginDir = EnsurePluginsDir();
-            File.Copy(path, $"{pluginDir}\\filename", true);
+            File.Copy(path, $"{pluginDir}\\{filename}", true);
         }
 
         public static IEnumerable<string> GetLoadedPlugins()
         {
             string pluginDir = EnsurePluginsDir();
-            return Directory.GetFiles(pluginDir, "*.dll").Select((s) => Assembly.LoadFrom(s).FullName.Split(',')[0]);
+            return Directory.GetFiles(pluginDir, "*.dll").Select((s) => Path.GetFileNameWithoutExtension(s));
         }
 
         public static void UnloadPlugin(string pluginName)

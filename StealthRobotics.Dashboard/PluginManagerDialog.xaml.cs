@@ -1,4 +1,5 @@
-﻿using StealthRobotics.Dashboard.IO;
+﻿using Microsoft.Win32;
+using StealthRobotics.Dashboard.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,12 +40,24 @@ namespace StealthRobotics.Dashboard
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-
+            OpenFileDialog dlg = new OpenFileDialog()
+            {
+                Filter = "Plugin files|*.dll"
+            };
+            if(dlg.ShowDialog() == true)
+            {
+                PluginLoader.LoadPlugin(dlg.FileName);
+                ListItems();
+            }
         }
 
         private void Unload_Click(object sender, RoutedEventArgs e)
         {
-
+            if(PluginList.SelectedItem is string plugin)
+            {
+                PluginLoader.UnloadPlugin(plugin);
+                ListItems();
+            }
         }
     }
 }

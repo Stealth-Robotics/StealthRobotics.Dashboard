@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:StealthRobotics.Dashboard"
         mc:Ignorable="d"
         Title="Manage plugins" Height="400" Width="350">
+    <Window.Resources>
+        <local:ListBoxSelectedConverter x:Key="isSelectedConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -20,7 +23,9 @@
                     </Style>
                 </StackPanel.Resources>
                 <Button Click="Add_Click" Content="Add plugin"/>
-                <Button Click="Unload_Click" Content="Unload selected"/>
+                <Button Click="Unload_Click" Content="Unload selected" 
+                        IsEnabled="{Binding ElementName=PluginList, Path=SelectedIndex,
+                                    Converter={StaticResource isSelectedConverter}}"/>
             </StackPanel>
             <Grid DockPanel.Dock="Left">
                 <ScrollViewer Margin="5 5 0 5" VerticalScrollBarVisibility="Auto">
