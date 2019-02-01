@@ -328,7 +328,7 @@ namespace StealthRobotics.Dashboard
 
         private void Plugins_Click(object sender, RoutedEventArgs e)
         {
-
+            new PluginManagerDialog().ShowDialog();
         }
     }
 }

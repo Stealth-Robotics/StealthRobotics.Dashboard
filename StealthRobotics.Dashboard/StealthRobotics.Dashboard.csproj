@@ -141,11 +141,18 @@
     <Compile Include="IO\LayoutSerializationBinder.cs" />
     <Compile Include="IO\TileGridColProvider.cs" />
     <Compile Include="IO\TileGridRowProvider.cs" />
+    <Compile Include="PluginManagerDialog.xaml.cs">
+      <DependentUpon>PluginManagerDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PluginManagerDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IO\PluginLoader.cs" />
