@@ -38,27 +38,28 @@ namespace StealthRobotics.Dashboard.IO
 
         public static void Load(string fileName, UIElementCollection target)
         {
-            List<UIElement> content;
-            serializer.Error += Serializer_Error;
+            List<UIElement> content = null;
             using (StreamReader sr = new StreamReader(fileName))
             {
                 using (JsonReader reader = new JsonTextReader(sr))
                 {
-                    content = serializer.Deserialize<List<UIElement>>(reader);
+                    try
+                    {
+                        content = serializer.Deserialize<List<UIElement>>(reader);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Couldn't load the layout! Either the file contains a control from an unloaded plugin, " + 
+                            "or was an incorrect file format.", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
                 }
             }
-            serializer.Error -= Serializer_Error;
             target.Clear();
             foreach (UIElement e in content)
             {
                 target.Add(e);
             }
-        }
-
-        private static void Serializer_Error(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs e)
-        {
-            //handle any errors. possibly do something if the file isn't a layout at all
-            e.ErrorContext.Handled = true;
         }
     }
 }

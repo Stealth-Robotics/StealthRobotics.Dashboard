@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
+using System.Windows;
 
 namespace StealthRobotics.Dashboard.IO
 {
@@ -49,7 +50,16 @@ namespace StealthRobotics.Dashboard.IO
         {
             string filename = Path.GetFileName(path);
             string pluginDir = EnsurePluginsDir();
-            File.Copy(path, $"{pluginDir}\\{filename}", true);
+            try
+            {
+                File.Copy(path, $"{pluginDir}\\{filename}");
+            }
+            catch
+            {
+                MessageBox.Show("You're trying to load a plugin that is already loaded! " +
+                    "If you need to load a newer version, unload the old one first.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         public static IEnumerable<string> GetLoadedPlugins()
@@ -60,8 +70,16 @@ namespace StealthRobotics.Dashboard.IO
 
         public static void UnloadPlugin(string pluginName)
         {
-            string pluginDir = EnsurePluginsDir();
-            File.Delete($"{pluginDir}\\{pluginName}.dll");
+            try
+            {
+                string pluginDir = EnsurePluginsDir();
+                File.Delete($"{pluginDir}\\{pluginName}.dll");
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Can't unload that plugin because it is in use!",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ namespace StealthRobotics.Dashboard.API.PropertyEditor
 
         public ColorPropertyControl(object source, PropertyInfo prop) : base(source, prop)
         {
-            isBrush = prop.PropertyType == typeof(Brush);
+            isBrush = prop.PropertyType == typeof(SolidColorBrush);
             object startingVal = prop.GetValue(source);
 
             Value = startingVal;
