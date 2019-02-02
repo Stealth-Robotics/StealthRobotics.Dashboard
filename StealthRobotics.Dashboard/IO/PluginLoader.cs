@@ -76,7 +76,7 @@ namespace StealthRobotics.Dashboard.IO
             {
                 using (StreamReader r = new StreamReader(qFile))
                 {
-                    pluginsToRemove = r.ReadToEnd().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    pluginsToRemove = r.ReadToEnd().Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 }
             }
             foreach(string plugin in pluginsToRemove)
