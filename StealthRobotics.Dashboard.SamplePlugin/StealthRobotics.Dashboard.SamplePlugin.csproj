@@ -51,7 +51,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlotControl.cs" />
+    <Compile Include="PowerUpField.xaml.cs">
+      <DependentUpon>PowerUpField.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PowerUpFieldDataConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -79,6 +82,12 @@
       <Project>{ebcbcf79-d27f-47bf-9160-512da0d368b4}</Project>
       <Name>StealthRobotics.Dashboard.API</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="PowerUpField.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

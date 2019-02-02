@@ -328,6 +328,10 @@ namespace StealthRobotics.Dashboard
 
         private void Plugins_Click(object sender, RoutedEventArgs e)
         {
+            //make sure plugins are unloaded from the preview window in case needed
+            //hide to cover it up
+            tray.Hide();
+            availableControls.Children.Clear();
             new PluginManagerDialog().ShowDialog();
         }
     }

@@ -17,15 +17,15 @@ namespace StealthRobotics.Dashboard.Controls
     public class BoolSwitch : SourcedControl
     {
         [DialogProperty]
-        public Brush CheckedColor
+        public SolidColorBrush CheckedColor
         {
-            get { return (Brush)GetValue(CheckedColorProperty); }
+            get { return (SolidColorBrush)GetValue(CheckedColorProperty); }
             set { SetValue(CheckedColorProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for CheckedColor.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CheckedColorProperty =
-            DependencyProperty.Register("CheckedColor", typeof(Brush), typeof(BoolSwitch), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+            DependencyProperty.Register("CheckedColor", typeof(SolidColorBrush), typeof(BoolSwitch), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         [DialogProperty]
         public string Text

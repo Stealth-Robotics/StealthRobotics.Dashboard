@@ -17,36 +17,36 @@ namespace StealthRobotics.Dashboard.Controls
     public class BoolIndicator : SourcedControl
     {
         [DialogProperty]
-        public Brush OnColor
+        public SolidColorBrush OnColor
         {
-            get { return (Brush)GetValue(OnColorProperty); }
+            get { return (SolidColorBrush)GetValue(OnColorProperty); }
             set { SetValue(OnColorProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for OnColor.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OnColorProperty =
-            DependencyProperty.Register("OnColor", typeof(Brush), typeof(BoolIndicator), new PropertyMetadata(new SolidColorBrush(Colors.Green)));
+            DependencyProperty.Register("OnColor", typeof(SolidColorBrush), typeof(BoolIndicator), new PropertyMetadata(new SolidColorBrush(Colors.Green)));
 
         [DialogProperty]
-        public Brush OffColor
+        public SolidColorBrush OffColor
         {
-            get { return (Brush)GetValue(OffColorProperty); }
+            get { return (SolidColorBrush)GetValue(OffColorProperty); }
             set { SetValue(OffColorProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for OffColor.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OffColorProperty =
-            DependencyProperty.Register("OffColor", typeof(Brush), typeof(BoolIndicator), new PropertyMetadata(new SolidColorBrush(Colors.Red)));
+            DependencyProperty.Register("OffColor", typeof(SolidColorBrush), typeof(BoolIndicator), new PropertyMetadata(new SolidColorBrush(Colors.Red)));
 
-        public Brush CurrentBrush
+        public SolidColorBrush CurrentBrush
         {
-            get { return (Brush)GetValue(CurrentBrushProperty); }
+            get { return (SolidColorBrush)GetValue(CurrentBrushProperty); }
             set { SetValue(CurrentBrushProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for CurrentBrush.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CurrentBrushProperty =
-            DependencyProperty.Register("CurrentBrush", typeof(Brush), typeof(BoolIndicator), new PropertyMetadata(null));
+            DependencyProperty.Register("CurrentBrush", typeof(SolidColorBrush), typeof(BoolIndicator), new PropertyMetadata(null));
 
         public bool Value
         {

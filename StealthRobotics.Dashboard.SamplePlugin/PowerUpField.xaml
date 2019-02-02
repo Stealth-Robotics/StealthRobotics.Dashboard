@@ -1,0 +1,56 @@
+﻿<api:SourcedControl x:Class="StealthRobotics.Dashboard.SamplePlugin.PowerUpField"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StealthRobotics.Dashboard.SamplePlugin"
+             xmlns:api="clr-namespace:StealthRobotics.Dashboard.API.UI;assembly=StealthRobotics.Dashboard.API"
+             mc:Ignorable="d" DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             d:DesignHeight="300" d:DesignWidth="200">
+    <!--note the xmlns declaration for the API tools. DataContext sets the default binding source here as the PowerUpField itself-->
+    <Grid>
+        <Grid.Resources>
+            <!--Style to apply to all child grids-->
+            <Style TargetType="Grid">
+                <Setter Property="Grid.ColumnSpan" Value="2"/>
+                <Setter Property="RenderTransformOrigin" Value="0.5 0.5"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!--Opposing switch-->
+        <Grid Grid.Row="0">
+            <Grid.RenderTransform>
+                <ScaleTransform x:Name="opposingSwitch" ScaleX="{Binding ScaleValues[2]}"/>
+            </Grid.RenderTransform>
+            <Rectangle Margin="25 40" Fill="LightGray"/>
+            <Rectangle HorizontalAlignment="Left" Width="60" Height="60" Margin="10" Fill="{Binding AllianceColor}"/>
+            <Rectangle HorizontalAlignment="Right" Width="60" Height="60" Margin="10" Fill="{Binding OpposingColor}"/>
+        </Grid>
+        <!--scale-->
+        <Grid Grid.Row="1">
+            <Grid.RenderTransform>
+                <ScaleTransform x:Name="scale" ScaleX="{Binding ScaleValues[1]}"/>
+            </Grid.RenderTransform>
+            <Rectangle Margin="25 40" Fill="LightGray"/>
+            <Rectangle HorizontalAlignment="Left" Width="60" Height="60" Margin="10" Fill="{Binding AllianceColor}"/>
+            <Rectangle HorizontalAlignment="Right" Width="60" Height="60" Margin="10" Fill="{Binding OpposingColor}"/>
+        </Grid>
+        <!--alliance switch-->
+        <Grid Grid.Row="2">
+            <Grid.RenderTransform>
+                <ScaleTransform x:Name="allianceSwitch" ScaleX="{Binding ScaleValues[0]}"/>
+            </Grid.RenderTransform>
+            <Rectangle Margin="25 40" Fill="LightGray"/>
+            <Rectangle HorizontalAlignment="Left" Width="60" Height="60" Margin="10" Fill="{Binding AllianceColor}"/>
+            <Rectangle HorizontalAlignment="Right" Width="60" Height="60" Margin="10" Fill="{Binding OpposingColor}"/>
+        </Grid>
+    </Grid>
+</api:SourcedControl>

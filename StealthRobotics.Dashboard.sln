@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StealthRobotics.Dashboard.API", "StealthRobotics.Dashboard.API\StealthRobotics.Dashboard.API.csproj", "{EBCBCF79-D27F-47BF-9160-512DA0D368B4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StealthRobotics.Dashboard", "StealthRobotics.Dashboard\StealthRobotics.Dashboard.csproj", "{B391261A-7696-4D2C-AEEE-877E3AAD7775}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7759CA90-1717-4481-8723-71A4CB74AFE2} = {7759CA90-1717-4481-8723-71A4CB74AFE2}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StealthRobotics.Dashboard.APITests", "StealthRobotics.Dashboard.APITests\StealthRobotics.Dashboard.APITests.csproj", "{63757762-4403-4ED6-9335-8C6B2CD6D3D3}"
 EndProject
