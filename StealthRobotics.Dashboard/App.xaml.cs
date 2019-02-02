@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StealthRobotics.Dashboard.IO;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -17,6 +18,8 @@ namespace StealthRobotics.Dashboard
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            //unload any pending plugins
+            PluginLoader.UnloadFromQueue();
             //if testing, start the outlineviewer
             if (Debugger.IsAttached)
             {

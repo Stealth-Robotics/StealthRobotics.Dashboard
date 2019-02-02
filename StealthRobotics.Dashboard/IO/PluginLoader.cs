@@ -68,17 +68,43 @@ namespace StealthRobotics.Dashboard.IO
             return Directory.GetFiles(pluginDir, "*.dll").Select((s) => Path.GetFileNameWithoutExtension(s));
         }
 
+        public static void UnloadFromQueue()
+        {
+            string pluginDir = EnsurePluginsDir();
+            IEnumerable<string> pluginsToRemove = new List<string>();
+            using (FileStream qFile = File.Open($"{pluginDir}\\pending", FileMode.OpenOrCreate))
+            {
+                using (StreamReader r = new StreamReader(qFile))
+                {
+                    pluginsToRemove = r.ReadToEnd().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                }
+            }
+            foreach(string plugin in pluginsToRemove)
+            {
+                UnloadPlugin(plugin.Trim());
+            }
+            File.Delete($"{pluginDir}\\pending");
+        }
+
         public static void UnloadPlugin(string pluginName)
         {
+            string pluginDir = EnsurePluginsDir();
             try
             {
-                string pluginDir = EnsurePluginsDir();
                 File.Delete($"{pluginDir}\\{pluginName}.dll");
             }
-            catch(Exception e)
+            catch
             {
-                MessageBox.Show("Can't unload that plugin because it is in use!",
+                MessageBox.Show("This plugin can't be unloaded because it was used this session. " + 
+                    "It will be unloaded next time you start the dashboard. ",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                using (FileStream qFile = File.Open($"{pluginDir}\\pending", FileMode.Append))
+                {
+                    using (StreamWriter w = new StreamWriter(qFile))
+                    {
+                        w.WriteLine(pluginName);
+                    }
+                }
             }
         }
     }
