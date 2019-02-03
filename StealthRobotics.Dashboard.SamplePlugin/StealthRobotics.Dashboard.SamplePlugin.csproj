@@ -54,6 +54,7 @@
     <Compile Include="PowerUpField.xaml.cs">
       <DependentUpon>PowerUpField.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PowerUpFieldCodeOnly.cs" />
     <Compile Include="PowerUpFieldDataConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

@@ -12,7 +12,6 @@
         <Grid.Resources>
             <!--Style to apply to all child grids-->
             <Style TargetType="Grid">
-                <Setter Property="Grid.ColumnSpan" Value="2"/>
                 <Setter Property="RenderTransformOrigin" Value="0.5 0.5"/>
             </Style>
         </Grid.Resources>
@@ -21,10 +20,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
         <!--Opposing switch-->
         <Grid Grid.Row="0">
             <Grid.RenderTransform>

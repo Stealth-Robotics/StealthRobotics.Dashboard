@@ -9,22 +9,17 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace StealthRobotics.Dashboard.SamplePlugin
 {
     /// <summary>
-    /// Interaction logic for PowerUpField.xaml
-    /// A simple example plugin that takes a string and uses a custom converter
-    /// to display the state of a 2018 FIRST Power Up field
+    /// The same PowerUpField as in PowerUpField.xaml, but using only code
+    /// in case you prefer not to use and/or learn XAML
     /// </summary>
     [NetworkSourceListener(typeof(string))]
-    public partial class PowerUpField : SourcedControl
+    public class PowerUpFieldCodeOnly : SourcedControl
     {
         /// <summary>
         /// An array that tracks which segments should be flipped. Generally, use caution when binding arrays to dashboard
@@ -39,11 +34,11 @@ namespace StealthRobotics.Dashboard.SamplePlugin
             {
                 //we need to check for array equality so we don't create infinite updates
                 double[] oldVal = (double[])GetValue(ScaleValuesProperty);
-                if(oldVal.Length == value.Length)
+                if (oldVal.Length == value.Length)
                 {
-                    for(int i = 0; i < value.Length; i++)
+                    for (int i = 0; i < value.Length; i++)
                     {
-                        if(oldVal[i] != value[i])
+                        if (oldVal[i] != value[i])
                         {
                             //discrepancy
                             SetValue(ScaleValuesProperty, value);
@@ -60,9 +55,8 @@ namespace StealthRobotics.Dashboard.SamplePlugin
         }
 
         // Using a DependencyProperty as the backing store for ScaleValues.  This enables animation, styling, binding, etc...
-        // default is { 1, -1, 1 } - middle one flipped for previewing
         public static readonly DependencyProperty ScaleValuesProperty =
-            DependencyProperty.Register("ScaleValues", typeof(double[]), typeof(PowerUpField), 
+            DependencyProperty.Register("ScaleValues", typeof(double[]), typeof(PowerUpFieldCodeOnly),
                 new PropertyMetadata(new double[] { 1, -1, 1 }));
 
         /// <summary>
@@ -79,7 +73,7 @@ namespace StealthRobotics.Dashboard.SamplePlugin
 
         // Using a DependencyProperty as the backing store for AllianceColor.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AllianceColorProperty =
-            DependencyProperty.Register("AllianceColor", typeof(SolidColorBrush), typeof(PowerUpField),
+            DependencyProperty.Register("AllianceColor", typeof(SolidColorBrush), typeof(PowerUpFieldCodeOnly),
                 new PropertyMetadata(new SolidColorBrush(Colors.Purple)));
 
         /// <summary>
@@ -96,34 +90,88 @@ namespace StealthRobotics.Dashboard.SamplePlugin
 
         // Using a DependencyProperty as the backing store for BlueColor.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OpposingColorProperty =
-            DependencyProperty.Register("OpposingColor", typeof(SolidColorBrush), typeof(PowerUpField),
+            DependencyProperty.Register("OpposingColor", typeof(SolidColorBrush), typeof(PowerUpFieldCodeOnly),
                 new PropertyMetadata(new SolidColorBrush(Colors.Gray)));
 
         //a data converter to help communicate with the network table
         private readonly PowerUpFieldDataConverter dataConverter = new PowerUpFieldDataConverter();
 
-        public PowerUpField()
+        public PowerUpFieldCodeOnly()
         {
-            InitializeComponent();
+            //setup internals
+            Grid layoutRoot = new Grid();
+            //3 rows, fill each
+            for(int i = 0; i < 3; i++)
+            {
+                layoutRoot.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+                ScaleTransform flipper = new ScaleTransform();
+                //bind the flip to the correct position. the first scale is nearest
+                Binding scaleBinding = new Binding($"ScaleValues[{2 - i}]") { Source = this };
+                BindingOperations.SetBinding(flipper, ScaleTransform.ScaleXProperty, scaleBinding);
+                //this segment of the field (switch/scale)
+                Grid fieldPart = new Grid
+                {
+                    RenderTransformOrigin = new Point(0.5, 0.5),
+                    RenderTransform = flipper
+                };
+                //put fieldPart in the ith row
+                Grid.SetRow(fieldPart, i);
+                //center part
+                Rectangle centerPiece = new Rectangle
+                {
+                    Fill = new SolidColorBrush(Colors.LightGray),
+                    Margin = new Thickness(25, 40, 25, 40)
+                };
+                fieldPart.Children.Add(centerPiece);
+                //alliance part
+                Rectangle alliancePiece = new Rectangle
+                {
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Width = 60,
+                    Height = 60,
+                    Margin = new Thickness(10)
+                };
+                //bind the color to the alliance part
+                Binding allianceColorBinding = new Binding("AllianceColor") { Source = this };
+                BindingOperations.SetBinding(alliancePiece, Rectangle.FillProperty, allianceColorBinding);
+                fieldPart.Children.Add(alliancePiece);
+                //opposing part
+                Rectangle opposingPiece = new Rectangle
+                {
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    Width = 60,
+                    Height = 60,
+                    Margin = new Thickness(10)
+                };
+                //bind the color to the alliance part
+                Binding opposingColorBinding = new Binding("OpposingColor") { Source = this };
+                BindingOperations.SetBinding(opposingPiece, Rectangle.FillProperty, opposingColorBinding);
+                fieldPart.Children.Add(opposingPiece);
+                //add the field element to the layout
+                layoutRoot.Children.Add(fieldPart);
+            }
+            //set our content
+            Content = layoutRoot;
+            //set the tilegrid dimensions
             //TileGrid tiles are nearly 50x50 squares. Requesting a 200x300 space
             TileGrid.SetColumnSpan(this, 4);
             TileGrid.SetRowSpan(this, 6);
-
-            SourceChanged += PowerUpField_SourceChanged;
+            //handle source changed
+            SourceChanged += PowerUpFieldCodeOnly_SourceChanged;
         }
 
-        private void PowerUpField_SourceChanged(object sender, NetworkSourceChangedEventArgs e)
+        private void PowerUpFieldCodeOnly_SourceChanged(object sender, NetworkSourceChangedEventArgs e)
         {
             //this is what we need to do if we get a new network source
-            if(string.IsNullOrWhiteSpace(e.NewSource))
+            if (string.IsNullOrWhiteSpace(e.NewSource))
             {
                 //if the new source is bad, just unbind the old one
-                NetworkBinding.Delete(this, PowerUpField.ScaleValuesProperty);
+                NetworkBinding.Delete(this, PowerUpFieldCodeOnly.ScaleValuesProperty);
             }
             else
             {
                 //otherwise create/update the binding using a converter
-                NetworkBinding.Update(this, PowerUpField.ScaleValuesProperty, e.NewSource, dataConverter);
+                NetworkBinding.Update(this, PowerUpFieldCodeOnly.ScaleValuesProperty, e.NewSource, dataConverter);
             }
         }
     }
