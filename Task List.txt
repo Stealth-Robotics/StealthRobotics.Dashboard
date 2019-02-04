@@ -1,10 +1,9 @@
 TODO LIST
 
------Pre-release tests------
+-----Example plugin-----
 
-Make an example plugin for:
-	documentation
-	testing plugin loading
+Complex type listener (xaml)
+Complex type listener (code)?
 
 -----Release tools-----
 
