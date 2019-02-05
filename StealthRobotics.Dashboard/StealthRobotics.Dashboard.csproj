@@ -135,7 +135,7 @@
     <Compile Include="Controls\NumberFormatConverter.cs" />
     <Compile Include="Controls\NumberSlider.cs" />
     <Compile Include="Controls\NumberSpinner.cs" />
-    <Compile Include="Controls\SendableChooserControl.cs" />
+    <Compile Include="Controls\Selector.cs" />
     <Compile Include="IO\LayoutContractResolver.cs" />
     <Compile Include="IO\LayoutFileManager.cs" />
     <Compile Include="IO\LayoutSerializationBinder.cs" />

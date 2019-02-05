@@ -30,14 +30,16 @@ namespace StealthRobotics.Dashboard.SamplePlugin
         /// An array that tracks which segments should be flipped. Generally, use caution when binding arrays to dashboard
         /// and to controls. If you want to bind data as an array to the dashboard, you need to create a new array.
         /// Changing the contents of the array does not cause the binding to trigger an update.
-        /// In this case, we only need to read from the dashboard so this is fine
+        /// In this case, we only need to read from the dashboard so this is fine.
+        /// You can also implement the INotifyPropertyChanged interface to selectively choose when the network binding is updated
+        /// See StealthRobotics.Dashboard.Controls.Selector as an example of this, but documentation is less extensive there
         /// </summary>
         public double[] ScaleValues
         {
             get { return (double[])GetValue(ScaleValuesProperty); }
             set
             {
-                //we need to check for array equality so we don't create infinite updates
+                //we need to check for array equality so we don't create an infinite update loop
                 double[] oldVal = (double[])GetValue(ScaleValuesProperty);
                 if(oldVal.Length == value.Length)
                 {

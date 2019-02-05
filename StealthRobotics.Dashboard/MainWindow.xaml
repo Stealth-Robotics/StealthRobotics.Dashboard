@@ -81,8 +81,8 @@
                     <local:NumberSlider api:TileGrid.Column="10"/>
                     <local:BoolSwitch api:TileGrid.Column="11" api:TileGrid.Row="5"/>
                     <local:CameraViewSelector api:TileGrid.Row="2" api:TileGrid.Column="4"/>
-                    <local:SendableChooserControl api:TileGrid.Row="3" api:TileGrid.Column="12"/>
-                    <local:SendableChooserControl api:TileGrid.Row="4" api:TileGrid.Column="12"/>
+                    <local:Selector api:TileGrid.Row="3" api:TileGrid.Column="12"/>
+                    <local:Selector api:TileGrid.Row="4" api:TileGrid.Column="12"/>
                     <local:BoolIndicator api:TileGrid.Row="6" api:TileGrid.Column="12"/>
                 </api:TileGrid>
             </AdornerDecorator>
