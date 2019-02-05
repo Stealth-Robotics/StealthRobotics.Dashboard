@@ -94,7 +94,7 @@ namespace StealthRobotics.Dashboard.SamplePlugin
             set { SetValue(OpposingColorProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for BlueColor.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for OpposingColor.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OpposingColorProperty =
             DependencyProperty.Register("OpposingColor", typeof(SolidColorBrush), typeof(PowerUpField),
                 new PropertyMetadata(new SolidColorBrush(Colors.Gray)));
@@ -105,6 +105,7 @@ namespace StealthRobotics.Dashboard.SamplePlugin
         public PowerUpField()
         {
             InitializeComponent();
+            //In a constructor, we must always request a TileGrid size and handle source updates
             //TileGrid tiles are nearly 50x50 squares. Requesting a 200x300 space
             TileGrid.SetColumnSpan(this, 4);
             TileGrid.SetRowSpan(this, 6);
@@ -114,7 +115,8 @@ namespace StealthRobotics.Dashboard.SamplePlugin
 
         private void PowerUpField_SourceChanged(object sender, NetworkSourceChangedEventArgs e)
         {
-            //this is what we need to do if we get a new network source
+            //To handle a source change, we should do a few things.
+            //First, we need to check if the new source is valid or not
             if(string.IsNullOrWhiteSpace(e.NewSource))
             {
                 //if the new source is bad, just unbind the old one
