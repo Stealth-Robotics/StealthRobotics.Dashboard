@@ -11,8 +11,7 @@ Setup script
 
 -----Post-release-----
 
-Allow adding new property controls
-Composite controls to allow creativity!
+Allow adding new property controls (with example, of course)
 Control state display (inherit to customize?)
 
 -----Known issues-----

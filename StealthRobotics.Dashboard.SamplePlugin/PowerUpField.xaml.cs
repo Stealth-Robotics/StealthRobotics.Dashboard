@@ -105,6 +105,7 @@ namespace StealthRobotics.Dashboard.SamplePlugin
         public PowerUpField()
         {
             InitializeComponent();
+            //In a constructor, we must always request a TileGrid size and handle source updates
             //TileGrid tiles are nearly 50x50 squares. Requesting a 200x300 space
             TileGrid.SetColumnSpan(this, 4);
             TileGrid.SetRowSpan(this, 6);
@@ -114,7 +115,8 @@ namespace StealthRobotics.Dashboard.SamplePlugin
 
         private void PowerUpField_SourceChanged(object sender, NetworkSourceChangedEventArgs e)
         {
-            //this is what we need to do if we get a new network source
+            //To handle a source change, we should do a few things.
+            //First, we need to check if the new source is valid or not
             if(string.IsNullOrWhiteSpace(e.NewSource))
             {
                 //if the new source is bad, just unbind the old one
