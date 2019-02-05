@@ -160,7 +160,7 @@ namespace StealthRobotics.Dashboard.API.Network
         /// </summary>
         /// <param name="first"></param>
         /// <param name="second"></param>
-        /// <returns>true if successfully added, false if either element are already in the dictionary</returns>
+        /// <returns>true if successfully added, false if either element is already in the dictionary</returns>
         public bool TryAdd(TFirst first, TSecond second)
         {
             if (firstToSecond.ContainsKey(first) || secondToFirst.ContainsKey(second))
