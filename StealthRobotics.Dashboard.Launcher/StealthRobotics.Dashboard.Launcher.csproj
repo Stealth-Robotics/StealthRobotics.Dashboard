@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -63,12 +64,20 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IDashboardHandler.cs" />
+    <Compile Include="IDashboardHandlerMetadata.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Parts\CSharpDash.cs" />
+    <Compile Include="Parts\HololensDashboard.cs" />
+    <Compile Include="Parts\JavaDashboard.cs" />
+    <Compile Include="Parts\OutlineViewer.cs" />
+    <Compile Include="Parts\ProgramStarter.cs" />
+    <Compile Include="Parts\Shuffleboard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -93,6 +102,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StealthRobotics.Dashboard\StealthRobotics.Dashboard.csproj">
+      <Project>{b391261a-7696-4d2c-aeee-877e3aad7775}</Project>
+      <Name>StealthRobotics.Dashboard</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

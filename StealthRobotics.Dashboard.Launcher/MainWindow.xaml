@@ -4,18 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StealthRobotics.Dashboard.Launcher"
-        mc:Ignorable="d"
-        Title="Dashboard launcher" Height="450" Width="800">
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <StackPanel.Resources>
+        mc:Ignorable="d" Loaded="Window_Loaded" Closed="Window_Closed"
+        Title="Dashboard launcher" Height="450" Width="600">
+    <WrapPanel Name="LayoutRoot" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+        <WrapPanel.Resources>
             <Style TargetType="Button">
-                <Setter Property="Margin" Value="0 0 0 2"/>
+                <Setter Property="Margin" Value="2"/>
                 <Setter Property="Padding" Value="2"/>
             </Style>
-        </StackPanel.Resources>
-        <Button Content="WPF Dashboard" Name="wpf" Click="Wpf_Click"/>
-        <Button Content="Java Dashboard" Name="java" Click="Java_Click"/>
-        <Button Content="Shuffleboard" Name="jfx" Click="Jfx_Click"/>
-        <Button Content="Outline Viewer" Name="ov" Click="Ov_Click"/>
-    </StackPanel>
+        </WrapPanel.Resources>
+    </WrapPanel>
 </Window>

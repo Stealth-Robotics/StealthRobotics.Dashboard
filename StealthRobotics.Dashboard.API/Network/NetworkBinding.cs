@@ -211,12 +211,12 @@ namespace StealthRobotics.Dashboard.API.Network
             if (!propertyLookup.ContainsKey(source))
             {
                 propertyLookup[source] = new OneToOneConversionMap<string, string>();
-                customTables[source] = networkSource.Item1;
                 //this is a new item being bound; have it notify us of updates
                 source.PropertyChanged += OnLocalValueChange;
             }
             if (propertyLookup[source].TryAdd(property, networkPath))
             {
+                customTables[source] = networkSource.Item1;
                 //this means there were no binding conflicts
                 //map a conversion if needed; null is a valid argument
                 propertyLookup[source].MapConversionByFirst(property, converter);
@@ -270,12 +270,12 @@ namespace StealthRobotics.Dashboard.API.Network
             if (!propertyLookup.ContainsKey(listener))
             {
                 propertyLookup[listener] = new OneToOneConversionMap<string, string>();
-                customTables[listener] = networkSource.Item1;
                 //this is a new item being bound, have it notify us of updates
                 listener.PropertyChanged += OnLocalValueChange;
             }
             if (propertyLookup[listener].TryAdd(property.Name, networkPath))
             {
+                customTables[listener] = networkSource.Item1;
                 //this means there were no binding conflicts
                 //bind the dependency property to be notified of changes to it
                 listener.BindProperty(property);

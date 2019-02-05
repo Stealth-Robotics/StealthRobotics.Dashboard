@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StealthRobotics.Dashboard.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StealthRobotics.Dashboard.Launcher", "StealthRobotics.Dashboard.Launcher\StealthRobotics.Dashboard.Launcher.csproj", "{3E5E8D2E-33CB-4781-A2DB-C9234E3CF354}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "StealthRobotics.Dashboard.Installer", "StealthRobotics.Dashboard.Installer\StealthRobotics.Dashboard.Installer.vdproj", "{D704487F-0BD6-47AB-AAE7-930393F46622}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,8 @@ Global
 		{3E5E8D2E-33CB-4781-A2DB-C9234E3CF354}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E5E8D2E-33CB-4781-A2DB-C9234E3CF354}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E5E8D2E-33CB-4781-A2DB-C9234E3CF354}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D704487F-0BD6-47AB-AAE7-930393F46622}.Debug|Any CPU.ActiveCfg = Debug
+		{D704487F-0BD6-47AB-AAE7-930393F46622}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
