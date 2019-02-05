@@ -7,7 +7,6 @@ Complex type listener (code)?
 
 -----Release tools-----
 
-Dashboard launcher
 Setup script
 
 -----Post-release-----
