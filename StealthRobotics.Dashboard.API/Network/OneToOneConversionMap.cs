@@ -261,6 +261,7 @@ namespace StealthRobotics.Dashboard.API.Network
         {
             firstToSecond.Clear();
             secondToFirst.Clear();
+            conversionMap.Clear();
         }
     }
 }

@@ -11,94 +11,161 @@ namespace StealthRobotics.Dashboard.API.Network.Tests
     [TestFixture()]
     public class OneToOneConversionMapTests
     {
+        private OneToOneConversionMap<string, string> instance;
+
+        [SetUp]
+        public void PerTestSetup()
+        {
+            //because we have knowledge of implementation, we can assume that add will maintain a valid state
+            //since not much is going on. Likewise, there's not too much going on in the Get methods
+            //For milestone 1, I really only want to test the "Try____" methods because they have meaningful choices being made
+            //with a few inputs and outputs
+            instance = new OneToOneConversionMap<string, string>();
+            //add some data. doesn't matter too much as long as we know what's in the map
+            instance.Add("a", "b");
+            instance.Add("", "c");
+            instance.Add("d", "text");
+        }
+
+        [TearDown]
+        public void PerTestTeardown()
+        {
+            instance.Clear();
+            instance = null;
+        }
+
         [Test()]
         public void AddTest()
         {
-            Assert.Fail();
+            Assert.Fail("Not implemented");
         }
 
         [Test()]
         public void GetByFirstTest()
         {
-            Assert.Fail();
+            Assert.Fail("Not implemented");
         }
 
         [Test()]
         public void GetBySecondTest()
         {
-            Assert.Fail();
+            Assert.Fail("Not implemented");
         }
 
         [Test()]
         public void RemoveByFirstTest()
         {
-            Assert.Fail();
+            Assert.Fail("Not implemented");
         }
 
         [Test()]
         public void RemoveBySecondTest()
         {
-            Assert.Fail();
+            Assert.Fail("Not implemented");
         }
 
         [Test()]
         public void MapConversionByFirstTest()
         {
-            Assert.Fail();
+            Assert.Fail("Not implemented");
         }
 
         [Test()]
         public void MapConversionBySecondTest()
         {
-            Assert.Fail();
+            Assert.Fail("Not implemented");
         }
 
         [Test()]
         public void GetConverterByFirstTest()
         {
-            Assert.Fail();
+            Assert.Fail("Not implemented");
         }
 
         [Test()]
         public void GetConverterBySecondTest()
         {
-            Assert.Fail();
+            Assert.Fail("Not implemented");
         }
 
         [Test()]
-        public void TryAddTest()
+        //both duplicate values
+        [TestCase("a", "b", false)]
+        //duplicate first only
+        [TestCase("", "x", false)]
+        //duplicate second only
+        [TestCase("asdf", "text", false)]
+        //inverted value (ie first is a value for second but not first, vice versa)
+        [TestCase("b", "a", true)]
+        //totally new values
+        [TestCase("f", "g", true)]
+        public void TryAddTest(string first, string second, bool expected)
         {
-            Assert.Fail();
+            Assert.AreEqual(instance.TryAdd(first, second), expected);
         }
 
         [Test()]
-        public void TryGetByFirstTest()
+        //first is in table
+        [TestCase("", "c", true)]
+        //first is not in table at all
+        [TestCase("x", "don't care", false)]
+        //first is a value for second, but not for first
+        [TestCase("text", "don't care", false)]
+        public void TryGetByFirstTest(string first, string expectedOut, bool expectedResult)
         {
-            Assert.Fail();
+            //2 ways to pass/fail this test. we should always compare expectedResult
+            //if expectedResult is true we also need to check the output value
+            bool val = instance.TryGetByFirst(first, out string @out);
+            //fine to terminate if this fails; in fact it may be unhelpful to check the output value
+            Assert.AreEqual(val, expectedResult, "Did not return correct truth value");
+            if(expectedResult)
+            {
+                Assert.AreEqual(@out, expectedOut, "Did not return correct data value");
+            }
         }
 
         [Test()]
-        public void TryGetBySecondTest()
+        //second is in table
+        [TestCase("text", "d", true)]
+        //second is not in the table at all
+        [TestCase("x", "don't care", false)]
+        //second is a value for first, but not for second
+        [TestCase("a", "don't care", false)]
+        public void TryGetBySecondTest(string second, string expectedOut, bool expectedResult)
         {
-            Assert.Fail();
+            //2 ways to pass/fail this test. we should always compare expectedResult
+            //if expectedResult is true we also need to check the output value
+            bool val = instance.TryGetBySecond(second, out string @out);
+            //fine to terminate if this fails; in fact it may be unhelpful to check the output value
+            Assert.AreEqual(val, expectedResult, "Did not return correct truth value");
+            if (expectedResult)
+            {
+                Assert.AreEqual(@out, expectedOut, "Did not return correct data value");
+            }
         }
 
         [Test()]
-        public void TryRemoveByFirstTest()
+        //first is in table
+        [TestCase("", true)]
+        //first is not in table at all
+        [TestCase("x", false)]
+        //first is a value for second, but not for first
+        [TestCase("b", false)]
+        public void TryRemoveByFirstTest(string first, bool expectedResult)
         {
-            Assert.Fail();
+            Assert.AreEqual(instance.TryRemoveByFirst(first), expectedResult);
         }
 
         [Test()]
-        public void TryRemoveBySecondTest()
+        //second is in table
+        [TestCase("b", true)]
+        //second is not in table at all
+        [TestCase("x", false)]
+        //second is a value for first, but not for second
+        [TestCase("", false)]
+        public void TryRemoveBySecondTest(string second, bool expectedResult)
         {
-            Assert.Fail();
-        }
-
-        [Test()]
-        public void ClearTest()
-        {
-            Assert.Fail();
+            Assert.AreEqual(instance.TryRemoveBySecond(second), expectedResult);
         }
     }
 }
