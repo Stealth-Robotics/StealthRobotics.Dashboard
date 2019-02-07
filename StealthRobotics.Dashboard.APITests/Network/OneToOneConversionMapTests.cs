@@ -101,7 +101,7 @@ namespace StealthRobotics.Dashboard.API.Network.Tests
         [TestCase("f", "g", true)]
         public void TryAddTest(string first, string second, bool expected)
         {
-            Assert.AreEqual(instance.TryAdd(first, second), expected);
+            Assert.AreEqual(expected, instance.TryAdd(first, second));
         }
 
         [Test()]
@@ -117,10 +117,10 @@ namespace StealthRobotics.Dashboard.API.Network.Tests
             //if expectedResult is true we also need to check the output value
             bool val = instance.TryGetByFirst(first, out string @out);
             //fine to terminate if this fails; in fact it may be unhelpful to check the output value
-            Assert.AreEqual(val, expectedResult, "Did not return correct truth value");
+            Assert.AreEqual(expectedResult, val, "Did not return correct truth value");
             if(expectedResult)
             {
-                Assert.AreEqual(@out, expectedOut, "Did not return correct data value");
+                Assert.AreEqual(expectedOut, @out, "Did not return correct data value");
             }
         }
 
@@ -137,10 +137,10 @@ namespace StealthRobotics.Dashboard.API.Network.Tests
             //if expectedResult is true we also need to check the output value
             bool val = instance.TryGetBySecond(second, out string @out);
             //fine to terminate if this fails; in fact it may be unhelpful to check the output value
-            Assert.AreEqual(val, expectedResult, "Did not return correct truth value");
+            Assert.AreEqual(expectedResult, val, "Did not return correct truth value");
             if (expectedResult)
             {
-                Assert.AreEqual(@out, expectedOut, "Did not return correct data value");
+                Assert.AreEqual(expectedOut, @out, "Did not return correct data value");
             }
         }
 
@@ -153,7 +153,7 @@ namespace StealthRobotics.Dashboard.API.Network.Tests
         [TestCase("b", false)]
         public void TryRemoveByFirstTest(string first, bool expectedResult)
         {
-            Assert.AreEqual(instance.TryRemoveByFirst(first), expectedResult);
+            Assert.AreEqual(expectedResult, instance.TryRemoveByFirst(first));
         }
 
         [Test()]
@@ -165,7 +165,7 @@ namespace StealthRobotics.Dashboard.API.Network.Tests
         [TestCase("", false)]
         public void TryRemoveBySecondTest(string second, bool expectedResult)
         {
-            Assert.AreEqual(instance.TryRemoveBySecond(second), expectedResult);
+            Assert.AreEqual(expectedResult, instance.TryRemoveBySecond(second));
         }
     }
 }
