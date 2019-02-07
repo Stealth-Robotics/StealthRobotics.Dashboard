@@ -21,7 +21,8 @@ namespace StealthRobotics.Dashboard.SamplePlugin
     /// <summary>
     /// Interaction logic for PowerUpField.xaml
     /// A simple example plugin that takes a string and uses a custom converter
-    /// to display the state of a 2018 FIRST Power Up field
+    /// to display the state of a 2018 FIRST Power Up field.
+    /// Note NetworkSourceListenerAttribute. This specifies which (primitive) type are allowed to be bound to the control
     /// </summary>
     [NetworkSourceListener(typeof(string))]
     public partial class PowerUpField : SourcedControl

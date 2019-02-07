@@ -17,6 +17,7 @@ namespace StealthRobotics.Dashboard.SamplePlugin
     /// <summary>
     /// The same PowerUpField as in PowerUpField.xaml, but using only code
     /// in case you prefer not to use and/or learn XAML
+    /// Note NetworkSourceListenerAttribute. This specifies which (primitive) type are allowed to be bound to the control
     /// </summary>
     [NetworkSourceListener(typeof(string))]
     public class PowerUpFieldCodeOnly : SourcedControl
