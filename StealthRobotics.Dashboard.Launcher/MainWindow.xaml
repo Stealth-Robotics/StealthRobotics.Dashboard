@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StealthRobotics.Dashboard.Launcher"
         mc:Ignorable="d" Loaded="Window_Loaded" Closed="Window_Closed"
+        Icon="pack://application:,,,/StealthSentry.ico"
         Title="Dashboard launcher" Height="450" Width="600">
     <WrapPanel Name="LayoutRoot" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
         <WrapPanel.Resources>

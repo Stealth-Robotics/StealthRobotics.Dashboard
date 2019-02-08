@@ -8,7 +8,7 @@
         xmlns:api="clr-namespace:StealthRobotics.Dashboard.API.UI;assembly=StealthRobotics.Dashboard.API"
         xmlns:network="clr-namespace:StealthRobotics.Dashboard.API.Network;assembly=StealthRobotics.Dashboard.API"
         mc:Ignorable="d" Loaded="Window_Loaded" Closed="Window_Closed"
-        Title="A very Stealthy dashboard" Height="450" Width="800">
+        Title="A very Stealthy dashboard" Height="450" Width="800" Icon="pack://application:,,,/StealthSentry.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -67,23 +67,6 @@
                                       Header="Competition mode" IsCheckable="True" Name="contextComp"/>
                         </ContextMenu>
                     </api:TileGrid.ContextMenu>
-                    <api:SourcedControl Name="test1" api:TileGrid.Column="1" api:TileGrid.ColumnSpan="3" api:TileGrid.Row="2" api:TileGrid.RowSpan="2">
-                        <api:SnapControl.PopupButtons>
-                            <Button>A</Button>
-                            <Button>B</Button>
-                            <Button>C</Button>
-                        </api:SnapControl.PopupButtons>
-                        <Button Margin="20" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type api:SourcedControl}}, Path=Source}"/>
-                    </api:SourcedControl>
-                    <local:NumberSpinner api:TileGrid.Row="5"/>
-                    <local:NumberDisplay api:TileGrid.Row="5" api:TileGrid.Column="5"/>
-                    <local:NumberSlider api:TileGrid.Row="1" api:TileGrid.Column="7"/>
-                    <local:NumberSlider api:TileGrid.Column="10"/>
-                    <local:BoolSwitch api:TileGrid.Column="11" api:TileGrid.Row="5"/>
-                    <local:CameraViewSelector api:TileGrid.Row="2" api:TileGrid.Column="4"/>
-                    <local:Selector api:TileGrid.Row="3" api:TileGrid.Column="12"/>
-                    <local:Selector api:TileGrid.Row="4" api:TileGrid.Column="12"/>
-                    <local:BoolIndicator api:TileGrid.Row="6" api:TileGrid.Column="12"/>
                 </api:TileGrid>
             </AdornerDecorator>
         </a:AdornedControl>

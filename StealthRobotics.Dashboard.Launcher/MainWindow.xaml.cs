@@ -50,6 +50,8 @@ namespace StealthRobotics.Dashboard.Launcher
                 b.Click += (obj, args) => dashboard.Value.ClickAction();
                 LayoutRoot.Children.Add(b);
             }
+            WindowState = WindowState.Normal;
+            Activate();
         }
 
         private void Window_Closed(object sender, EventArgs e)
