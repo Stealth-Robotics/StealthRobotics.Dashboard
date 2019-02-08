@@ -5,10 +5,6 @@ TODO LIST
 Complex type listener (xaml)
 Complex type listener (code)?
 
------Release tools-----
-
-Setup script
-
 -----Post-release-----
 
 Allow adding new property controls (with example, of course)
