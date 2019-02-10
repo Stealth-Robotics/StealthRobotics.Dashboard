@@ -39,9 +39,7 @@ namespace StealthRobotics.Dashboard
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //init network table and put test camera
-            //todo read from file
-            teamNum = 4089;
-            usingDS = false;
+            (teamNum, usingDS) = SaveFileManager.LoadSettings();
             NetworkBinding.Initialize(teamNum, Dispatcher, usingDS);
             NetworkTable.GetTable("").PutStringArray("CameraPublisher/Fake Camera 0/streams", new List<string>());
         }
@@ -49,7 +47,7 @@ namespace StealthRobotics.Dashboard
         private void Window_Closed(object sender, EventArgs e)
         {
             NetworkBinding.Shutdown();
-            //todo save teamnum and DS
+            SaveFileManager.SaveSettings(teamNum, usingDS);
         }
 
         private void RefreshSources()
@@ -317,7 +315,7 @@ namespace StealthRobotics.Dashboard
             };
             if (dlg.ShowDialog() == true)
             {
-                LayoutFileManager.Save(dlg.FileName, dashboardRoot.Children);
+                SaveFileManager.SaveLayout(dlg.FileName, dashboardRoot.Children);
             }
         }
 
@@ -329,7 +327,7 @@ namespace StealthRobotics.Dashboard
             };
             if (dlg.ShowDialog() == true)
             {
-                LayoutFileManager.Load(dlg.FileName, dashboardRoot.Children);
+                SaveFileManager.LoadLayout(dlg.FileName, dashboardRoot.Children);
             }
         }
 
