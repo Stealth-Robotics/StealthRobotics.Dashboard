@@ -147,6 +147,21 @@ namespace StealthRobotics.Dashboard.API.Network
         }
 
         /// <summary>
+        /// Sets a fresh team number on the dashboard
+        /// </summary>
+        /// <param name="team"></param>
+        public static void Refresh(int team)
+        {
+            if(IsRunning)
+            {
+                if (team == 0)
+                    NetworkTable.SetIPAddress("localhost");
+                else
+                    NetworkTable.SetTeam(team);
+            }
+        }
+
+        /// <summary>
         /// Stops the network binding engine and network table access. Only call once during normal program execution
         /// </summary>
         public static void Shutdown()

@@ -20,10 +20,11 @@
                 <MenuItem Name="Load" Header="_Open" Click="Load_Click"/>
                 <MenuItem Name="Plugins" Header="_Plugins" Click="Plugins_Click"/>
             </MenuItem>
-            <MenuItem Header="O_ptions">
+            <MenuItem Header="_Options">
                 <MenuItem IsCheckable="True" Header="Show _grid" IsChecked="{Binding ElementName=dashboardRoot, Path=ShowGridlines}"/>
                 <MenuItem IsCheckable="True" Header="_Competition mode" Name="menuComp"
                           Checked="MenuItem_Checked" Unchecked="MenuItem_Unchecked"/>
+                <MenuItem Header="_Team" Name="teamConfig" Click="TeamConfig_Click"/>
             </MenuItem>
         </Menu>
         <a:AdornedControl IsAdornerVisible="True" Name="mainContent" Grid.Row="1">

@@ -334,5 +334,11 @@ namespace StealthRobotics.Dashboard
             availableControls.Children.Clear();
             new PluginManagerDialog().ShowDialog();
         }
+
+        private void TeamConfig_Click(object sender, RoutedEventArgs e)
+        {
+            //todo actually let user pick team number, and maybe save/load it
+            NetworkBinding.Refresh(0);
+        }
     }
 }
