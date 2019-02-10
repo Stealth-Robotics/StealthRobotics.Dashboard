@@ -36,7 +36,7 @@ namespace StealthRobotics.Dashboard
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //init network table and put test camera
-            NetworkBinding.Initialize(0, Dispatcher, false);
+            NetworkBinding.Initialize(4089, Dispatcher, false);
             NetworkTable.GetTable("").PutStringArray("CameraPublisher/Fake Camera 0/streams", new List<string>());
         }
 
