@@ -28,6 +28,9 @@ namespace StealthRobotics.Dashboard
     /// </summary>
     public partial class MainWindow : Window
     {
+        int teamNum;
+        bool usingDS;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,13 +39,17 @@ namespace StealthRobotics.Dashboard
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //init network table and put test camera
-            NetworkBinding.Initialize(4089, Dispatcher, false);
+            //todo read from file
+            teamNum = 4089;
+            usingDS = false;
+            NetworkBinding.Initialize(teamNum, Dispatcher, usingDS);
             NetworkTable.GetTable("").PutStringArray("CameraPublisher/Fake Camera 0/streams", new List<string>());
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             NetworkBinding.Shutdown();
+            //todo save teamnum and DS
         }
 
         private void RefreshSources()
@@ -337,8 +344,13 @@ namespace StealthRobotics.Dashboard
 
         private void TeamConfig_Click(object sender, RoutedEventArgs e)
         {
-            //todo actually let user pick team number, and maybe save/load it
-            NetworkBinding.Refresh(0);
+            TeamSettingsDialog teamSettings = new TeamSettingsDialog(teamNum, usingDS);
+            if (teamSettings.ShowDialog() == true)
+            {
+                teamNum = teamSettings.Team;
+                usingDS = teamSettings.UseDriverStation;
+                NetworkBinding.Refresh(teamNum, usingDS);
+            }
         }
     }
 }

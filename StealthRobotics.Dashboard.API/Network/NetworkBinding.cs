@@ -123,7 +123,8 @@ namespace StealthRobotics.Dashboard.API.Network
         /// </summary>
         /// <param name="team">The team number to use for mDNS connection</param>
         /// <param name="dispatcher">The dispatcher of the UI thread so writes can happen</param>
-        public static void Initialize(int team, Dispatcher dispatcher, bool useDriverStation = true)
+        /// <param name="useDriverStation">Whether the network bindings should use the driver station connection</param>
+        public static void Initialize(int team, Dispatcher dispatcher, bool useDriverStation)
         {
             if (!IsRunning)
             {
@@ -147,10 +148,11 @@ namespace StealthRobotics.Dashboard.API.Network
         }
 
         /// <summary>
-        /// Sets a fresh team number on the dashboard
+        /// Resets the dashboard settings to use a different team number
         /// </summary>
-        /// <param name="team"></param>
-        public static void Refresh(int team)
+        /// <param name="team">The new team number to use, or 0 to test</param>
+        /// <param name="useDriverStation">Whether the network bindings should use the driver station connection</param>
+        public static void Refresh(int team, bool useDriverStation)
         {
             if(IsRunning)
             {
@@ -158,6 +160,7 @@ namespace StealthRobotics.Dashboard.API.Network
                     NetworkTable.SetIPAddress("localhost");
                 else
                     NetworkTable.SetTeam(team);
+                NetworkTable.SetDSClientEnabled(useDriverStation);
             }
         }
 

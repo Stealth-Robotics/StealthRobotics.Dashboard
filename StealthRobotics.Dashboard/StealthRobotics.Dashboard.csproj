@@ -148,12 +148,19 @@
     <Compile Include="PluginManagerDialog.xaml.cs">
       <DependentUpon>PluginManagerDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TeamSettingsDialog.xaml.cs">
+      <DependentUpon>TeamSettingsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PluginManagerDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TeamSettingsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
