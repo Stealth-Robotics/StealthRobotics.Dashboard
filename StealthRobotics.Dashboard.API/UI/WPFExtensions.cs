@@ -19,10 +19,12 @@ namespace StealthRobotics.Dashboard.API.UI
             if (!(element.Parent is Panel parent)) return;
 
             //get the highest z index
-            int maxZ = parent.Children.OfType<UIElement>()
+            IEnumerable<int> siblingZIndices = parent.Children.OfType<UIElement>()
               .Where(x => x != element)
-              .Select(x => Panel.GetZIndex(x))
-              .Max();
+              .Select(x => Panel.GetZIndex(x));
+            if (siblingZIndices.Count() == 0)
+                return;
+            int maxZ = siblingZIndices.Max();
             //get this z index
             int thisZ = Panel.GetZIndex(element);
             //get others sharing this z index
