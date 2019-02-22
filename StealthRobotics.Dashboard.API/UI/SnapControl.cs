@@ -34,7 +34,7 @@ namespace StealthRobotics.Dashboard.API.UI
 
         //other stuff
         private const double maxFadeInTime = 0.25;
-        private const double maxFadeOutTime = 0.625;
+        private const double maxFadeOutTime = 0.75;
         private DoubleAnimation fadeOut = null;
         private Thickness defaultMargin;
 

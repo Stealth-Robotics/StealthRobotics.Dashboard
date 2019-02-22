@@ -22,7 +22,7 @@ namespace StealthRobotics.Dashboard.API.UI
             Tuple<int, int> rowCol = target.GetRowColDimensions(new Size(target.ActualWidth, target.ActualHeight));
             double colWidth = target.ActualWidth / rowCol.Item2;
             double rowHeight = target.ActualHeight / rowCol.Item1;
-            Pen stroke = new Pen(new SolidColorBrush(Color.FromRgb(0x80, 0x80, 0x80)), 1);
+            Pen stroke = new Pen(new SolidColorBrush(Color.FromArgb(0x80, 0x80, 0x80, 0x80)), 1);
             for (int row = 1; row < rowCol.Item1; row++)
             {
                 drawingContext.DrawLine(stroke, new Point(0, row * rowHeight), new Point(target.ActualWidth, row * rowHeight));
