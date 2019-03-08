@@ -286,7 +286,7 @@ namespace StealthRobotics.Dashboard.API.Network.Tests
         [Test()]
         public void IndexingByFirst_ReturnsCorrectSecond()
         {
-            //indexing <string,string> is ambiguous
+            //indexing <string,string> is ambiguous, need a custom map
             //arrange
             OneToOneConversionMap<string, int> alphaIndices = new OneToOneConversionMap<string, int>();
             alphaIndices.Add("a", 1);
@@ -299,7 +299,7 @@ namespace StealthRobotics.Dashboard.API.Network.Tests
         [Test()]
         public void IndexingBySecond_ReturnsCorrectFirst()
         {
-            //indexing <string,string> is ambiguous
+            //indexing <string,string> is ambiguous, need a custom map
             //arrange
             OneToOneConversionMap<string, int> alphaIndices = new OneToOneConversionMap<string, int>();
             alphaIndices.Add("a", 1);
