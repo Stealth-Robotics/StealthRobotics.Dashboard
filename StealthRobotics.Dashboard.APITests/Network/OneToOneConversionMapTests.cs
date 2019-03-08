@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace StealthRobotics.Dashboard.API.Network.Tests
 {
@@ -12,6 +14,7 @@ namespace StealthRobotics.Dashboard.API.Network.Tests
     public class OneToOneConversionMapTests
     {
         private OneToOneConversionMap<string, string> instance;
+        private readonly IValueConverter testConverter = new BooleanToVisibilityConverter();
 
         [SetUp]
         public void PerTestSetup()
@@ -35,57 +38,163 @@ namespace StealthRobotics.Dashboard.API.Network.Tests
         }
 
         [Test()]
-        public void AddTest()
+        public void Add_WithDuplicateFirst_ThrowsArgumentException()
         {
-            Assert.Fail("Not implemented");
+            Assert.Throws<ArgumentException>(() => instance.Add("a", "Don't care"));
         }
 
         [Test()]
-        public void GetByFirstTest()
+        public void Add_WithDuplicateSecond_ThrowsArgumentException()
         {
-            Assert.Fail("Not implemented");
+            Assert.Throws<ArgumentException>(() => instance.Add("Don't care", "b"));
         }
 
         [Test()]
-        public void GetBySecondTest()
+        public void Add_WithNewValues_Passes()
         {
-            Assert.Fail("Not implemented");
+            Assert.DoesNotThrow(() => instance.Add("e", "f"));
         }
 
         [Test()]
-        public void RemoveByFirstTest()
+        public void GetByFirst_WithExistingValue_ReturnsCorrespondingValue()
         {
-            Assert.Fail("Not implemented");
+            string expected = "b";
+            Assert.AreEqual(expected, instance.GetByFirst("a"));
         }
 
         [Test()]
-        public void RemoveBySecondTest()
+        public void GetByFirst_WithNewValue_ThrowsArgumentException()
         {
-            Assert.Fail("Not implemented");
+            Assert.Throws<ArgumentException>(() => instance.GetByFirst("b"));
         }
 
         [Test()]
-        public void MapConversionByFirstTest()
+        public void GetBySecond_WithExistingValue_ReturnsCorrespondingValue()
         {
-            Assert.Fail("Not implemented");
+            string expected = "";
+            Assert.AreEqual(expected, instance.GetBySecond("c"));
         }
 
         [Test()]
-        public void MapConversionBySecondTest()
+        public void GetBySecond_WithNewValue_ThrowsArgumentException()
         {
-            Assert.Fail("Not implemented");
+            Assert.Throws<ArgumentException>(() => instance.GetBySecond("q"));
         }
 
         [Test()]
-        public void GetConverterByFirstTest()
+        public void RemoveByFirst_WithExistingValue_Passes()
         {
-            Assert.Fail("Not implemented");
+            Assert.DoesNotThrow(() => instance.RemoveByFirst("d"));
         }
 
         [Test()]
-        public void GetConverterBySecondTest()
+        public void RemoveByFirst_WithNewValue_ThrowsArgumentException()
         {
-            Assert.Fail("Not implemented");
+            Assert.Throws<ArgumentException>(() => instance.RemoveByFirst("x"));
+        }
+
+        [Test()]
+        public void RemoveBySecond_WithExistingValue_Passes()
+        {
+            Assert.DoesNotThrow(() => instance.RemoveBySecond("c"));
+        }
+
+        [Test]
+        public void RemoveBySecond_WithNewValue_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => instance.RemoveBySecond("nothing"));
+        }
+
+        [Test()]
+        public void MapConversionByFirst_WithExistingValueRealConverter_Passes()
+        {
+            Assert.DoesNotThrow(() => instance.MapConversionByFirst("a", testConverter));
+        }
+
+        [Test()]
+        public void MapConversionByFirst_WithExistingValueNullConverter_Passes()
+        {
+            Assert.DoesNotThrow(() => instance.MapConversionByFirst("", null));
+        }
+
+        [Test()]
+        public void MapConversionByFirst_WithNewValueRealConverter_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => instance.MapConversionByFirst("x", testConverter));
+        }
+
+        [Test()]
+        public void MapConversionByFirst_WithNewValueNullConverter_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => instance.MapConversionByFirst("q", null));
+        }
+
+        [Test()]
+        public void MapConversionBySecond_WithExistingValueRealConverter_Passes()
+        {
+            Assert.DoesNotThrow(() => instance.MapConversionBySecond("b", testConverter));
+        }
+
+        [Test()]
+        public void MapConversionBySecond_WithExistingValueNullConverter_Passes()
+        {
+            Assert.DoesNotThrow(() => instance.MapConversionBySecond("c", null));
+        }
+
+        [Test()]
+        public void MapConversionBySecond_WithNewValueRealConverter_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => instance.MapConversionBySecond("x", testConverter));
+        }
+
+        [Test()]
+        public void MapConversionBySecond_WithNewValueNullConverter_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => instance.MapConversionBySecond("q", null));
+        }
+
+        [Test()]
+        public void GetConverterByFirst_WithExistingValueDefaultConverter_ReturnsNull()
+        {
+            Assert.AreEqual(null, instance.GetConverterByFirst("a"));
+        }
+
+        [Test()]
+        public void GetConverterByFirst_WithExistingValuePassedConverter_ReturnsThatConverter()
+        {
+            //arrange
+            instance.MapConversionByFirst("", testConverter);
+
+            //act/assert
+            Assert.AreEqual(testConverter, instance.GetConverterByFirst(""));
+        }
+
+        [Test()]
+        public void GetConverterByFirst_WithNewValue_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => instance.GetConverterByFirst("x"));
+        }
+
+        [Test()]
+        public void GetConverterBySecond_WithExistingValueDefaultConverter_ReturnsNull()
+        {
+            Assert.AreEqual(null, instance.GetConverterBySecond("b"));
+        }
+
+        [Test()]
+        public void GetConverterBySecond_WithExistingValuePassedConverter_ReturnsThatConverter()
+        {
+            //arrange
+            instance.MapConversionBySecond("text", testConverter);
+
+            //act/assert
+            Assert.AreEqual(testConverter, instance.GetConverterBySecond("text"));
+        }
+
+        [Test()]
+        public void GetConverterBySecond_WithNewValue_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => instance.GetConverterBySecond("q"));
         }
 
         [Test()]
@@ -166,6 +275,38 @@ namespace StealthRobotics.Dashboard.API.Network.Tests
         public void TryRemoveBySecondTest(string second, bool expectedResult)
         {
             Assert.AreEqual(expectedResult, instance.TryRemoveBySecond(second));
+        }
+
+        [Test()]
+        public void GetCount_Returns3()
+        {
+            Assert.AreEqual(3, instance.Count);
+        }
+
+        [Test()]
+        public void IndexingByFirst_ReturnsCorrectSecond()
+        {
+            //indexing <string,string> is ambiguous
+            //arrange
+            OneToOneConversionMap<string, int> alphaIndices = new OneToOneConversionMap<string, int>();
+            alphaIndices.Add("a", 1);
+            alphaIndices.Add("b", 2);
+
+            //act/assert
+            Assert.AreEqual(2, alphaIndices["b"]);
+        }
+
+        [Test()]
+        public void IndexingBySecond_ReturnsCorrectFirst()
+        {
+            //indexing <string,string> is ambiguous
+            //arrange
+            OneToOneConversionMap<string, int> alphaIndices = new OneToOneConversionMap<string, int>();
+            alphaIndices.Add("a", 1);
+            alphaIndices.Add("b", 2);
+
+            //act/assert
+            Assert.AreEqual("a", alphaIndices[1]);
         }
     }
 }

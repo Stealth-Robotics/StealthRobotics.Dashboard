@@ -107,7 +107,7 @@ namespace StealthRobotics.Dashboard.API.Network
             if (!firstToSecond.TryGetValue(first, out TSecond second))
                 throw new ArgumentException("first");
 
-            conversionMap.Add(first, converter);
+            conversionMap[first] = converter;
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace StealthRobotics.Dashboard.API.Network
             if (!secondToFirst.TryGetValue(second, out TFirst first))
                 throw new ArgumentException("second");
 
-            conversionMap.Add(first, converter);
+            conversionMap[first] = converter;
         }
 
         /// <summary>
