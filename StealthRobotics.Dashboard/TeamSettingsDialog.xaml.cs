@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StealthRobotics.Dashboard.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,16 +24,21 @@ namespace StealthRobotics.Dashboard
 
         public bool UseDriverStation { get; private set; }
 
+        public SettingsContainer GetSettings()
+        {
+            return new SettingsContainer(Team, UseDriverStation);
+        }
+
         public TeamSettingsDialog()
         {
             InitializeComponent();
         }
 
-        public TeamSettingsDialog(int team, bool driverStation)
+        public TeamSettingsDialog(SettingsContainer settings)
         {
             InitializeComponent();
-            teamNum.Value = team;
-            useDS.IsChecked = driverStation;
+            teamNum.Value = settings.TeamNumber;
+            useDS.IsChecked = settings.UsingDriverStation;
         }
 
         private void Ok_Click(object sender, RoutedEventArgs e)

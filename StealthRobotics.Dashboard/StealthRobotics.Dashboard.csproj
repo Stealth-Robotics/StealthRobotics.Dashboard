@@ -142,6 +142,7 @@
     <Compile Include="IO\LayoutContractResolver.cs" />
     <Compile Include="IO\SaveFileManager.cs" />
     <Compile Include="IO\LayoutSerializationBinder.cs" />
+    <Compile Include="IO\SettingsContainer.cs" />
     <Compile Include="IO\TileGridColProvider.cs" />
     <Compile Include="IO\TileGridRowProvider.cs" />
     <Compile Include="ListBoxSelectedConverter.cs" />

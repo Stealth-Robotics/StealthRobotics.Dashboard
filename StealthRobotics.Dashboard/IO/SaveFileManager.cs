@@ -95,7 +95,8 @@ namespace StealthRobotics.Dashboard.IO
             string settingsFile = GetSettingsFilePath();
             if(!File.Exists(settingsFile))
             {
-                SaveSettings(0, false);
+                //save default settings
+                SaveSettings(new SettingsContainer());
             }
             return settingsFile;
         }
@@ -103,16 +104,15 @@ namespace StealthRobotics.Dashboard.IO
         /// <summary>
         /// Save dashboard-wide settings
         /// </summary>
-        /// <param name="team">The team number being used</param>
-        /// <param name="useDS">Whether the dashboard is using the driver station connection</param>
-        public static void SaveSettings(int team, bool useDS)
+        /// <param name="settings">The settings to save</param>
+        public static void SaveSettings(SettingsContainer settings)
         {
             string settingsFile = GetSettingsFilePath();
             using (StreamWriter sw = new StreamWriter(settingsFile))
             {
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
-                    vanillaConverter.Serialize(writer, (team, useDS));
+                    vanillaConverter.Serialize(writer, settings);
                 }
             }
         }
@@ -122,7 +122,7 @@ namespace StealthRobotics.Dashboard.IO
         /// </summary>
         /// <returns>team: the team number to be used
         /// useDS: Whether the dashboard should use the driver station connection</returns>
-        public static (int team, bool useDS) LoadSettings()
+        public static SettingsContainer LoadSettings()
         {
             string settingsFile = EnsureSettingsFile();
             using (StreamReader sr = new StreamReader(settingsFile))
@@ -130,7 +130,7 @@ namespace StealthRobotics.Dashboard.IO
                 using (JsonReader reader = new JsonTextReader(sr))
                 {
                     object val = vanillaConverter.Deserialize(reader);
-                    return ((int, bool))val;
+                    return (SettingsContainer)val;
                 }
             }
         }
