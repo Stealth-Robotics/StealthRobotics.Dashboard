@@ -1,13 +1,13 @@
 TODO LIST
 
+Add a string editor. Why is this not here yet???
+Preset property editor (save, load, and delete specific settings from preset files)
+Adding custom property editors (and choice between for multiple types)
+
 -----Example plugin-----
 
+Custom control using presets
 Complex type listener (xaml)
 Complex type listener (code)?
-
------Post-release-----
-
-Allow adding new property controls (with example, of course)
-Control state display (inherit to customize?)
 
 -----Known issues-----

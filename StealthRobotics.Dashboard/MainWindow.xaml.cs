@@ -20,6 +20,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace StealthRobotics.Dashboard
 {
@@ -29,6 +30,7 @@ namespace StealthRobotics.Dashboard
     public partial class MainWindow : Window
     {
         SettingsContainer settings;
+        DispatcherTimer treeUpdateTimer;
 
         public MainWindow()
         {
@@ -41,10 +43,22 @@ namespace StealthRobotics.Dashboard
             settings = SaveFileManager.LoadSettings();
             NetworkBinding.Initialize(settings.TeamNumber, Dispatcher, settings.UsingDriverStation);
             //NetworkTable.GetTable("").PutStringArray("CameraPublisher/Fake Camera 0/streams", new List<string>());
+            treeUpdateTimer = new DispatcherTimer(DispatcherPriority.Background, Dispatcher)
+            {
+                Interval = TimeSpan.FromSeconds(0.1)
+            };
+            treeUpdateTimer.Tick += TreeUpdateTimer_Tick;
+            treeUpdateTimer.Start();
+        }
+
+        private void TreeUpdateTimer_Tick(object sender, EventArgs e)
+        {
+            RefreshSources();
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            treeUpdateTimer.Stop();
             NetworkBinding.Shutdown();
             SaveFileManager.SaveSettings(settings);
         }
